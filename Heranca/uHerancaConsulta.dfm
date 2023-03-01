@@ -12,8 +12,10 @@ object frmHerancaConsulta: TfrmHerancaConsulta
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -40,6 +42,7 @@ object frmHerancaConsulta: TfrmHerancaConsulta
       Align = alBottom
       TabOrder = 0
       Text = 'MaskEdit1'
+      OnChange = MaskEdit1Change
     end
   end
   object Panel2: TPanel
@@ -71,12 +74,15 @@ object frmHerancaConsulta: TfrmHerancaConsulta
     Width = 408
     Height = 184
     Align = alClient
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnDblClick = grdListagemConsultaDblClick
+    OnTitleClick = grdListagemConsultaTitleClick
   end
   object QryConsultaContaBancaria: TZQuery
     Connection = DtmConexaoPrincipal.ConexaoDB

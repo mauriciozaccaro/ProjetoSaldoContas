@@ -112,6 +112,7 @@ procedure TfrmCadMovBancario.btnBuscaBancoClick(Sender: TObject);
 begin
   inherited;
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
+  frmConsultaContaBancaria.ShowModal;
   frmConsultaContaBancaria.Release;
 end;
 

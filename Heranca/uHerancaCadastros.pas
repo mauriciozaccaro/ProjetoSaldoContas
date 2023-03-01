@@ -58,7 +58,7 @@ type
     function Excluir                         : Boolean; virtual;
     function Gravar(EstadoTela:TEstadoDaTela): Boolean; virtual;
 
-    //function SituacaoEmTexto(ativo : Boolean) : String;
+    //function SituacaoEmTexto(ativo : Boolean) : String;   //não funcionou como eu queria
     //function TextoEmSituacao(texto : string)  : boolean;
   end;
 

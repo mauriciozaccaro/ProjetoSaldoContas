@@ -15,6 +15,8 @@ type
     QryConsultaContaBancariabanco: TWideStringField;
     QryConsultaContaBancarianumConta: TLargeintField;
     QryConsultaContaBancariasituacao: TWideMemoField;
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,5 +29,17 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmConsultaContaBancaria.FormCreate(Sender: TObject);
+begin
+  inherited;
+  aCampoId  := 'IdConta';
+end;
+
+procedure TfrmConsultaContaBancaria.FormShow(Sender: TObject);
+begin
+  inherited;
+  IndiceAtual := 'NrConta';
+end;
 
 end.

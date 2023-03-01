@@ -1,6 +1,5 @@
 inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
   Caption = 'Conta Banc'#225'ria'
-  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited grdListagemConsulta: TDBGrid
