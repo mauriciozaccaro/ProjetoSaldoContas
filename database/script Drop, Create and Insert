@@ -1,0 +1,55 @@
+/* Dropando as tab belas */
+DROP TABLE bancos;
+DROP TABLE contas;
+DROP TABLE clientes;
+
+
+/* Criando todas as tabelas, "contas", "Clientes", "bancos" */
+CREATE TABLE IF NOT EXISTS bancos ( IdBanco         INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    nome            varchar(50) NOT NULL,
+                                    situacao        varchar(1) NOT NULL);                                            
+
+
+CREATE TABLE IF NOT EXISTS clientes ( IdCliente         INTEGER PRIMARY KEY AUTOINCREMENT,
+                                      nome              varchar(50) NOT NULL,
+                                      numDocumento      integer (10) NOT NULL,
+                                      situacao          varchar(1) NOT NULL);
+                                        
+
+CREATE TABLE IF NOT EXISTS contas ( IdConta         INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    IdBanco         INTEGER NOT NULL,
+                                    IdCliente       INTEGER NOT NULL,
+                                    numConta        INTEGER (10) NOT NULL,
+                                    saldoInicial    DECIMAL(17,2) DEFAULT 0.00,
+                                    situacao        varchar(1) NOT NULL,
+                                    CONSTRAINT fk_ContaCliente FOREIGN KEY (IdCliente) REFERENCES clientes (IdCliente));
+                                    
+
+/* CRIANDO INSERTs da tabela BANCOS para não inicial vazio*/
+INSERT INTO bancos (nome, situacao) VALUES ('Banco do Brasil', 'S');
+INSERT INTO bancos (nome, situacao) VALUES ('Banco Santander', 'S');
+INSERT INTO bancos (nome, situacao) VALUES ('Banco Itaú', 'N');
+INSERT INTO bancos (nome, situacao) VALUES ('Caixa Econômica', 'S');
+INSERT INTO bancos (nome, situacao) VALUES ('Banco Inter', 'S');
+
+/* CRIANDO INSERTs da tabela BANCOS para não inicial vazio*/
+INSERT INTO clientes (nome, numDocumento, situacao) VALUES ('Mauricio Neto', 264492, 'S');
+INSERT INTO clientes (nome, numDocumento, situacao) VALUES ('Katia Neves', 123456, 'S');
+INSERT INTO clientes (nome, numDocumento, situacao) VALUES ('Guilherme Gohan', 155110, 'S');
+INSERT INTO clientes (nome, numDocumento, situacao) VALUES ('Kassia de Brito', 102030, 'S');
+INSERT INTO clientes (nome, numDocumento, situacao) VALUES ('Tania de Brito', 62, 'N');
+INSERT INTO clientes (nome, numDocumento, situacao) VALUES ('Scarlatti do Amaral', 98452, 'S');
+
+/* CRIANDO INSERTs da tabela BANCOS para não inicial vazio*/
+INSERT INTO contas (IdBanco, IdCliente, numConta, saldoInicial, situacao) VALUES (1, 1, 10, 500.10, 'S');
+INSERT INTO contas (IdBanco, IdCliente, numConta, saldoInicial, situacao) VALUES (3, 1, 10, 1500.25, 'S');
+INSERT INTO contas (IdBanco, IdCliente, numConta, saldoInicial, situacao) VALUES (1, 2, 10, 0, 'N');
+INSERT INTO contas (IdBanco, IdCliente, numConta, saldoInicial, situacao) VALUES (2, 3, 10, 100, 'S');
+INSERT INTO contas (IdBanco, IdCliente, numConta, saldoInicial, situacao) VALUES (1, 3, 10, 0.59, 'S');
+
+                                        
+/* SELECT PARA TODAS AS TABELAS */
+SELECT * FROM BANCOS;
+SELECT * FROM CLIENTES;
+SELECT * FROM CONTAS;
+    

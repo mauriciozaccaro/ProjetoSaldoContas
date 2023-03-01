@@ -57,6 +57,9 @@ type
     IndiceAtual                              : string; //para guardar o indice da coluna selecionada e realizar a busca
     function Excluir                         : Boolean; virtual;
     function Gravar(EstadoTela:TEstadoDaTela): Boolean; virtual;
+
+    //function SituacaoEmTexto(ativo : Boolean) : String;
+    //function TextoEmSituacao(texto : string)  : boolean;
   end;
 
 var
@@ -123,10 +126,12 @@ procedure TfrmHerancaCadastros.btnExcluirClick(Sender: TObject);
 begin
   try
     if Excluir = true then
-      ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnExcluir, btnNavigator, pgcPrincipal, true);
+
+      ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnExcluir,
+                      btnNavigator, pgcPrincipal, true);
       ControlarTab(pgcPrincipal, 0);
   finally
-    EstadoTela  := etNenhum;
+    EstadoTela := etNenhum;
     LimparCampos;
     QryListagemGrid.Refresh;
   end;
@@ -184,7 +189,6 @@ procedure TfrmHerancaCadastros.grdListagemGridTitleClick(Column: TColumn);
 begin
   IndiceAtual                       := Column.FieldName;
   QryListagemGrid.IndexFieldNames   := IndiceAtual;
-
 end;
 
 {$endregion}
@@ -210,8 +214,28 @@ begin
 end;
 
 
+ { // não deu certo, to sem tempo para mexer com isso agora, fazer direto na chamada e lembrar de corrigir quando der tempo
+function TfrmHerancaCadastros.SituacaoEmTexto(ativo : Boolean): String;
+begin
+  if (ativo = true) then
+    Result  := 'S'
+  else
+    Result  := 'N';
+end;
 
-function TfrmHerancaCadastros.CamposObrigatorios: Boolean;
+function TfrmHerancaCadastros.TextoEmSituacao(texto : string): Boolean;
+begin
+TrueBoolStrs := ['S', 's'];
+
+  if(StrToBool(texto)) then
+    Result  := StrToBool(texto)
+  else
+    Result  := StrToBool(texto)
+end;
+ }
+
+
+function TfrmHerancaCadastros.CamposObrigatorios : Boolean;
 var i : integer;
 begin
   Result  := false;
@@ -268,6 +292,7 @@ begin
   btnExcluir.Enabled                := Flag;
   btnNavigator.Enabled              := Flag;
   pgcPrincipal.Pages[0].TabVisible  := Flag;
+
   btnCancelar.Enabled               := not(Flag);
   btnGravar.Enabled                 := not(Flag);
 end;

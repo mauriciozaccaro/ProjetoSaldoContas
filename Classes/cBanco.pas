@@ -22,6 +22,16 @@ Type
     A_Nome      : string;
     A_Situacao  : string;
 
+    {
+    function getCodigo  : Integer;
+    function getNome    : String;
+    function getSituacao: String;
+
+    procedure setCodigo(const Value : Integer);
+    procedure setNome  (const Value : String);
+    procedure setSituacao(const Value : String);
+    }
+
   public
     constructor Create(aConexao : TZConnection);
     destructor  Destroy; override;
@@ -37,8 +47,6 @@ Type
     property situacao : string          read A_Situacao         write A_Situacao;
 
   end;
-
-
 
 implementation
 
@@ -66,15 +74,53 @@ end;
 
 
 function TBanco.ExcluiRegistro: Boolean;
+var Qry : TZQuery;
 begin
+  try
+    Result                           := true;
+    Qry                              := TZQuery.Create(nil);
+    Qry.Connection                   := ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM bancos WHERE IdBanco = :codigo');
+    Qry.ParamByName('codigo').Value  := Self.A_IdBanco;
+    try
+      Qry.ExecSQL;
+    Except
+      Result                         := false;
+    end;
+  finally
+    if Assigned (Qry) then // verifica se o QryApagar foi criado na memória
+      FreeAndnil(Qry);  // limpa QryApagar da memória
+  end;
 
 end;
 
 
 
 function TBanco.AtualizarRegistro: Boolean;
+var QRY : TZQuery;
 begin
-
+  try
+    Result                           := true;
+    Qry                              := TZQuery.Create(nil);
+    Qry.Connection                   := ConexaoDB;
+    Qry.sql.Clear;
+    Qry.SQL.Add('UPDATE bancos'
+              + '   SET nome =       :nome,'
+              + '       situacao =   :situacao'
+              + ' WHERE Idbanco =    :codigo');
+    QRY.ParamByName('codigo').AsInteger     := A_IdBanco;
+    QRY.ParamByName('nome').AsString        := A_Nome;
+    QRY.ParamByName('situacao').AsString    := A_Situacao;       
+    try
+      Qry.ExecSQL;
+    Except
+      result := false;
+    end;
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);          
+  end;
 end;
 
 
@@ -88,8 +134,8 @@ begin
     Qry.Connection          := ConexaoDB;
     Qry.sql.Clear;
     Qry.SQL.Add('INSERT INTO bancos (nome, situacao) VALUES (:nome, :situacao)');
-    Qry.ParamByName('nome').value         := Self.A_Nome;
-    Qry.ParamByName('situacao').AsString  := Self.A_Situacao;
+    Qry.ParamByName('nome').AsString        := Self.A_nome;
+    Qry.ParamByName('situacao').AsString    := Self.A_Situacao;
 
     try
       Qry.ExecSQL;
@@ -106,10 +152,32 @@ end;
 
 
 function TBanco.SelecionarRegistro(id: Integer): Boolean;
+var Qry : TZQuery;
 begin
-
+  try
+    Result            := true;
+    Qry               := TZQuery.Create(nil);
+    Qry.Connection    := ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT IdBanco,'
+              + '       nome, '
+              + '       situacao'
+              + '  FROM bancos'
+              + ' WHERE IdBanco = :codigo');
+    Qry.ParamByName('codigo').AsInteger := id;
+    try
+      Qry.Open;
+      Self.A_IdBanco    := Qry.FieldByName('IdBanco').AsInteger;
+      Self.A_Nome       := Qry.FieldByName('nome').AsString;
+      Self.A_Situacao   := Qry.FieldByName('situacao').AsString;
+    except
+      Result  :=  false;
+    end;
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
 end;
-
 
 {$endregion}
 

@@ -23,7 +23,7 @@ object frmHerancaCadastros: TfrmHerancaCadastros
     Top = 0
     Width = 659
     Height = 291
-    ActivePage = tabCadastro
+    ActivePage = tabListagem
     Align = alClient
     TabOrder = 0
     object tabListagem: TTabSheet

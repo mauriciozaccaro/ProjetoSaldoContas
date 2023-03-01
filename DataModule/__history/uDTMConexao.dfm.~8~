@@ -1,0 +1,23 @@
+object DtmConexaoPrincipal: TDtmConexaoPrincipal
+  OldCreateOrder = False
+  Height = 150
+  Width = 605
+  object ConexaoDB: TZConnection
+    ControlsCodePage = cCP_UTF16
+    AutoEncodeStrings = True
+    Catalog = 'SaldoContas'
+    Properties.Strings = (
+      'controls_cp=CP_UTF16')
+    HostName = '.\CURSODELPH'
+    Port = 0
+    Database = 'SaldoContas'
+    User = 'SA'
+    Password = 'Senha@123'
+    Protocol = 'mssql'
+    LibraryLocation = 
+      'C:\Users\mauri\Documents\Embarcadero\ProjetoDelphi - Curso\Win32' +
+      '\Debug\ntwdblib.dll'
+    Left = 24
+    Top = 40
+  end
+end

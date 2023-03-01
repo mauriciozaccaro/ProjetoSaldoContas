@@ -3,6 +3,7 @@ inherited frmCadBancos: TfrmCadBancos
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
+    ActivePage = tabCadastro
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       inherited grdListagemGrid: TDBGrid
@@ -11,16 +12,19 @@ inherited frmCadBancos: TfrmCadBancos
           item
             Expanded = False
             FieldName = 'IdBanco'
+            Width = 50
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nome'
+            Width = 200
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'situacao'
+            Width = 30
             Visible = True
           end>
       end
@@ -34,6 +38,7 @@ inherited frmCadBancos: TfrmCadBancos
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         TabOrder = 0
       end
       object ckSituacao: TCheckBox
@@ -46,7 +51,7 @@ inherited frmCadBancos: TfrmCadBancos
         State = cbChecked
         TabOrder = 2
       end
-      object edtDescricao: TLabeledEdit
+      object edtNome: TLabeledEdit
         Tag = 2
         Left = 19
         Top = 96
