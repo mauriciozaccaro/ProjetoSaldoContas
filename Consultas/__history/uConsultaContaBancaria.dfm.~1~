@@ -1,0 +1,5 @@
+inherited frmHerancaConsulta1: TfrmHerancaConsulta1
+  Caption = 'frmHerancaConsulta1'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

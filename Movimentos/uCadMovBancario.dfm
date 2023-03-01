@@ -6,11 +6,14 @@ inherited frmCadMovBancario: TfrmCadMovBancario
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
     Width = 753
+    ActivePage = tabCadastro
+    ExplicitWidth = 753
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       ExplicitWidth = 745
       inherited Panel2: TPanel
         Width = 745
+        ExplicitWidth = 745
       end
       inherited grdListagemGrid: TDBGrid
         Width = 745
@@ -132,6 +135,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFA2A2A2A3A3A39F9F9FFF00FFFF00FFFF00FFFF00FF}
         NumGlyphs = 2
+        OnClick = btnBuscaBancoClick
       end
       object btnBuscaCliente: TSpeedButton
         Left = 120
@@ -198,13 +202,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Height = 13
         Caption = 'Banco'
       end
-      object Label5: TLabel
-        Left = 149
-        Top = 33
-        Width = 90
-        Height = 13
-        Caption = 'Tipo de Movimento'
-      end
       object edtCodigo: TLabeledEdit
         Tag = 1
         Left = 19
@@ -233,7 +230,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         TabOrder = 2
         Text = ''
       end
-      object edtSaldoInicial: TCurrencyEdit
+      object edtValor: TCurrencyEdit
         Tag = 2
         Left = 19
         Top = 206
@@ -275,36 +272,42 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         ReadOnly = True
         TabOrder = 6
       end
-      object cbTipoMovimento: TDBLookupComboBox
-        Left = 149
-        Top = 48
-        Width = 145
-        Height = 21
-        TabOrder = 7
-      end
       object edtSituacao: TLabeledEdit
-        Left = 319
+        Left = 149
         Top = 48
         Width = 121
         Height = 21
         EditLabel.Width = 41
         EditLabel.Height = 13
         EditLabel.Caption = 'Situa'#231#227'o'
+        TabOrder = 7
+      end
+      object RadioGroup1: TRadioGroup
+        Left = 165
+        Top = 187
+        Width = 158
+        Height = 43
+        Caption = 'Tipo Movimento'
+        Columns = 2
+        Items.Strings = (
+          'Cr'#233'dito'
+          'D'#233'bito')
         TabOrder = 8
       end
     end
   end
   inherited Panel1: TPanel
     Width = 753
+    ExplicitWidth = 753
     inherited btnExcluir: TButton
       Left = 463
+      ExplicitLeft = 463
     end
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
     end
   end
   inherited QryListagemGrid: TZQuery
-    Active = True
     SQL.Strings = (
       ''
       'SELECT MC.IdMovContas,'
@@ -329,8 +332,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       ' WHERE MC.IdConta = CC.IdConta'
       '   AND CC.IdCliente = CL.IdCliente'
       '   AND CC.IdBanco = BC.IdBanco;')
-    Left = 476
-    Top = 24
+    Top = 240
     object QryListagemGridIdMovContas: TLargeintField
       FieldName = 'IdMovContas'
       DisplayFormat = 'C'#243'digo'
@@ -360,7 +362,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       DisplayLabel = 'Tipo Movimento'
       FieldName = 'tipoMov'
       ReadOnly = True
-      BlobType = ftWideString
+      BlobType = ftWideMemo
     end
     object QryListagemGridsituacao: TWideMemoField
       DisplayLabel = 'Situa'#231#227'o'
@@ -370,23 +372,38 @@ inherited frmCadMovBancario: TfrmCadMovBancario
     end
   end
   inherited DtsListagemGrid: TDataSource
-    Left = 524
-    Top = 24
+    Left = 436
+    Top = 240
   end
   object QryBuscaConta: TZQuery
+    Connection = DtmConexaoPrincipal.ConexaoDB
     SQL.Strings = (
-      'SELECT CT.IdConta, BC.'
-      '  FROM contas AS CT, bancos AS BC')
+      ''
+      'SELECT CC.IdConta'
+      '       CL.nome AS cliente,'
+      '       BC.nome AS banco,'
+      '       CC.numConta,'
+      '      CASE CC.situacao'
+      '          WHEN '#39'A'#39' THEN '#39'Ativo'#39
+      '          WHEN '#39'E'#39' THEN '#39'Estornado'#39
+      '          ELSE '#39'inv'#225'lido'#39
+      '       END AS situacao'
+      '  FROM contas    AS CC,'
+      '       clientes  AS CL,'
+      '       bancos    AS BC'
+      ' WHERE CC.IdCliente = CL.IdCliente'
+      '   AND CC.IdBanco = BC.IdBanco;')
     Params = <>
-    Left = 636
-    Top = 80
+    Left = 644
+    Top = 136
   end
   object DataSource1: TDataSource
     Left = 600
     Top = 32
   end
   object dtsBuscaConta: TDataSource
+    DataSet = QryBuscaConta
     Left = 700
-    Top = 80
+    Top = 136
   end
 end

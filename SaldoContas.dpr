@@ -12,7 +12,8 @@ uses
   uEnum in 'Heranca\uEnum.pas',
   cBanco in 'Classes\cBanco.pas',
   uHerancaConsulta in 'heranca\uHerancaConsulta.pas' {frmHerancaConsulta},
-  cMovBancario in 'Classes\cMovBancario.pas';
+  cMovBancario in 'Classes\cMovBancario.pas',
+  uConsultaContaBancaria in 'Consultas\uConsultaContaBancaria.pas' {frmConsultaContaBancaria};
 
 {$R *.res}
 
@@ -20,6 +21,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmHerancaConsulta, frmHerancaConsulta);
+  Application.CreateForm(TfrmConsultaContaBancaria, frmConsultaContaBancaria);
   Application.Run;
 end.

@@ -12,6 +12,8 @@ object frmHerancaConsulta: TfrmHerancaConsulta
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -23,7 +25,6 @@ object frmHerancaConsulta: TfrmHerancaConsulta
     Color = clInactiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 441
     object lblPesquisa: TLabel
       Left = 6
       Top = 16
@@ -39,9 +40,6 @@ object frmHerancaConsulta: TfrmHerancaConsulta
       Align = alBottom
       TabOrder = 0
       Text = 'MaskEdit1'
-      ExplicitLeft = 0
-      ExplicitTop = 40
-      ExplicitWidth = 121
     end
   end
   object Panel2: TPanel
@@ -53,9 +51,6 @@ object frmHerancaConsulta: TfrmHerancaConsulta
     Color = clInactiveCaption
     ParentBackground = False
     TabOrder = 1
-    ExplicitLeft = 56
-    ExplicitTop = 224
-    ExplicitWidth = 185
     DesignSize = (
       408
       41)
@@ -67,7 +62,7 @@ object frmHerancaConsulta: TfrmHerancaConsulta
       Anchors = [akRight]
       Caption = '&FECHAR'
       TabOrder = 0
-      ExplicitLeft = 352
+      OnClick = btnFecharClick
     end
   end
   object grdListagemConsulta: TDBGrid
@@ -82,5 +77,16 @@ object frmHerancaConsulta: TfrmHerancaConsulta
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+  end
+  object QryConsultaContaBancaria: TZQuery
+    Connection = DtmConexaoPrincipal.ConexaoDB
+    Params = <>
+    Left = 96
+    Top = 241
+  end
+  object dtsConsultaContaBancaria: TDataSource
+    DataSet = QryConsultaContaBancaria
+    Left = 160
+    Top = 241
   end
 end
