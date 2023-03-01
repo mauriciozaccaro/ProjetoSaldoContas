@@ -24,20 +24,10 @@ type
     edtNomeBanco: TEdit;
     edtNumConta: TLabeledEdit;
     Label4: TLabel;
+    ComboBox1: TComboBox;
     Label5: TLabel;
-    cbTipoMovimento: TDBLookupComboBox;
-    edtSituacao: TLabeledEdit;
-    QryBuscaConta: TZQuery;
-    DataSource1: TDataSource;
-    dtsBuscaConta: TDataSource;
-    QryListagemGridIdMovContas: TLargeintField;
-    QryListagemGridcliente: TWideStringField;
-    QryListagemGridbanco: TWideStringField;
-    QryListagemGridnumConta: TLargeintField;
-    QryListagemGridvalor: TFloatField;
-    QryListagemGridtipoMov: TWideMemoField;
-    QryListagemGridsituacao: TWideMemoField;
-    procedure FormCreate(Sender: TObject);
+    edtDataMovimento: TLabel;
+    edtDataMov: TDateEdit;
   private
     { Private declarations }
   public
@@ -50,12 +40,5 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TfrmCadMovBancario.FormCreate(Sender: TObject);
-begin
-  inherited;
-//  if Assigned(objMovBanco) then
-  //  FreeAndNil(objMovBanco;)
-end;
 
 end.

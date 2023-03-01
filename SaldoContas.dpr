@@ -10,7 +10,9 @@ uses
   uCadMovBancario in 'Movimentos\uCadMovBancario.pas' {frmCadMovBancario},
   uDTMConexao in 'DataModule\uDTMConexao.pas' {DtmConexaoPrincipal: TDataModule},
   uEnum in 'Heranca\uEnum.pas',
-  cBanco in 'Classes\cBanco.pas';
+  cBanco in 'Classes\cBanco.pas',
+  uHerancaConsulta in 'heranca\uHerancaConsulta.pas' {frmHerancaConsulta},
+  cMovBancario in 'Classes\cMovBancario.pas';
 
 {$R *.res}
 
@@ -18,5 +20,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmHerancaConsulta, frmHerancaConsulta);
   Application.Run;
 end.

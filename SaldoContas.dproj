@@ -131,6 +131,11 @@
         </DCCReference>
         <DCCReference Include="Heranca\uEnum.pas"/>
         <DCCReference Include="Classes\cBanco.pas"/>
+        <DCCReference Include="heranca\uHerancaConsulta.pas">
+            <Form>frmHerancaConsulta</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Classes\cMovBancario.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

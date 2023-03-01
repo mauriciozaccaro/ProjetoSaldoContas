@@ -37,7 +37,6 @@ type
     QryListagemGridvalor: TFloatField;
     QryListagemGridtipoMov: TWideMemoField;
     QryListagemGridsituacao: TWideMemoField;
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -50,12 +49,5 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TfrmCadMovBancario.FormCreate(Sender: TObject);
-begin
-  inherited;
-//  if Assigned(objMovBanco) then
-  //  FreeAndNil(objMovBanco;)
-end;
 
 end.
