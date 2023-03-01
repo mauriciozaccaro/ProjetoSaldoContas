@@ -142,7 +142,6 @@ begin
     Except
       Result  := false; // se der BO e não executar o SQL, vai cair aqui
     end;
-
   finally
     if Assigned(Qry) then
       FreeAndNil(Qry);

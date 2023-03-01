@@ -34,9 +34,10 @@ type
     { Private declarations }
   public
     { Public declarations }
-    aRetornaContaSelecionada : Variant;
+    //// sem tempo...
+    aRetornaContaSelecionada : String;
     aIniciarPesquisaId       : Variant;
-    aCampoId                 : String; // para pegar o Id do grid e passar para a tela anterior
+    aCampoId                 : String;
     IndiceAtual              : String;
 
   end;
@@ -87,6 +88,7 @@ end;
 
 
 {$region 'Função e procedimento para pegar a coluna selecionada e passar para a label'} // também utilizado para consulta
+
 function TfrmHerancaConsulta.RetornarCampoFieldTraduzido(Campo : string) : string;
 VAR i : integer;
 begin
@@ -115,12 +117,15 @@ begin
   close;
 end;
 
+
+
 procedure TfrmHerancaConsulta.grdListagemConsultaTitleClick(Column: TColumn);
 begin
   IndiceAtual                               := Column.FieldName;
   QryConsultaContaBancaria.IndexFieldNames  := IndiceAtual;
   ExibirLabelIndice(IndiceAtual, lblPesquisa);
 end;
+
 
 
 procedure TfrmHerancaConsulta.MaskEdit1Change(Sender: TObject);

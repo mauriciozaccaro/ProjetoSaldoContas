@@ -6,7 +6,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
     Width = 753
-    ActivePage = tabCadastro
     ExplicitWidth = 753
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
@@ -21,21 +20,26 @@ inherited frmCadMovBancario: TfrmCadMovBancario
           item
             Expanded = False
             FieldName = 'IdMovContas'
+            Title.Caption = 'C'#243'digo'
+            Width = 50
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'cliente'
+            Width = 200
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'banco'
+            Width = 150
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'numConta'
+            Width = 60
             Visible = True
           end
           item
@@ -211,6 +215,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         NumbersOnly = True
         TabOrder = 0
       end
@@ -219,6 +224,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Top = 96
         Width = 95
         Height = 21
+        Enabled = False
         TabOrder = 1
         Text = ''
       end
@@ -227,6 +233,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Top = 148
         Width = 95
         Height = 21
+        Enabled = False
         TabOrder = 2
         Text = ''
       end
@@ -280,6 +287,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         EditLabel.Width = 41
         EditLabel.Height = 13
         EditLabel.Caption = 'Situa'#231#227'o'
+        ReadOnly = True
         TabOrder = 7
       end
       object RadioGroup1: TRadioGroup

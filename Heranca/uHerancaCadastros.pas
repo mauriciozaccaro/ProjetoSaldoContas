@@ -236,49 +236,20 @@ end;
 
 
 function TfrmHerancaCadastros.CamposObrigatorios : Boolean;
-var i : integer;
+var i : Integer;
 begin
-  Result  := false;
-  for  i := 0  to ComponentCount -1 do
-  begin
-
-     if(Components[i] is TLabeledEdit) then
-     begin
-        if(TLabeledEdit(Components[i]).Tag = 2) and (TLabeledEdit(Components[i]).text = EmptyStr) then
-        begin
-          MessageDlg(TLabeledEdit(Components[i]).EditLabel.Caption
-                    + ' é um campo obrigatório!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
-          TLabeledEdit(Components[i]).SetFocus;
-          Result := true;
-          Break;
-        end;
-     end;
-
-     if(Components[i] is TEdit) then
-     begin
-        if(TEdit(Components[i]).Tag = 2) and (TEdit(Components[i]).text = EmptyStr) then
-        begin
-          MessageDlg(TLabel(Components[i]).Caption
-                    + ' é um campo obrigatório!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
-          TEdit(Components[i]).SetFocus;
-          Result := true;
-          Break;
-        end;
-     end;
-
-     if(Components[i] is TCurrencyEdit) then
-     begin
-        if(TCurrencyEdit(Components[i]).Tag = 2) and (TCurrencyEdit(Components[i]).text = EmptyStr) then
-        begin
-          MessageDlg(TLabel(Components[i]).Caption
-                    + ' é um campo obrigatório!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
-          TCurrencyEdit(Components[i]).SetFocus;
-          Result := true;
-          Break;
-        end;
-     end;
-
-  end;
+  Result := false;
+  for i := 0 to ComponentCount -1 do begin
+    if(Components[i] is TLabeledEdit) then begin
+      if(TLabeledEdit(Components[i]).Tag = 2) and (TLabeledEdit(Components[i]).text = EmptyStr) then begin
+        MessageDlg(TLabeledEdit(Components[i]).EditLabel.Caption
+                  + ' é um campo obrigatório!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
+        TLabeledEdit(Components[i]).SetFocus;
+        Result := true;
+        Break;
+      end;
+      end;
+    end;
 end;
 
 

@@ -113,6 +113,11 @@ begin
   inherited;
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
   frmConsultaContaBancaria.ShowModal;
+
+  edtBanco.Text   := frmConsultaContaBancaria.aRetornaContaSelecionada;
+  //edtNomeCliente.Text  := frmConsultaContaBancaria.QryConsultaContaBancaria.Fields[0].Value;
+
+
   frmConsultaContaBancaria.Release;
 end;
 
