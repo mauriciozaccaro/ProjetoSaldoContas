@@ -2,14 +2,47 @@ inherited frmCadContas: TfrmCadContas
   Caption = 'Cadastro de Contas Banc'#225'rias'
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PageControl1: TPageControl
+  inherited pgcPrincipal: TPageControl
     inherited tabListagem: TTabSheet
-      inherited Panel2: TPanel
-        ExplicitLeft = 0
-        ExplicitWidth = 651
-        inherited mskEdit: TMaskEdit
-          OnChange = nil
-        end
+      Caption = 'Listagem'
+      inherited grdListagemGrid: TDBGrid
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'IdConta'
+            Width = 50
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Banco'
+            Width = 150
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Cliente'
+            Width = 200
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'numConta'
+            Width = 70
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'saldoInicial'
+            Width = 70
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'situacao'
+            Width = 30
+            Visible = True
+          end>
       end
     end
     inherited tabCadastro: TTabSheet
@@ -173,7 +206,7 @@ inherited frmCadContas: TfrmCadContas
         TabOrder = 2
       end
       object ckSituacao: TCheckBox
-        Left = 128
+        Left = 190
         Top = 48
         Width = 97
         Height = 17
@@ -226,28 +259,59 @@ inherited frmCadContas: TfrmCadContas
     end
   end
   inherited Panel1: TPanel
-    ExplicitTop = 291
-    ExplicitWidth = 659
-    inherited btnCancelar: TButton
-      OnClick = nil
-    end
-    inherited btnFechar: TButton
-      OnClick = nil
-    end
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
     end
-    inherited btnExcluir: TButton
-      OnClick = nil
+  end
+  inherited QryListagemGrid: TZQuery
+    Active = True
+    SQL.Strings = (
+      'SELECT ct.IdConta,'
+      '       bc.nome AS Banco,'
+      '       cl.nome AS Cliente,'
+      '       ct.numConta,'
+      '       ct.saldoInicial,'
+      '       ct.situacao'
+      '  FROM contas AS ct,'
+      '       bancos AS bc,'
+      '       clientes AS cl'
+      ' WHERE ct.IdBanco   = bc.IdBanco'
+      '   AND ct.IdCliente = cl.IdCliente;')
+    Left = 316
+    Top = 24
+    object QryListagemGridIdConta: TLargeintField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IdConta'
     end
-    inherited btnGravar: TButton
-      OnClick = nil
+    object QryListagemGridBanco: TWideStringField
+      FieldName = 'Banco'
+      Required = True
+      Size = 50
     end
-    inherited btnAlterar: TButton
-      OnClick = nil
+    object QryListagemGridCliente: TWideStringField
+      DisplayLabel = 'Nome Cliente'
+      FieldName = 'Cliente'
+      Required = True
+      Size = 50
     end
-    inherited btnNovo: TButton
-      OnClick = nil
+    object QryListagemGridnumConta: TLargeintField
+      DisplayLabel = 'Nr'#186' Conta'
+      FieldName = 'numConta'
+      Required = True
     end
+    object QryListagemGridsaldoInicial: TFloatField
+      DisplayLabel = 'Saldo Inicial'
+      FieldName = 'saldoInicial'
+    end
+    object QryListagemGridsituacao: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'situacao'
+      Required = True
+      Size = 1
+    end
+  end
+  inherited DtsListagemGrid: TDataSource
+    Left = 372
+    Top = 24
   end
 end

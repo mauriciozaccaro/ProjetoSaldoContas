@@ -14,7 +14,8 @@ uses
   uHerancaConsulta in 'heranca\uHerancaConsulta.pas' {frmHerancaConsulta},
   cMovBancario in 'Classes\cMovBancario.pas',
   uConsultaContaBancaria in 'Consultas\uConsultaContaBancaria.pas' {frmConsultaContaBancaria},
-  cCliente in 'Classes\cCliente.pas';
+  cCliente in 'Classes\cCliente.pas',
+  cCadConta in 'Classes\cCadConta.pas';
 
 {$R *.res}
 

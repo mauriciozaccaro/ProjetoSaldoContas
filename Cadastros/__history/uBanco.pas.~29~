@@ -28,7 +28,6 @@ type
     function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
     function Excluir  : Boolean; override;
 
-
     function SituacaoEmTexto(ativo : Boolean) : String;
     function TextoEmSituacao(texto : string)  : boolean;
 

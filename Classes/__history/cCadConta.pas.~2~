@@ -1,0 +1,49 @@
+unit cCadConta;
+
+interface
+
+uses  System.Classes,
+      Vcl.Controls,
+      Vcl.ExtCtrls,
+      Vcl.Dialogs,
+      ZAbstractConnection,
+      ZConnection,
+      ZAbstractRODataset,
+      ZAbstractDataset,
+      ZDataset,
+      System.SysUtils;
+
+Type
+  TCadConta = class
+
+  private
+    ConexaoDB       : TZConnection;
+    A_IdConta       : Integer;
+    A_IdBanco       : Integer;
+    A_IdCliente     : Integer;
+    A_NumConta      : Integer;
+    A_SaldoInicial  : Double;
+    A_Situacao      : string;
+
+  public
+    constructor Create(aConexao : TZConnection);
+    destructor  Destroy; override;
+
+    function InserirRegistro                  : Boolean;
+    function ExcluiRegistro                   : Boolean;
+    function AtualizarRegistro                : Boolean;
+    function SelecionarRegistro(id : Integer) : Boolean;
+
+  published
+    property codConta     : Integer         read A_IdConta          write A_IdConta;
+    property codBanco     : Integer         read A_IdBanco          write A_IdBanco;
+    property codCliente   : Integer         read A_IdCliente        write A_IdCliente;
+    property numConta     : Integer         read A_NumConta         write A_NumConta;
+    property saldoInicial : Double          read A_SaldoInicial     write A_SaldoInicial;
+    property situacao     : string          read A_Situacao         write A_Situacao;
+
+  end;
+
+implementation
+
+end.

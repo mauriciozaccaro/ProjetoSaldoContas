@@ -3,7 +3,6 @@ inherited frmCadBancos: TfrmCadBancos
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
-    ActivePage = tabListagem
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       inherited grdListagemGrid: TDBGrid
@@ -12,16 +11,19 @@ inherited frmCadBancos: TfrmCadBancos
           item
             Expanded = False
             FieldName = 'IdBanco'
+            Width = 50
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nome'
+            Width = 200
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'situacao'
+            Width = 30
             Visible = True
           end>
       end
@@ -35,6 +37,7 @@ inherited frmCadBancos: TfrmCadBancos
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         TabOrder = 0
       end
       object ckSituacao: TCheckBox
@@ -66,11 +69,26 @@ inherited frmCadBancos: TfrmCadBancos
     end
   end
   inherited QryListagemGrid: TZQuery
-    Connection = nil
     SQL.Strings = (
       'SELECT IdBanco,'
       '       nome,'
       '       situacao'
       '  FROM bancos')
+    object QryListagemGridIdBanco: TLargeintField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IdBanco'
+    end
+    object QryListagemGridnome: TWideStringField
+      DisplayLabel = 'Banco'
+      FieldName = 'nome'
+      Required = True
+      Size = 50
+    end
+    object QryListagemGridsituacao: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'situacao'
+      Required = True
+      Size = 1
+    end
   end
 end

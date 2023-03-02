@@ -37,9 +37,6 @@ type
     objConta : TCadConta;
     function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
     function Excluir  : Boolean; override;
-
-    function PossuiMovimento(campo : String)  : Boolean;
-
   public
     { Public declarations }
   end;
@@ -79,25 +76,6 @@ end;
 
 function TfrmCadContas.Excluir: Boolean;
 begin
-  objConta.codConta   := StrToInt(grdListagemGrid.Fields[0].text);
-  objConta.codBanco   := StrToInt(grdListagemGrid.Fields[1].text);
-
-  if(MessageDlg('Deseja excluir o registro do Banco '''
-              + IntToStr(objConta.codConta)
-              + ' -  Nr '
-              + IntToStr(objConta.numConta)
-              + ''' ? ', TMsgDlgType.mtInformation, [mbYes, mbNo], 0) = mrYes) then
-   // lembrar de mudar isso, melhoir criar dentro da classe e só trazer o Result
-  {if(PossuiMovimento(campo) = true then
-    MessageDlg('Não é possível excluir registros que possem movimentação!',
-                TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0 );
-    Abort;         }
-  begin
-    Result  := objConta.ExcluiRegistro;
-  end else
-  begin
-    Abort;
-  end;
 
 end;
 
@@ -108,11 +86,6 @@ begin
 end;
 
 function TfrmCadContas.Gravar(EstadoTela: TEstadoDaTela): Boolean;
-begin
-
-end;
-
-function TfrmCadContas.PossuiMovimento(campo : String): Boolean;
 begin
 
 end;

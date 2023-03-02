@@ -37,6 +37,7 @@ inherited frmCadBancos: TfrmCadBancos
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         TabOrder = 0
       end
       object ckSituacao: TCheckBox

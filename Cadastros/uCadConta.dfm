@@ -3,6 +3,7 @@ inherited frmCadContas: TfrmCadContas
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
+    ActivePage = tabCadastro
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       inherited grdListagemGrid: TDBGrid
@@ -191,6 +192,7 @@ inherited frmCadContas: TfrmCadContas
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         NumbersOnly = True
         TabOrder = 0
       end
@@ -264,6 +266,7 @@ inherited frmCadContas: TfrmCadContas
     end
   end
   inherited QryListagemGrid: TZQuery
+    Active = True
     SQL.Strings = (
       'SELECT ct.IdConta,'
       '       bc.nome AS Banco,'
