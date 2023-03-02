@@ -28,16 +28,18 @@ type
 
   private
 
+    { Private declarations }
     function RetornarCampoFieldTraduzido(Campo: string): string;
     procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
 
-    { Private declarations }
   public
+
     { Public declarations }
-    //// sem tempo...
-    aRetornaContaSelecionada : String;
     aIniciarPesquisaId       : Variant;
     aCampoId                 : String;
+    aCampoCliente            : String;
+    aCampoBanco              : String;
+    aCampoNumConta           : String;
     IndiceAtual              : String;
 
   end;
@@ -48,6 +50,10 @@ var
 implementation
 
 {$R *.dfm}
+
+uses uCadMovBancario;
+
+
 
 procedure TfrmHerancaConsulta.btnFecharClick(Sender: TObject);
 begin
@@ -62,7 +68,7 @@ begin
    if QryConsultaContaBancaria.Active then
     QryConsultaContaBancaria.Close;
 
-  QryConsultaContaBancaria.Close;
+  QryConsultaContaBancaria.Open;
 end;
 
 
@@ -113,7 +119,6 @@ end;
 
 procedure TfrmHerancaConsulta.grdListagemConsultaDblClick(Sender: TObject);
 begin
-  aRetornaContaSelecionada  :=  QryConsultaContaBancaria.FieldByName(aCampoId).AsVariant;
   close;
 end;
 

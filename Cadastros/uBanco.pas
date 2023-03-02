@@ -20,6 +20,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
+    procedure mskEditChange(Sender: TObject);
 
   private
     { Private declarations }
@@ -67,7 +68,7 @@ end;
 procedure TfrmCadBancos.btnAlterarClick(Sender: TObject);
 var ativo : String;
 begin
-TrueBoolStrs := ['S', 's'];
+TrueBoolStrs  := ['S', 's'];
 FalseBoolStrs := ['N', 'n'];
 
   if (objBanco.SelecionarRegistro(QryListagemGrid.FieldByName('IdBanco').AsInteger)) then
@@ -132,6 +133,22 @@ FalseBoolStrs := ['N', 'n'];
       Result    := objBanco.AtualizarRegistro;
       ShowMessage('Alterado com sucesso')
     end;
+end;
+
+
+
+procedure TfrmCadBancos.mskEditChange(Sender: TObject);
+begin
+  inherited;
+    with QryListagemGrid do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE nome like :codigo');
+    //ParamByName('indice').AsString :=  ColunaIndiceAtual;
+    ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+    open;
+  end;
 end;
 
 

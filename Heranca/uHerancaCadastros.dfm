@@ -50,6 +50,7 @@ object frmHerancaCadastros: TfrmHerancaCadastros
           TabOrder = 0
           Text = ''
           TextHint = 'Clique sobre a coluna que deseja pesquisar...'
+          OnChange = mskEditChange
         end
       end
       object grdListagemGrid: TDBGrid

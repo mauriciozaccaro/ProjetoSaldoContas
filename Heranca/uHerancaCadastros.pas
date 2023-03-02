@@ -39,6 +39,7 @@ type
     procedure grdListagemGridDblClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure mskEditChange(Sender: TObject);
 
   private
     { Private declarations }
@@ -51,6 +52,11 @@ type
                                 btnNavigator : TDBNavigator;
                                 pgcPrincipal : TPageControl;
                                 Flag         : Boolean);
+    procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
+    procedure grdListagemConsultaDblClick(Sender: TObject);
+    procedure grdListagemConsultaTitleClick(Column: TColumn);
+    procedure MaskEdit1Change(Sender: TObject);
+    function RetornarCampoFieldTraduzido(Campo: string): string;
 
   public
     { Public declarations }
@@ -189,6 +195,7 @@ procedure TfrmHerancaCadastros.grdListagemGridTitleClick(Column: TColumn);
 begin
   IndiceAtual                       := Column.FieldName;
   QryListagemGrid.IndexFieldNames   := IndiceAtual;
+  ExibirLabelIndice(IndiceAtual, lblIndice);
 end;
 
 {$endregion}
@@ -214,7 +221,12 @@ begin
 end;
 
 
- { // não deu certo, to sem tempo para mexer com isso agora, fazer direto na chamada e lembrar de corrigir quando der tempo
+ procedure TfrmHerancaCadastros.mskEditChange(Sender: TObject);
+begin
+  //QryListagemGrid.Locate(IndiceAtual, '%'+TMaskEdit(Sender).Text+'%', [loPartialKey]);
+end;
+
+{ // não deu certo, to sem tempo para mexer com isso agora, fazer direto na chamada e lembrar de corrigir quando der tempo
 function TfrmHerancaCadastros.SituacaoEmTexto(ativo : Boolean): String;
 begin
   if (ativo = true) then
@@ -291,6 +303,53 @@ function TfrmHerancaCadastros.Excluir: Boolean;
 begin
 
 end;
+
+{$region 'Função e procedimento para pegar a coluna selecionada e passar para a label'} // também utilizado para consulta
+
+function TfrmHerancaCadastros.RetornarCampoFieldTraduzido(Campo : string) : string;
+VAR i : integer;
+begin
+  for i := 0 to QryListagemGrid.fields.Count -1 do
+  begin
+    if(QryListagemGrid.Fields[i].FieldName = Campo) then
+    begin
+      Result := QryListagemGrid.Fields[i].DisplayLabel;
+      break;
+    end;
+  end;
+end;
+
+
+
+ procedure TfrmHerancaCadastros.ExibirLabelIndice(Campo : string; aLabel : TLabel);
+begin
+  aLabel.Caption := RetornarCampoFieldTraduzido(Campo);
+end;
+
+
+
+procedure TfrmHerancaCadastros.grdListagemConsultaDblClick(Sender: TObject);
+begin
+  close;
+end;
+
+
+
+procedure TfrmHerancaCadastros.grdListagemConsultaTitleClick(Column: TColumn);
+begin
+  IndiceAtual                               := Column.FieldName;
+  QryListagemGrid.IndexFieldNames  := IndiceAtual;
+  ExibirLabelIndice(IndiceAtual, lblIndice);
+end;
+
+
+
+procedure TfrmHerancaCadastros.MaskEdit1Change(Sender: TObject);
+begin
+  QryListagemGrid.Locate(IndiceAtual, TMaskEdit(Sender).Text, [loPartialKey]);
+end;
+
+{$endregion}
 
 
 

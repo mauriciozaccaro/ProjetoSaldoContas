@@ -35,11 +35,12 @@ type
     QryListagemGridvalor: TFloatField;
     QryListagemGridtipoMov: TWideMemoField;
     QryListagemGridsituacao: TWideMemoField;
-    RadioGroup1: TRadioGroup;
+    rdgCredDeb: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -114,11 +115,24 @@ begin
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
   frmConsultaContaBancaria.ShowModal;
 
-  edtBanco.Text   := frmConsultaContaBancaria.aRetornaContaSelecionada;
-  //edtNomeCliente.Text  := frmConsultaContaBancaria.QryConsultaContaBancaria.Fields[0].Value;
-
+  edtBanco.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[0].Text;
+  edtNomeBanco.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[1].Text;
+  edtCliente.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[5].Text;
+  edtNomeCliente.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[4].Text;
+  edtNumConta.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[2].Text;
 
   frmConsultaContaBancaria.Release;
+end;
+
+procedure TfrmCadMovBancario.btnGravarClick(Sender: TObject);
+begin
+  inherited;
+  if (rdgCredDeb.ItemIndex = -1) then
+    MessageDlg('É obrigatório informar o Tipo de Movimento', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
+    abort;
+
+
+
 end;
 
 function TfrmCadMovBancario.Excluir: Boolean;

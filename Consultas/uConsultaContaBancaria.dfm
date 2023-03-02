@@ -28,20 +28,27 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
         FieldName = 'situacao'
         Width = 50
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cliente'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'IdCliente'
+        Visible = False
       end>
   end
   inherited QryConsultaContaBancaria: TZQuery
     SQL.Strings = (
       ''
       'SELECT CC.IdConta,'
+      '       CL.IdCliente,'
       '       CL.nome AS cliente,'
       '       BC.nome AS banco,'
       '       CC.numConta,'
-      '      CASE CC.situacao'
-      '          WHEN '#39'S'#39' THEN '#39'Sim'#39
-      '          WHEN '#39'N'#39' THEN '#39'N'#227'o'#39
-      '          ELSE '#39'inv'#225'lido'#39
-      '       END AS situacao'
+      '       CC.situacao'
       '  FROM contas    AS CC,'
       '       clientes  AS CL,'
       '       bancos    AS BC'
@@ -72,7 +79,10 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       DisplayLabel = 'Ativo'
       FieldName = 'situacao'
       ReadOnly = True
-      BlobType = ftWideMemo
+      BlobType = ftWideString
+    end
+    object QryConsultaContaBancariaIdCliente: TLargeintField
+      FieldName = 'IdCliente'
     end
   end
 end

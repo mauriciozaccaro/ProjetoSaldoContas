@@ -15,8 +15,8 @@ type
     QryConsultaContaBancariabanco: TWideStringField;
     QryConsultaContaBancarianumConta: TLargeintField;
     QryConsultaContaBancariasituacao: TWideMemoField;
+    QryConsultaContaBancariaIdCliente: TLargeintField;
     procedure FormShow(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,11 +30,9 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmConsultaContaBancaria.FormCreate(Sender: TObject);
-begin
-  inherited;
-  aCampoId  := 'IdConta';
-end;
+uses uCadMovBancario;
+
+
 
 procedure TfrmConsultaContaBancaria.FormShow(Sender: TObject);
 begin

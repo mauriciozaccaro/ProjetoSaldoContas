@@ -6,6 +6,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
     Width = 753
+    ActivePage = tabCadastro
     ExplicitWidth = 753
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
@@ -290,7 +291,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         ReadOnly = True
         TabOrder = 7
       end
-      object RadioGroup1: TRadioGroup
+      object rdgCredDeb: TRadioGroup
         Left = 165
         Top = 187
         Width = 158
@@ -308,18 +309,24 @@ inherited frmCadMovBancario: TfrmCadMovBancario
     Width = 753
     ExplicitWidth = 753
     inherited btnExcluir: TButton
-      Left = 463
-      ExplicitLeft = 463
+      Anchors = [akLeft]
     end
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
+    end
+    inherited btnSair: TButton
+      Left = 633
+      Anchors = [akRight]
+      ExplicitLeft = 633
     end
   end
   inherited QryListagemGrid: TZQuery
     SQL.Strings = (
       ''
       'SELECT MC.IdMovContas,'
+      '       CL.IdCliente,'
       '       CL.nome AS cliente,'
+      '       BC.IdBanco,'
       '       BC.nome AS banco,'
       '       CC.numConta,'
       '       MC.valor,'
@@ -388,14 +395,12 @@ inherited frmCadMovBancario: TfrmCadMovBancario
     SQL.Strings = (
       ''
       'SELECT CC.IdConta'
+      '       CL.IdCliente,'
       '       CL.nome AS cliente,'
+      '       BC.IdBanco'
       '       BC.nome AS banco,'
       '       CC.numConta,'
-      '      CASE CC.situacao'
-      '          WHEN '#39'A'#39' THEN '#39'Ativo'#39
-      '          WHEN '#39'E'#39' THEN '#39'Estornado'#39
-      '          ELSE '#39'inv'#225'lido'#39
-      '       END AS situacao'
+      '       CC.situacao'
       '  FROM contas    AS CC,'
       '       clientes  AS CL,'
       '       bancos    AS BC'
