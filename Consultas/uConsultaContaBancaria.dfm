@@ -54,6 +54,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       '       bancos    AS BC'
       ' WHERE CC.IdCliente = CL.IdCliente'
       '   AND CC.IdBanco = BC.IdBanco;')
+    Left = 40
     object QryConsultaContaBancariaIdConta: TLargeintField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'IdConta'
@@ -84,5 +85,8 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
     object QryConsultaContaBancariaIdCliente: TLargeintField
       FieldName = 'IdCliente'
     end
+  end
+  inherited dtsConsultaContaBancaria: TDataSource
+    Left = 264
   end
 end

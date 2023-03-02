@@ -41,6 +41,7 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure btnBuscaClienteClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -115,24 +116,28 @@ begin
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
   frmConsultaContaBancaria.ShowModal;
 
-  edtBanco.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[0].Text;
-  edtNomeBanco.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[1].Text;
-  edtCliente.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[5].Text;
-  edtNomeCliente.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[4].Text;
-  edtNumConta.Text := frmConsultaContaBancaria.grdListagemConsulta.Fields[2].Text;
+  edtBanco.Text         := frmConsultaContaBancaria.grdListagemConsulta.Fields[0].Text;
+  edtNomeBanco.Text     := frmConsultaContaBancaria.grdListagemConsulta.Fields[1].Text;
+  edtCliente.Text       := frmConsultaContaBancaria.grdListagemConsulta.Fields[5].Text;
+  edtNomeCliente.Text   := frmConsultaContaBancaria.grdListagemConsulta.Fields[4].Text;
+  edtNumConta.Text      := frmConsultaContaBancaria.grdListagemConsulta.Fields[2].Text;
 
   frmConsultaContaBancaria.Release;
 end;
 
-procedure TfrmCadMovBancario.btnGravarClick(Sender: TObject);
+procedure TfrmCadMovBancario.btnBuscaClienteClick(Sender: TObject);
 begin
   inherited;
+  LimparCampos;
+end;
+
+procedure TfrmCadMovBancario.btnGravarClick(Sender: TObject);
+begin
   if (rdgCredDeb.ItemIndex = -1) then
     MessageDlg('É obrigatório informar o Tipo de Movimento', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
     abort;
 
-
-
+  inherited;
 end;
 
 function TfrmCadMovBancario.Excluir: Boolean;

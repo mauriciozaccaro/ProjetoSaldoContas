@@ -45,25 +45,27 @@ type
     { Private declarations }
       EstadoTela : TEstadoDaTela;
       function CamposObrigatorios  : Boolean;
+      function RetornarCampoFieldTraduzido(Campo: string): string;
 
-      procedure LimparCampos;
+
+      procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
+      procedure grdListagemConsultaDblClick(Sender: TObject);
+      procedure grdListagemConsultaTitleClick(Column: TColumn);
+      procedure MaskEdit1Change(Sender: TObject);
       procedure ControlarTab(pgcPrincipal: TPageControl; x: Integer);
       procedure ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnExcluir : TButton;
                                 btnNavigator : TDBNavigator;
                                 pgcPrincipal : TPageControl;
                                 Flag         : Boolean);
-    procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
-    procedure grdListagemConsultaDblClick(Sender: TObject);
-    procedure grdListagemConsultaTitleClick(Column: TColumn);
-    procedure MaskEdit1Change(Sender: TObject);
-    function RetornarCampoFieldTraduzido(Campo: string): string;
 
   public
     { Public declarations }
     IndiceAtual                              : string; //para guardar o indice da coluna selecionada e realizar a busca
+    ColunaIndiceAtual                        : String;
     function Excluir                         : Boolean; virtual;
     function Gravar(EstadoTela:TEstadoDaTela): Boolean; virtual;
 
+    procedure LimparCampos;
     //function SituacaoEmTexto(ativo : Boolean) : String;   //não funcionou como eu queria
     //function TextoEmSituacao(texto : string)  : boolean;
   end;
@@ -194,6 +196,7 @@ end;
 procedure TfrmHerancaCadastros.grdListagemGridTitleClick(Column: TColumn);
 begin
   IndiceAtual                       := Column.FieldName;
+  ColunaIndiceAtual                 := Column.FieldName;
   QryListagemGrid.IndexFieldNames   := IndiceAtual;
   ExibirLabelIndice(IndiceAtual, lblIndice);
 end;
@@ -223,8 +226,9 @@ end;
 
  procedure TfrmHerancaCadastros.mskEditChange(Sender: TObject);
 begin
-  //QryListagemGrid.Locate(IndiceAtual, '%'+TMaskEdit(Sender).Text+'%', [loPartialKey]);
+
 end;
+
 
 { // não deu certo, to sem tempo para mexer com isso agora, fazer direto na chamada e lembrar de corrigir quando der tempo
 function TfrmHerancaCadastros.SituacaoEmTexto(ativo : Boolean): String;

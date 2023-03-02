@@ -70,8 +70,7 @@ end;
 
 
 
-{$region 'Inserir, Apagar, Atualizar e Selecinar'}
-
+{$region 'Inserir, Apagar, Atualizar e Selecionar'}
 
 function TBanco.ExcluiRegistro: Boolean;
 var Qry : TZQuery;
@@ -111,7 +110,7 @@ begin
               + ' WHERE Idbanco =    :codigo');
     QRY.ParamByName('codigo').AsInteger     := A_IdBanco;
     QRY.ParamByName('nome').AsString        := A_Nome;
-    QRY.ParamByName('situacao').AsString    := A_Situacao;       
+    QRY.ParamByName('situacao').AsString    := A_Situacao;
     try
       Qry.ExecSQL;
     Except
