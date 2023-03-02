@@ -2,17 +2,34 @@ inherited frmCadClientes: TfrmCadClientes
   Caption = 'Cadastro de Clientes'
   PixelsPerInch = 96
   TextHeight = 13
-  inherited PageControl1: TPageControl
-    ActivePage = tabListagem
+  inherited pgcPrincipal: TPageControl
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
-      inherited Panel2: TPanel
-        ExplicitLeft = 0
-        ExplicitWidth = 651
+      inherited grdListagemGrid: TDBGrid
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'IdCliente'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nome'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'numDocumento'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'situacao'
+            Visible = True
+          end>
       end
     end
     inherited tabCadastro: TTabSheet
-      Caption = 'Cadastro'
       ParentShowHint = False
       object edtCodigo: TLabeledEdit
         Left = 19
@@ -22,6 +39,7 @@ inherited frmCadClientes: TfrmCadClientes
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         TabOrder = 0
       end
       object edtDescricao: TLabeledEdit
@@ -61,6 +79,35 @@ inherited frmCadClientes: TfrmCadClientes
   inherited Panel1: TPanel
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
+    end
+  end
+  inherited QryListagemGrid: TZQuery
+    SQL.Strings = (
+      'SELECT IdCliente,'
+      '       nome,'
+      '       numDocumento,'
+      '       situacao'
+      '  FROM clientes')
+    object QryListagemGridIdCliente: TLargeintField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IdCliente'
+    end
+    object QryListagemGridnome: TWideStringField
+      DisplayLabel = 'Nome Cliente'
+      FieldName = 'nome'
+      Required = True
+      Size = 50
+    end
+    object QryListagemGridnumDocumento: TLargeintField
+      DisplayLabel = 'Documento'
+      FieldName = 'numDocumento'
+      Required = True
+    end
+    object QryListagemGridsituacao: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'situacao'
+      Required = True
+      Size = 1
     end
   end
 end

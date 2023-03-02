@@ -41,12 +41,11 @@ begin
 TrueBoolStrs  := ['S', 's'];
 FalseBoolStrs := ['N', 'n'];
 
-  if (objCliente.SelecionarRegistro(QryListagemGrid.FieldByName('IdCliente').AsInteger)) then
+  if (objBanco.SelecionarRegistro(QryListagemGrid.FieldByName('IdBanco').AsInteger)) then
   begin
-    edtCodigo.Text          := IntToStr(objCliente.codigo);
-    edtNome.Text            := objCliente.nome;
-    edtDocumento.Text       := objCliente.documento;
-    ativo                   := objCliente.situacao;
+    edtCodigo.Text          := IntToStr(objBanco.codigo);
+    edtNome.Text            := objBanco.nome;
+    ativo                   := objBanco.situacao;
     ckSituacao.Checked      := StrToBool(ativo);
   end
   else begin
