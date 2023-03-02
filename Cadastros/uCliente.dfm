@@ -3,7 +3,6 @@ inherited frmCadClientes: TfrmCadClientes
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
-    ActivePage = tabCadastro
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       inherited grdListagemGrid: TDBGrid
@@ -40,6 +39,7 @@ inherited frmCadClientes: TfrmCadClientes
         EditLabel.Width = 33
         EditLabel.Height = 13
         EditLabel.Caption = 'C'#243'digo'
+        Enabled = False
         TabOrder = 0
       end
       object edtDescricao: TLabeledEdit

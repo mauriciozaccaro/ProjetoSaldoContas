@@ -94,14 +94,14 @@ begin
     Qry.Connection                   := ConexaoDB;
     Qry.sql.Clear;
     Qry.SQL.Add('UPDATE clientes'
-              + '   SET nome =       :nome,'
-              + '       documento =  :situacao'
-              + '       situacao =   :situacao'
-              + ' WHERE IdCliente =  :codigo');
-    QRY.ParamByName('codigo').AsInteger     := A_IdCliente;
-    QRY.ParamByName('nome').AsString        := A_Nome;
-    QRY.ParamByName('documento').AsInteger  := A_Documento;
-    QRY.ParamByName('situacao').AsString    := A_Situacao;
+              + '   SET nome =          :nome,'
+              + '       numDocumento =  :numDocumento,'
+              + '       situacao =      :situacao'
+              + ' WHERE IdCliente =     :codigo');
+    QRY.ParamByName('codigo').AsInteger        := A_IdCliente;
+    QRY.ParamByName('nome').AsString           := A_Nome;
+    QRY.ParamByName('numDocumento').AsInteger  := A_Documento;
+    QRY.ParamByName('situacao').AsString       := A_Situacao;
     try
       Qry.ExecSQL;
     Except
@@ -123,11 +123,11 @@ begin
     Qry                     := TZQuery.Create(nil);
     Qry.Connection          := ConexaoDB;
     Qry.sql.Clear;
-    Qry.SQL.Add('INSERT INTO clientes (nome, documento, situacao) '
-              + ' VALUES (:nome, :documento, :situacao)');
-    Qry.ParamByName('nome').AsString        := Self.A_nome;
-    Qry.ParamByName('documento').AsInteger  := Self.A_Documento;
-    Qry.ParamByName('situacao').AsString    := Self.A_Situacao;
+    Qry.SQL.Add('INSERT INTO clientes (nome, numDocumento, situacao) '
+              + ' VALUES (:nome, :numDocumento, :situacao)');
+    Qry.ParamByName('nome').AsString           := Self.A_nome;
+    Qry.ParamByName('numDocumento').AsInteger  := Self.A_Documento;
+    Qry.ParamByName('situacao').AsString       := Self.A_Situacao;
 
     try
       Qry.ExecSQL;
@@ -152,6 +152,7 @@ begin
     Qry.SQL.Clear;
     Qry.SQL.Add('SELECT IdCliente,'
               + '       nome, '
+              + '       numDocumento, '
               + '       situacao'
               + '  FROM clientes'
               + ' WHERE IdCliente = :codigo');
@@ -160,7 +161,7 @@ begin
       Qry.Open;
       Self.A_IdCliente  := Qry.FieldByName('IdCliente').AsInteger;
       Self.A_Nome       := Qry.FieldByName('nome').AsString;
-      Self.A_Documento  := Qry.FieldByName('documento').AsInteger;
+      Self.A_Documento  := Qry.FieldByName('numDocumento').AsInteger;
       Self.A_Situacao   := Qry.FieldByName('situacao').AsString;
     except
       Result  :=  false;
