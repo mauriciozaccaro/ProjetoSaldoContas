@@ -39,8 +39,8 @@
     <Transaction>2023/03/01 03:24:52.000.680,C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Consultas\uConsultaContaBancaria.pas</Transaction>
     <Transaction>2023/03/01 23:53:17.000.577,=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas</Transaction>
     <Transaction>2023/03/01 23:53:38.000.440,C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Classes\cCliente.pas</Transaction>
-    <Transaction>2023/03/02 01:06:26.701,=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas</Transaction>
-    <Transaction>2023/03/02 01:06:42.192,C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Classes\cCadConta.pas=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas</Transaction>
+    <Transaction>2023/03/02 01:06:26.000.701,=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas</Transaction>
+    <Transaction>2023/03/02 01:06:42.000.192,C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Classes\cCadConta.pas=C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\Unit1.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="Cadastros"/>

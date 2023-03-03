@@ -88,8 +88,8 @@ begin
       Result                         := false;
     end;
   finally
-    if Assigned (Qry) then // verifica se o QryApagar foi criado na memória
-      FreeAndnil(Qry);  // limpa QryApagar da memória
+    if Assigned (Qry) then // verifica se o Query foi criado na memória
+      FreeAndnil(Qry);  // limpa Query da memória
   end;
 
 end;

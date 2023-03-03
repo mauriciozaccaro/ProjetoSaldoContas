@@ -32,24 +32,30 @@ type
     QryListagemGridsituacao: TWideStringField;
     procedure FormShow(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
+    procedure btnBuscaClienteClick(Sender: TObject);
+    procedure btnBuscaBancoClick(Sender: TObject);
   private
     { Private declarations }
     objConta : TCadConta;
     function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
-    function Excluir  : Boolean; override;
+    function Excluir : Boolean; override;
 
     function PossuiMovimento(campo : String)  : Boolean;
 
   public
     { Public declarations }
+
   end;
 
 var
   frmCadContas: TfrmCadContas;
+  botaoClicado : Integer;  // [0 - Cliente; 1 - Banco; 2 - Conta Bancária]
 
 implementation
 
 {$R *.dfm}
+
+ uses uConsultaContaBancaria;
 
 
 
@@ -77,6 +83,30 @@ FalseBoolStrs := ['N', 'n'];
 
 end;
 
+
+
+procedure TfrmCadContas.btnBuscaBancoClick(Sender: TObject);
+begin
+  inherited;
+  botaoClicado := 1;
+  frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
+  frmConsultaContaBancaria.ShowModal;
+  frmConsultaContaBancaria.Release;
+end;
+
+
+
+procedure TfrmCadContas.btnBuscaClienteClick(Sender: TObject);
+begin
+  inherited;
+  botaoClicado := 0;
+  frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
+  frmConsultaContaBancaria.ShowModal;
+  frmConsultaContaBancaria.Release;
+end;
+
+
+
 function TfrmCadContas.Excluir: Boolean;
 begin
   objConta.codConta   := StrToInt(grdListagemGrid.Fields[0].text);
@@ -87,11 +117,13 @@ begin
               + ' -  Nr '
               + IntToStr(objConta.numConta)
               + ''' ? ', TMsgDlgType.mtInformation, [mbYes, mbNo], 0) = mrYes) then
+
    // lembrar de mudar isso, melhoir criar dentro da classe e só trazer o Result
   {if(PossuiMovimento(campo) = true then
     MessageDlg('Não é possível excluir registros que possem movimentação!',
                 TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0 );
     Abort;         }
+
   begin
     Result  := objConta.ExcluiRegistro;
   end else
@@ -100,6 +132,8 @@ begin
   end;
 
 end;
+
+
 
 procedure TfrmCadContas.FormShow(Sender: TObject);
 begin

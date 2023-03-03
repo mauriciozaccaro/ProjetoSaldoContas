@@ -1,0 +1,61 @@
+unit uConsultaContaBancaria;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, uHerancaConsulta, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, uCadConta;
+
+type
+  TfrmConsultaContaBancaria = class(TfrmHerancaConsulta)
+    QryConsultaContaBancariaIdConta: TLargeintField;
+    QryConsultaContaBancariacliente: TWideStringField;
+    QryConsultaContaBancariabanco: TWideStringField;
+    QryConsultaContaBancarianumConta: TLargeintField;
+    QryConsultaContaBancariasituacao: TWideMemoField;
+    QryConsultaContaBancariaIdCliente: TLargeintField;
+    QryConsultaCliente: TZQuery;
+    dtsConsultaCliente: TDataSource;
+    QryConsultaClienteIdCliente: TLargeintField;
+    QryConsultaClientenome: TWideStringField;
+    QryConsultaClientenumDocumento: TLargeintField;
+    QryConsultaClientesituacao: TWideStringField;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsultaContaBancaria: TfrmConsultaContaBancaria;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadMovBancario;
+
+
+
+procedure TfrmConsultaContaBancaria.FormShow(Sender: TObject);
+begin
+  inherited;
+  IndiceAtual := 'NrConta';
+
+  if (botaoClicado = 1) then
+  begin
+    if(Sender = frmCadContas.btnBuscaCliente) then
+        MessageDlg('Buscando Cliente', TMsgDlgType.mtInformation, [mbOk], 0);
+      //QryConsultaCliente.Open;
+    if(Sender = frmCadContas.btnBuscaBanco) then
+        MessageDlg('Buscando Conta Bancaria', TMsgDlgType.mtInformation, [mbOk], 0);
+
+  end;
+end;
+
+
+
+end.

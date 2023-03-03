@@ -26,7 +26,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    { Public declarations }     //
   end;
 
 var
@@ -50,7 +50,7 @@ end;
 
 procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FreeAndNil(frmPrincipal);
+  FreeAndNil(DtmConexaoPrincipal);
 end;
 
 {$endregion}

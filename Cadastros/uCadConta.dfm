@@ -111,6 +111,7 @@ inherited frmCadContas: TfrmCadContas
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFA2A2A2A3A3A39F9F9FFF00FFFF00FFFF00FFFF00FF}
         NumGlyphs = 2
+        OnClick = btnBuscaBancoClick
       end
       object Label2: TLabel
         Left = 19
@@ -176,6 +177,7 @@ inherited frmCadContas: TfrmCadContas
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFA2A2A2A3A3A39F9F9FFF00FFFF00FFFF00FFFF00FF}
         NumGlyphs = 2
+        OnClick = btnBuscaClienteClick
       end
       object Label3: TLabel
         Left = 19

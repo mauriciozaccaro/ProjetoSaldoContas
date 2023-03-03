@@ -23,6 +23,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmConsultaContaBancaria, frmConsultaContaBancaria);
   Application.Run;
 end.

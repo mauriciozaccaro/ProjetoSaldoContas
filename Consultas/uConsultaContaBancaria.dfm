@@ -2,43 +2,8 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
   Caption = 'Conta Banc'#225'ria'
   PixelsPerInch = 96
   TextHeight = 13
-  inherited grdListagemConsulta: TDBGrid
-    DataSource = dtsConsultaContaBancaria
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'IdConta'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'banco'
-        Width = 150
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'numConta'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'situacao'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'cliente'
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'IdCliente'
-        Visible = False
-      end>
+  inherited Panel1: TPanel
+    ExplicitLeft = 8
   end
   inherited QryConsultaContaBancaria: TZQuery
     SQL.Strings = (
@@ -87,6 +52,70 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
     end
   end
   inherited dtsConsultaContaBancaria: TDataSource
-    Left = 264
+    Left = 128
+  end
+  object QryConsultaCliente: TZQuery
+    Connection = DtmConexaoPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT IdCliente,'
+      '       nome,'
+      '       numDocumento,'
+      '       situacao'
+      '  FROM clientes'
+      'WHERE situacao = '#39'S'#39)
+    Params = <>
+    Left = 112
+    object QryConsultaClienteIdCliente: TLargeintField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IdCliente'
+    end
+    object QryConsultaClientenome: TWideStringField
+      DisplayLabel = 'Nome Cliente'
+      FieldName = 'nome'
+      Required = True
+      Size = 50
+    end
+    object QryConsultaClientenumDocumento: TLargeintField
+      DisplayLabel = 'Nr Documento'
+      FieldName = 'numDocumento'
+      Required = True
+    end
+    object QryConsultaClientesituacao: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'situacao'
+      Required = True
+      Size = 1
+    end
+  end
+  object dtsConsultaCliente: TDataSource
+    DataSet = QryConsultaCliente
+    Left = 216
+  end
+  object QryConsultaBanco: TZQuery
+    Connection = DtmConexaoPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT IdBanco, nome, situacao FROM bancos WHERE situacao = '#39'S'#39)
+    Params = <>
+    Left = 296
+    object QryConsultaBancoIdBanco: TLargeintField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IdBanco'
+    end
+    object QryConsultaBanconome: TWideStringField
+      DisplayLabel = 'Banco'
+      FieldName = 'nome'
+      Required = True
+      Size = 50
+    end
+    object QryConsultaBancosituacao: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'situacao'
+      Required = True
+      Size = 1
+    end
+  end
+  object dtsConsultaBanco: TDataSource
+    DataSet = QryConsultaBanco
+    Left = 360
   end
 end

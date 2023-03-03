@@ -115,7 +115,7 @@ begin
     try
       Qry.ExecSQL;
     Except
-      result := false;
+      Result := false;
     end;
   finally
     if Assigned(Qry) then

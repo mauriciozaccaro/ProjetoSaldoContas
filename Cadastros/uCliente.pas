@@ -76,7 +76,7 @@ end;
 function TfrmCadClientes.Excluir: Boolean;
 begin
   objCliente.codigo     := StrToInt(grdListagemGrid.Fields[0].text);
-  objCliente.nome       := grdListagemGrid.fields[0].Text;
+  objCliente.nome       := grdListagemGrid.fields[1].Text;
 
   if(MessageDlg('Deseja excluir o registro do Banco '''
               + IntToStr(objCliente.codigo)
