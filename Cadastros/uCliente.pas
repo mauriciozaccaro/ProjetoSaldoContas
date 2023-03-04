@@ -21,6 +21,7 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure mskEditChange(Sender: TObject);
   private
     { Private declarations }
     objCliente : TCliente;
@@ -120,6 +121,21 @@ FalseBoolStrs := ['N', 'n'];
       Result    := objCliente.AtualizarRegistro;
       ShowMessage('Alterado com sucesso')
     end;
+end;
+
+procedure TfrmCadClientes.mskEditChange(Sender: TObject);
+begin
+  inherited;
+  with QryListagemGrid do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT IdCliente, nome, numDocumento, situacao FROM clientes WHERE '
+          +  IndiceAtual
+          + ' like :codigo');
+    ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+    open;
+  end;
 end;
 
 end.

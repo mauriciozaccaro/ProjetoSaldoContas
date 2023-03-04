@@ -35,7 +35,6 @@ type
     procedure btnBuscaClienteClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);
 
-    //function RetornaQueryAtiva(Qry : TZQuery) : String;
   private
     { Private declarations }
     objConta : TCadConta;
@@ -144,26 +143,20 @@ begin
   QryListagemGrid.Open;
 end;
 
+
+
 function TfrmCadContas.Gravar(EstadoTela: TEstadoDaTela): Boolean;
 begin
 
 end;
+
+
 
 function TfrmCadContas.PossuiMovimento(campo : String): Boolean;
 begin
 
 end;
 
-                      {
-function TfrmCadContas.RetornaQueryAtiva(Qry: TZQuery): String;
-var i : Integer;
-begin
-  for i := 0 to ComponentCount -1 do
-  begin
-    if (Components[i] is TZQuery) and (Components[i]) then
 
-  end;
-
-end;    }
 
 end.

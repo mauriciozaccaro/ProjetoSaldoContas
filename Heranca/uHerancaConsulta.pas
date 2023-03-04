@@ -120,23 +120,103 @@ end;
 
 procedure TfrmHerancaConsulta.grdListagemConsultaDblClick(Sender: TObject);
 begin
-  close;
+  try
+    if (botaoClicado = 1) then // Banco
+    begin
+      if (grdListagemConsulta.Fields[2].Text = 'N') then
+      Begin
+        MessageDlg('Banco Inativo!' + #13 + 'Selecione outro cadastro para continuar!',
+                    TMsgDlgType.mtInformation, [mbOk], 0);  Abort;
+      End;
+
+      frmCadContas.edtBanco.Text         :=  grdListagemConsulta.Fields[0].Text;
+      frmCadContas.edtNomeBanco.Text     :=  grdListagemConsulta.Fields[1].Text;
+
+    end else
+    if (botaoClicado = 0) then  // Cliente
+    begin
+
+      if (grdListagemConsulta.Fields[3].Text = 'N') then
+      Begin
+        MessageDlg('Cliente Inativo!' + #13 + 'Selecione outro cadastro para continuar!',
+                    TMsgDlgType.mtInformation, [mbOk], 0);  Abort;
+      End;
+
+      frmCadContas.edtCliente.Text       :=  grdListagemConsulta.Fields[0].Text;
+      frmCadContas.edtNomeCliente.Text   :=  grdListagemConsulta.Fields[1].Text;
+
+    end else
+    if (botaoClicado = 2) then   // Conta Bancária
+    begin
+      MessageDlg('Ainda não implementado', TMsgDlgType.mtInformation, [mbOk], 0);
+      Abort;
+    end;
+
+  finally
+    close;
+  end;
 end;
 
 
 
 procedure TfrmHerancaConsulta.grdListagemConsultaTitleClick(Column: TColumn);
 begin
-  IndiceAtual                               := Column.FieldName;
-  //Qry.IndexFieldNames  := IndiceAtual;
+  IndiceAtual          := Column.FieldName;
   ExibirLabelIndice(IndiceAtual, lblPesquisa);
+  MaskEdit1.Text       := EmptyStr;
+  MaskEdit1.SetFocus;
 end;
 
 
 
 procedure TfrmHerancaConsulta.MaskEdit1Change(Sender: TObject);
 begin
-  QryConsultaContaBancaria.Locate(IndiceAtual, TMaskEdit(Sender).Text, [loPartialKey]);
+//  QryUsada.Locate(IndiceAtual, TMaskEdit(Sender).Text, [loPartialKey]); // é ruim de busca, por isso fiz por Select
+  inherited;
+  try
+
+  case botaoClicado of
+    0 : begin // Cliente
+      with QryUsada do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IdCliente, nome, numDocumento, situacao FROM clientes WHERE '
+              +  IndiceAtual
+              + ' like :codigo');
+        ParamByName('codigo').AsString :=  '%'+MaskEdit1.Text+'%';
+        open;
+      end;
+
+    end;
+
+    1 : begin
+      with QryUsada do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE '
+              +  IndiceAtual
+              + ' like :codigo');
+        ParamByName('codigo').AsString :=  '%'+MaskEdit1.Text+'%';
+        open;
+      end;
+
+    end;
+
+    2 : begin  // Conta Bancária
+      with QryUsada do
+      begin
+        MessageDlg('Ainda não implementado', TMsgDlgType.mtInformation, [mbOk], 0);
+      end;
+
+    end;
+
+  end;
+  except
+    MessageDlg('Não foi possível realizar a Consulta', TMsgDlgType.mtError, [mbOk], 0);
+  end;
+
 end;
 
 {$endregion}

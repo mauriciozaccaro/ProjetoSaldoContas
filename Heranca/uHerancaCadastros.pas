@@ -196,9 +196,10 @@ end;
 procedure TfrmHerancaCadastros.grdListagemGridTitleClick(Column: TColumn);
 begin
   IndiceAtual                       := Column.FieldName;
-  ColunaIndiceAtual                 := Column.FieldName;
   QryListagemGrid.IndexFieldNames   := IndiceAtual;
   ExibirLabelIndice(IndiceAtual, lblIndice);
+  mskEdit.Text       := EmptyStr;
+  mskEdit.SetFocus;
 end;
 
 {$endregion}

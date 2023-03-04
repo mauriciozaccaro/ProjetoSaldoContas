@@ -116,6 +116,7 @@ begin
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
   frmConsultaContaBancaria.ShowModal;
 
+  // Lembrar de tirar isso e colocar lá na Herança
   edtBanco.Text         := frmConsultaContaBancaria.grdListagemConsulta.Fields[0].Text;
   edtNomeBanco.Text     := frmConsultaContaBancaria.grdListagemConsulta.Fields[1].Text;
   edtCliente.Text       := frmConsultaContaBancaria.grdListagemConsulta.Fields[5].Text;

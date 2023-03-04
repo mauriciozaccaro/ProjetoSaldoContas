@@ -199,6 +199,7 @@ inherited frmCadContas: TfrmCadContas
         TabOrder = 0
       end
       object edtNumConta: TLabeledEdit
+        Tag = 1
         Left = 459
         Top = 96
         Width = 158
@@ -227,6 +228,7 @@ inherited frmCadContas: TfrmCadContas
         TabOrder = 4
       end
       object edtBanco: TMaskEdit
+        Tag = 1
         Left = 19
         Top = 96
         Width = 95
@@ -235,6 +237,7 @@ inherited frmCadContas: TfrmCadContas
         Text = ''
       end
       object edtCliente: TMaskEdit
+        Tag = 1
         Left = 19
         Top = 148
         Width = 95
@@ -268,7 +271,6 @@ inherited frmCadContas: TfrmCadContas
     end
   end
   inherited QryListagemGrid: TZQuery
-    Active = True
     SQL.Strings = (
       'SELECT ct.IdConta,'
       '       bc.nome AS Banco,'
@@ -279,8 +281,8 @@ inherited frmCadContas: TfrmCadContas
       '  FROM contas AS ct,'
       '       bancos AS bc,'
       '       clientes AS cl'
-      ' WHERE ct.IdBanco   = bc.IdBanco'
-      '   AND ct.IdCliente = cl.IdCliente;')
+      ' WHERE ct.IdCliente = cl.IdCliente'
+      '   AND ct.IdBanco = bc.IdBanco')
     Left = 316
     Top = 24
     object QryListagemGridIdConta: TLargeintField

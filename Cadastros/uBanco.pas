@@ -127,12 +127,12 @@ FalseBoolStrs := ['N', 'n'];
     if (EstadoTela = etNovo) then
     begin
       Result    := objBanco.InserirRegistro;
-      ShowMessage('Cadastrado com Sucesso!')
+      ShowMessage('Cadastro realizado com Sucesso!')
     end
     else if (EstadoTela = etAlterar) then
     begin
       Result    := objBanco.AtualizarRegistro;
-      ShowMessage('Alterado com sucesso')
+      ShowMessage('Alteração realizada com sucesso')
     end;
 end;
 
@@ -141,12 +141,13 @@ end;
 procedure TfrmCadBancos.mskEditChange(Sender: TObject);
 begin
   inherited;
-    with QryListagemGrid do
+  with QryListagemGrid do
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE nome like :codigo');
-    //ParamByName('indice').AsString :=  ColunaIndiceAtual;
+    SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE '
+          +  IndiceAtual
+          + ' like :codigo');
     ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
     open;
   end;
