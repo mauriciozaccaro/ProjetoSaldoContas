@@ -2,9 +2,6 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
   Caption = 'Conta Banc'#225'ria'
   PixelsPerInch = 96
   TextHeight = 13
-  inherited Panel1: TPanel
-    ExplicitLeft = 8
-  end
   inherited QryConsultaContaBancaria: TZQuery
     SQL.Strings = (
       ''

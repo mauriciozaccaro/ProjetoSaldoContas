@@ -52,9 +52,11 @@ begin
 
   case botaoClicado of
     0 : begin // Cliente
-        MessageDlg('Buscando Cliente', TMsgDlgType.mtInformation, [mbOk], 0);
         QryConsultaCliente.Open;
-        grdListagemConsulta.DataSource := dtsConsultaCliente;
+        QryUsada                         := QryConsultaCliente;
+        grdListagemConsulta.DataSource   := dtsConsultaCliente;
+
+        frmConsultaContaBancaria.Caption := 'Consulta Cliente';
 
         with grdListagemConsulta do
         begin
@@ -62,26 +64,32 @@ begin
           Columns[1].Width := 150;  // Nome
           Columns[2].Width := 70;   // Documento
           Columns[3].Width := 50;   // Situacao
+          OnTitleClick(columns[1]);
         end;
     end;
 
     1 : begin // Banco
-        MessageDlg('Buscando Banco', TMsgDlgType.mtInformation, [mbOk], 0);
         QryConsultaBanco.Open;
-        grdListagemConsulta.DataSource := dtsConsultaBanco;
+        QryUsada                         := QryConsultaBanco;
+        grdListagemConsulta.DataSource   := dtsConsultaBanco;
+
+        frmConsultaContaBancaria.Caption := 'Consulta Banco';
 
         with grdListagemConsulta do
         begin
           Columns[0].Width := 50;   // Codigo
           Columns[1].Width := 150;  // Nome
           Columns[2].Width := 50;   // Situacao
+          OnTitleClick(columns[1]);
         end;
     end;
 
     2 : begin // Conta Bancária
-        MessageDlg('Buscando Conta Bancária', TMsgDlgType.mtInformation, [mbOk], 0);
         QryConsultaContaBancaria.Open;
-        grdListagemConsulta.DataSource := dtsConsultaContaBancaria;
+        QryUsada                         := QryConsultaContaBancaria;
+        grdListagemConsulta.DataSource   := dtsConsultaContaBancaria;
+
+        frmConsultaContaBancaria.Caption := 'Consulta Conta Bancária';
 
         with grdListagemConsulta do
         begin
@@ -89,9 +97,9 @@ begin
           Columns[1].Width := 150;  // Nome
           Columns[2].Width := 70;   // Documento
           Columns[3].Width := 50;   // Situacao
+          OnTitleClick(columns[1]);
         end;
     end;
-
   end;
 end;
 

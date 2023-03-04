@@ -30,9 +30,15 @@ object frmHerancaConsulta: TfrmHerancaConsulta
     object lblPesquisa: TLabel
       Left = 6
       Top = 16
-      Width = 50
+      Width = 56
       Height = 13
       Caption = 'Pesquisa..'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object MaskEdit1: TMaskEdit
       Left = 1

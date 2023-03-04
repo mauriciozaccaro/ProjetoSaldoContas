@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, ZAbstractRODataset, ZAbstractDataset,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, ZAbstractRODataset, ZAbstractDataset, uCadConta,
   ZDataset;
 
 type
@@ -41,6 +41,7 @@ type
     aCampoBanco              : String;
     aCampoNumConta           : String;
     IndiceAtual              : String;
+    QryUsada                 : TZQuery;
 
   end;
 
@@ -51,7 +52,7 @@ implementation
 
 {$R *.dfm}
 
-uses uCadMovBancario;
+uses uCadMovBancario,  uConsultaContaBancaria;
 
 
 
@@ -96,13 +97,13 @@ end;
 {$region 'Função e procedimento para pegar a coluna selecionada e passar para a label'} // também utilizado para consulta
 
 function TfrmHerancaConsulta.RetornarCampoFieldTraduzido(Campo : string) : string;
-VAR i : integer;
+var i : integer;
 begin
-  for i := 0 to QryConsultaContaBancaria.fields.Count -1 do
+  for i := 0 to QryUsada.fields.Count -1 do
   begin
-    if(QryConsultaContaBancaria.Fields[i].FieldName = Campo) then
+    if(QryUsada.Fields[i].FieldName = Campo) then
     begin
-      Result := QryConsultaContaBancaria.Fields[i].DisplayLabel;
+      Result := QryUsada.Fields[i].DisplayLabel;
       break;
     end;
   end;
@@ -127,7 +128,7 @@ end;
 procedure TfrmHerancaConsulta.grdListagemConsultaTitleClick(Column: TColumn);
 begin
   IndiceAtual                               := Column.FieldName;
-  QryConsultaContaBancaria.IndexFieldNames  := IndiceAtual;
+  //Qry.IndexFieldNames  := IndiceAtual;
   ExibirLabelIndice(IndiceAtual, lblPesquisa);
 end;
 

@@ -34,6 +34,8 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);
+
+    //function RetornaQueryAtiva(Qry : TZQuery) : String;
   private
     { Private declarations }
     objConta : TCadConta;
@@ -50,6 +52,7 @@ type
 var
   frmCadContas: TfrmCadContas;
   botaoClicado : Integer;  // [0 - Cliente; 1 - Banco; 2 - Conta Bancária]
+
 
 implementation
 
@@ -150,5 +153,17 @@ function TfrmCadContas.PossuiMovimento(campo : String): Boolean;
 begin
 
 end;
+
+                      {
+function TfrmCadContas.RetornaQueryAtiva(Qry: TZQuery): String;
+var i : Integer;
+begin
+  for i := 0 to ComponentCount -1 do
+  begin
+    if (Components[i] is TZQuery) and (Components[i]) then
+
+  end;
+
+end;    }
 
 end.
