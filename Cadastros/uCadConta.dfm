@@ -1,9 +1,9 @@
 inherited frmCadContas: TfrmCadContas
+  Tag = 3
   Caption = 'Cadastro de Contas Banc'#225'rias'
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
-    ActivePage = tabCadastro
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       inherited grdListagemGrid: TDBGrid
@@ -43,10 +43,21 @@ inherited frmCadContas: TfrmCadContas
             FieldName = 'situacao'
             Width = 30
             Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'IdBanco'
+            Visible = False
+          end
+          item
+            Expanded = False
+            FieldName = 'IdCliente'
+            Visible = False
           end>
       end
     end
     inherited tabCadastro: TTabSheet
+      Tag = 1
       object Label1: TLabel
         Left = 19
         Top = 80
@@ -199,7 +210,7 @@ inherited frmCadContas: TfrmCadContas
         TabOrder = 0
       end
       object edtNumConta: TLabeledEdit
-        Tag = 1
+        Tag = 2
         Left = 459
         Top = 96
         Width = 158
@@ -211,6 +222,7 @@ inherited frmCadContas: TfrmCadContas
         TabOrder = 2
       end
       object ckSituacao: TCheckBox
+        Tag = 3
         Left = 190
         Top = 48
         Width = 97
@@ -228,7 +240,7 @@ inherited frmCadContas: TfrmCadContas
         TabOrder = 4
       end
       object edtBanco: TMaskEdit
-        Tag = 1
+        Tag = 2
         Left = 19
         Top = 96
         Width = 95
@@ -237,7 +249,7 @@ inherited frmCadContas: TfrmCadContas
         Text = ''
       end
       object edtCliente: TMaskEdit
-        Tag = 1
+        Tag = 2
         Left = 19
         Top = 148
         Width = 95
@@ -273,7 +285,9 @@ inherited frmCadContas: TfrmCadContas
   inherited QryListagemGrid: TZQuery
     SQL.Strings = (
       'SELECT ct.IdConta,'
+      '       ct.IdBanco,'
       '       bc.nome AS Banco,'
+      '       ct.IdCliente,'
       '       cl.nome AS Cliente,'
       '       ct.numConta,'
       '       ct.saldoInicial,'
@@ -308,12 +322,21 @@ inherited frmCadContas: TfrmCadContas
     object QryListagemGridsaldoInicial: TFloatField
       DisplayLabel = 'Saldo Inicial'
       FieldName = 'saldoInicial'
+      DisplayFormat = '#,###0.00'
     end
     object QryListagemGridsituacao: TWideStringField
       DisplayLabel = 'Ativo'
       FieldName = 'situacao'
       Required = True
       Size = 1
+    end
+    object QryListagemGridIdBanco: TLargeintField
+      FieldName = 'IdBanco'
+      Required = True
+    end
+    object QryListagemGridIdCliente: TLargeintField
+      FieldName = 'IdCliente'
+      Required = True
     end
   end
   inherited DtsListagemGrid: TDataSource

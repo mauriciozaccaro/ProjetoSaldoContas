@@ -28,10 +28,13 @@ type
     QryConsultaBanconome: TWideStringField;
     QryConsultaBancosituacao: TWideStringField;
     procedure FormShow(Sender: TObject);
+
   private
     { Private declarations }
+
   public
     { Public declarations }
+
   end;
 
 var
