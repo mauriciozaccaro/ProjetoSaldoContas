@@ -64,6 +64,7 @@ inherited frmCadBancos: TfrmCadBancos
     end
   end
   inherited Panel1: TPanel
+    ExplicitTop = 291
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
     end

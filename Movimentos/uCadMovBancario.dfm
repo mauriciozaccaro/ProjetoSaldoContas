@@ -7,6 +7,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
     Width = 753
+    ActivePage = tabListagem
     ExplicitWidth = 753
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
@@ -60,6 +61,12 @@ inherited frmCadMovBancario: TfrmCadMovBancario
           item
             Expanded = False
             FieldName = 'tipoMov'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'dataMov'
+            Width = 80
             Visible = True
           end>
       end
@@ -212,6 +219,20 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Height = 13
         Caption = 'Banco'
       end
+      object Label5: TLabel
+        Left = 360
+        Top = 128
+        Width = 31
+        Height = 13
+        Caption = 'Label5'
+      end
+      object Label6: TLabel
+        Left = 152
+        Top = 33
+        Width = 78
+        Height = 13
+        Caption = 'Data Movimento'
+      end
       object edtCodigo: TLabeledEdit
         Tag = 1
         Left = 19
@@ -298,6 +319,15 @@ inherited frmCadMovBancario: TfrmCadMovBancario
           'D'#233'bito')
         TabOrder = 7
       end
+      object dtpDataMovimento: TDateTimePicker
+        Left = 152
+        Top = 48
+        Width = 113
+        Height = 21
+        Date = 44991.000000000000000000
+        Time = 0.600405173609033200
+        TabOrder = 8
+      end
     end
   end
   inherited Panel1: TPanel
@@ -326,7 +356,8 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       '       BC.nome AS banco,'
       '       CC.numConta,'
       '       MC.valor,'
-      '       MC.tipoMov'
+      '       MC.tipoMov,'
+      '       MC.dataMov'
       '  FROM movContas AS MC,'
       '       contas    AS CC,'
       '       clientes  AS CL,'
@@ -368,7 +399,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
     object QryListagemGridvalor: TFloatField
       DisplayLabel = 'Valor(R$)'
       FieldName = 'valor'
-      EditFormat = '#,###0.00'
+      DisplayFormat = '#,###0.00'
     end
     object QryListagemGridtipoMov: TWideStringField
       DisplayLabel = 'Tipo Movimento'
@@ -376,38 +407,15 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       Required = True
       Size = 1
     end
+    object QryListagemGriddataMov: TWideStringField
+      DisplayLabel = 'Data Movimento'
+      FieldName = 'dataMov'
+      ReadOnly = True
+      Size = 10
+    end
   end
   inherited DtsListagemGrid: TDataSource
     Left = 436
     Top = 240
-  end
-  object QryBuscaConta: TZQuery
-    Connection = DtmConexaoPrincipal.ConexaoDB
-    SQL.Strings = (
-      ''
-      'SELECT CC.IdConta'
-      '       CL.IdCliente,'
-      '       CL.nome AS cliente,'
-      '       BC.IdBanco'
-      '       BC.nome AS banco,'
-      '       CC.numConta,'
-      '       CC.situacao'
-      '  FROM contas    AS CC,'
-      '       clientes  AS CL,'
-      '       bancos    AS BC'
-      ' WHERE CC.IdCliente = CL.IdCliente'
-      '   AND CC.IdBanco = BC.IdBanco;')
-    Params = <>
-    Left = 644
-    Top = 136
-  end
-  object DataSource1: TDataSource
-    Left = 600
-    Top = 32
-  end
-  object dtsBuscaConta: TDataSource
-    DataSet = QryBuscaConta
-    Left = 700
-    Top = 136
   end
 end

@@ -27,6 +27,7 @@ Type
     A_NomeCliente       : String;
     A_Valor             : double;
     A_TipoMov           : String;
+    A_DataMov           : String;
 
   public
     constructor Create(aConexao : TZConnection);
@@ -47,6 +48,7 @@ Type
     property cliente            : String          read A_NomeCliente        write A_NomeCliente;
     property valor              : Double          read A_Valor              write A_Valor;
     property tipoMovimento      : String          read A_TipoMov            write A_TipoMov;
+    property dataMov            : String          read A_DataMov            write A_DataMov;
 
   end;
 
@@ -78,11 +80,12 @@ begin
     Qry                     := TZQuery.Create(nil);
     Qry.Connection          := ConexaoDB;
     Qry.sql.Clear;
-    Qry.SQL.Add('INSERT INTO movContas (IdConta, valor, tipoMov) '
-              + 'VALUES (:codConta, :valor, :tipoMovimento)');
+    Qry.SQL.Add('INSERT INTO movContas (IdConta, valor, tipoMov, dataMov) '
+              + 'VALUES (:codConta, :valor, :tipoMovimento, :dataMov)');
     Qry.ParamByName('codConta').AsInteger        := Self.A_IdConta;
     Qry.ParamByName('valor').Value               := Self.A_Valor;
     Qry.ParamByName('tipoMovimento').AsString    := Self.A_TipoMov;
+    Qry.ParamByName('dataMov').AsString          := Self.A_DataMov;
     try
       Qry.ExecSQL;
     Except
@@ -114,7 +117,8 @@ begin
                    + '  cl.nome AS cliente, '
                    + '  bc.nome AS banco, '
                    + '  mc.valor, '
-                   + '  mc.tipoMov '
+                   + '  mc.tipoMov, '
+                   + '  mc.dataMov '
               + '  FROM movContas mc, '
                  + '    contas ct, '
                  + '    clientes cl, '
@@ -135,6 +139,7 @@ begin
       Self.A_NomeCliente     := Qry.FieldByName('cliente').AsString;
       Self.A_Valor           := Qry.FieldByName('valor').Value;
       Self.A_TipoMov         := Qry.FieldByName('tipoMov').AsString;
+      Self.A_DataMov         := Qry.FieldByName('dataMov').AsString;
     except
       Result  :=  false;
     end;
@@ -155,7 +160,7 @@ begin
     Qry                              := TZQuery.Create(nil);
     Qry.Connection                   := ConexaoDB;
     Qry.SQL.Clear;
-    Qry.sql.Add('UPDATE movcontas SET situacao = :situacao WHERE IdMovContas = :codigo ');
+    Qry.sql.Add('DELETE FROM movcontas WHERE IdMovContas = :codigo ');
     Qry.ParamByName('codigo').value    := IntToStr(Self.A_IdMovContas);
     try
       Qry.ExecSQL;
@@ -181,10 +186,12 @@ begin
     Qry.SQL.Add('UPDATE movcontas '
               + '   SET tipoMov = :tipoMovimento, '
               + '       valor =   :valor '
+              + '       dataMov = :dataMov '
               + ' WHERE IdMovContas = :codigo');
     QRY.ParamByName('tipoMovimento').AsString  := A_TipoMov;
     QRY.ParamByName('codigo').AsInteger        := A_IdMovContas;
     QRY.ParamByName('valor').AsFloat           := A_Valor;
+    QRY.ParamByName('dataMov').AsString        := A_DataMov;
     try
       Qry.ExecSQL;
     Except

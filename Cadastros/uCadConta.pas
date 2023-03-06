@@ -162,7 +162,7 @@ function TfrmCadContas.Excluir: Boolean;
 var numConta : Integer;
 begin
   objConta.codConta   := StrToInt(grdListagemGrid.Fields[0].text);
-  numConta            :=StrToInt(grdListagemGrid.Fields[3].text);
+  numConta            := StrToInt(grdListagemGrid.Fields[3].text);
 
   if(MessageDlg('Deseja excluir o registro do Banco '''
               + IntToStr(objConta.codConta)

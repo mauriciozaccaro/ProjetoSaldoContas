@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uHerancaCadastros, Data.DB, Vcl.DBCtrls,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls,
-  RxToolEdit, RxCurrEdit, Vcl.Buttons, ZAbstractRODataset, ZAbstractDataset,
+  RxToolEdit, RxCurrEdit, Vcl.Buttons, ZAbstractRODataset, ZAbstractDataset, DateUtils,
   ZDataset, cMovBancario, uEnum, uDTMConexao, uConsultaContaBancaria, uHerancaConsulta;
 
 type
@@ -24,9 +24,6 @@ type
     edtNomeBanco: TEdit;
     edtNumConta: TLabeledEdit;
     Label4: TLabel;
-    QryBuscaConta: TZQuery;
-    DataSource1: TDataSource;
-    dtsBuscaConta: TDataSource;
     rdgCredDeb: TRadioGroup;
     QryListagemGridIdMovContas: TLargeintField;
     QryListagemGridIdCliente: TLargeintField;
@@ -36,12 +33,17 @@ type
     QryListagemGridnumConta: TLargeintField;
     QryListagemGridvalor: TFloatField;
     QryListagemGridtipoMov: TWideStringField;
+    Label5: TLabel;
+    Label6: TLabel;
+    dtpDataMovimento: TDateTimePicker;
+    QryListagemGriddataMov: TWideStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
+    procedure btnverificaDataClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -100,6 +102,7 @@ begin
     edtNumConta.Text        := IntToStr(objMovConta.numConta);
     edtValor.Text           := FloatToStr(objMovConta.valor);
     rdgCredDeb.ItemIndex    := SetaValorTipoMovimento(objMovConta.tipoMovimento);
+    dtpDataMovimento.Date   := StrToDate(objMovConta.dataMov);
   end
   else begin
     btnCancelar.Click;
@@ -150,10 +153,23 @@ end;
 
 
 
+procedure TfrmCadMovBancario.btnverificaDataClick(Sender: TObject);
+var minhaData : String;
+begin
+  inherited; // testando
+  //minhaData := dtpDATAAA.Text;
+  //MessageDlg('data: ' + minhaData, TMsgDlgType.mtInformation, [mbOk], 0);
+  //MessageDlg('data 2: ' + DateTimeToStr(dtpDataMovimento.Date), TMsgDlgType.mtInformation, [mbOk], 0);
+
+end;
+
+
+
 function TfrmCadMovBancario.Excluir: Boolean;
 var numConta : Integer;
 begin
   objMovConta.codigo        := StrToInt(grdListagemGrid.Fields[0].text);
+  objMovConta.valor         := StrToFloat(grdListagemGrid.Fields[6].Text);
 
   if(MessageDlg('Deseja excluir o registro do Lançamento '''
               + IntToStr(objMovConta.codigo)
@@ -188,6 +204,11 @@ FalseBoolStrs := ['N', 'n'];
       objMovConta.valor := StrToFloat(edtValor.Text)
     else
       objMovConta.valor := 0;
+
+    if(dtpDataMovimento.Date <> EmptyParam) then
+      objMovConta.dataMov := DateToStr(dtpDataMovimento.Date)
+    else
+      objMovConta.dataMov :=  DateToStr(DateOf(now));
 
 
     objMovConta.codConta       :=  StrToInt(edtBanco.Text);
