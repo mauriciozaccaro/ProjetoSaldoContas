@@ -205,7 +205,7 @@ FalseBoolStrs := ['N', 'n'];
     else
       objMovConta.valor := 0;
 
-    if(dtpDataMovimento.Date <> EmptyParam) then
+    if(dtpDataMovimento.Date <> 0) then
       objMovConta.dataMov := DateToStr(dtpDataMovimento.Date)
     else
       objMovConta.dataMov :=  DateToStr(DateOf(now));

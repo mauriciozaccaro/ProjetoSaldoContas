@@ -185,7 +185,7 @@ begin
     Qry.sql.Clear;
     Qry.SQL.Add('UPDATE movcontas '
               + '   SET tipoMov = :tipoMovimento, '
-              + '       valor =   :valor '
+              + '       valor =   :valor, '
               + '       dataMov = :dataMov '
               + ' WHERE IdMovContas = :codigo');
     QRY.ParamByName('tipoMovimento').AsString  := A_TipoMov;

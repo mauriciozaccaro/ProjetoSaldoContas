@@ -44,6 +44,10 @@ object frmPrincipal: TfrmPrincipal
     end
     object Relatrios1: TMenuItem
       Caption = 'Relat'#243'rios'
+      object RelatriodeMovimentoBancrioAnaltico1: TMenuItem
+        Caption = 'Relat'#243'rio de Movimento Banc'#225'rio (Anal'#237'tico)'
+        OnClick = RelatriodeMovimentoBancrioAnaltico1Click
+      end
     end
   end
 end

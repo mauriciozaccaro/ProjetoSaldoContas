@@ -7,7 +7,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
     Width = 753
-    ActivePage = tabListagem
     ExplicitWidth = 753
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'

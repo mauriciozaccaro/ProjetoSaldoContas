@@ -85,7 +85,6 @@ object frmHerancaCadastros: TfrmHerancaCadastros
     Color = clInactiveCaption
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 293
     DesignSize = (
       659
       91)

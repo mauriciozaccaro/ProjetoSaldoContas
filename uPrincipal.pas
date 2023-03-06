@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uHerancaCadastros, uBanco, uCadConta, uCliente, uCadMovBancario,
-  uDTMConexao;
+  uRelatorioMovBancario, uRelatorioHeranca, uDTMConexao;
 
 type
   TfrmPrincipal = class(TForm)
@@ -17,12 +17,14 @@ type
     ContaBancria1     : TMenuItem;
     Clientes1         : TMenuItem;
     LanarMovimento1   : TMenuItem;
+    RelatriodeMovimentoBancrioAnaltico1: TMenuItem;
     procedure Banco1Click(Sender: TObject);
     procedure Clientes1Click(Sender: TObject);
     procedure ContaBancria1Click(Sender: TObject);
     procedure LanarMovimento1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure RelatriodeMovimentoBancrioAnaltico1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,6 +37,8 @@ var
 implementation
 
 {$R *.dfm}
+
+
 
 {$region 'Eventos da propria tela'}
 
@@ -91,6 +95,12 @@ begin
   frmCadMovBancario         :=  TfrmCadMovBancario.Create(Self);
   frmCadMovBancario.ShowModal;
   frmCadMovBancario.Release;
+end;
+
+procedure TfrmPrincipal.RelatriodeMovimentoBancrioAnaltico1Click(
+  Sender: TObject);
+begin
+
 end;
 
 {$endregion}

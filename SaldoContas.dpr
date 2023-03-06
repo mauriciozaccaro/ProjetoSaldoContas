@@ -17,7 +17,8 @@ uses
   cCliente in 'Classes\cCliente.pas',
   cCadConta in 'Classes\cCadConta.pas',
   uRelatorioMovContas in 'Consultas\uRelatorioMovContas.pas' {Form1},
-  uHerancaRelatorios in 'heranca\uHerancaRelatorios.pas' {Form2};
+  uHerancaRelatorios in 'heranca\uHerancaRelatorios.pas' {frmHerancaRelatorio},
+  uRelatorioMovBancario in 'Consultas\uRelatorioMovBancario.pas' {frmRelatorioMovBancario};
 
 {$R *.res}
 
@@ -26,6 +27,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TfrmHerancaRelatorio, frmHerancaRelatorio);
+  Application.CreateForm(TfrmRelatorioMovBancario, frmRelatorioMovBancario);
   Application.Run;
 end.

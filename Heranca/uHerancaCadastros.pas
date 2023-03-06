@@ -233,8 +233,8 @@ begin
     if(Self.Components[i] is TMaskEdit) then
      (Self.Components[i] as TMaskEdit).clear;
 
-    if(Self.Components[i] is TDateTimePicker) then
-     TDateEdit(Components[i]).Text           := EmptyStr;
+   // if(Self.Components[i] is TDateTimePicker) then
+   //  TDateEdit(Components[i]).Text           := EmptyStr;
 
     if(Self.Components[i] is TCurrencyEdit) then
      (Self.Components[i] as TCurrencyEdit).clear;

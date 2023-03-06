@@ -147,7 +147,11 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="heranca\uHerancaRelatorios.pas">
-            <Form>Form2</Form>
+            <Form>frmHerancaRelatorio</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Consultas\uRelatorioMovBancario.pas">
+            <Form>frmRelatorioMovBancario</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
