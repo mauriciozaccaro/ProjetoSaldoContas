@@ -1,4 +1,5 @@
 inherited frmCadMovBancario: TfrmCadMovBancario
+  Tag = 3
   Caption = 'Movimento Banc'#225'rio'
   ClientWidth = 753
   ExplicitWidth = 769
@@ -6,7 +7,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
     Width = 753
-    ActivePage = tabCadastro
     ExplicitWidth = 753
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
@@ -244,7 +244,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Text = ''
       end
       object edtValor: TCurrencyEdit
-        Tag = 2
+        Tag = 3
         Left = 19
         Top = 206
         Width = 121
@@ -286,6 +286,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         TabOrder = 6
       end
       object rdgCredDeb: TRadioGroup
+        Tag = 3
         Left = 165
         Top = 187
         Width = 158
@@ -367,12 +368,12 @@ inherited frmCadMovBancario: TfrmCadMovBancario
     object QryListagemGridvalor: TFloatField
       DisplayLabel = 'Valor(R$)'
       FieldName = 'valor'
+      EditFormat = '#,###0.00'
     end
-    object QryListagemGridtipoMov: TWideMemoField
+    object QryListagemGridtipoMov: TWideStringField
       DisplayLabel = 'Tipo Movimento'
       FieldName = 'tipoMov'
-      ReadOnly = True
-      BlobType = ftWideString
+      Required = True
       Size = 1
     end
   end

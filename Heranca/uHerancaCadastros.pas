@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, uEnum,
   Data.DB, Vcl.DBCtrls, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, uDTMConexao, RxToolEdit, RxCurrEdit,
-  ZAbstractRODataset, ZAbstractDataset, ZDataset;
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Buttons;
 
 type
   TfrmHerancaCadastros = class(TForm)
@@ -333,6 +333,12 @@ var i : Integer;
       if(Components[i] is TCurrencyEdit) then begin
         if(TMaskEdit(Components[i]).Tag <> 3)  then begin
           TMaskEdit(Components[i]).Enabled := flag;
+        end;
+      end;
+
+      if(Components[i] is TSpeedButton) then begin
+        if(TSpeedButton(Components[i]).Tag <> 3)  then begin
+          TSpeedButton(Components[i]).Enabled := flag;
         end;
       end;
 

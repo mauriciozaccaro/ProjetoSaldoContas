@@ -94,14 +94,19 @@ begin
         grdListagemConsulta.DataSource   := dtsConsultaContaBancaria;
 
         frmConsultaContaBancaria.Caption := 'Consulta Conta Bancária';
+        frmConsultaContaBancaria.Width   := 500;
 
         with grdListagemConsulta do
         begin
           Columns[0].Width := 50;   // Codigo Conta
-          Columns[1].Width := 150;  // Nome
-          Columns[2].Width := 70;   // Documento
-          Columns[3].Width := 50;   // Situacao
-          OnTitleClick(columns[1]);
+          Columns[2].Width := 150;  // Nome Cliente
+          Columns[4].Width := 150;  // Nome Banco
+          Columns[5].Width := 50;   // Nr Conta
+          Columns[6].Width := 50;   // Situacao
+
+          Columns[1].Visible  :=  false; // IdCliente
+          Columns[3].Visible  :=  false; // IdBanco
+          OnTitleClick(columns[2]);
         end;
     end;
   end;

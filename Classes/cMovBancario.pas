@@ -20,6 +20,11 @@ Type
     ConexaoDB           : TZConnection;
     A_IdMovContas       : Integer;
     A_IdConta           : Integer;
+    A_IdBanco           : Integer;
+    A_IdCliente         : Integer;
+    A_NumConta          : Integer;
+    A_NomeBanco         : String;
+    A_NomeCliente       : String;
     A_Valor             : double;
     A_TipoMov           : String;
 
@@ -35,6 +40,11 @@ Type
   published
     property codigo             : Integer         read A_IdMovContas        write A_IdMovContas;
     property codConta           : Integer         read A_IdConta            write A_IdConta;
+    property codBanco           : Integer         read A_IdBanco            write A_IdBanco;
+    property codCliente         : Integer         read A_IdCliente          write A_IdCliente;
+    property numConta           : Integer         read A_NumConta           write A_NumConta;
+    property banco              : String          read A_NomeBanco          write A_NomeBanco;
+    property cliente            : String          read A_NomeCliente        write A_NomeCliente;
     property valor              : Double          read A_Valor              write A_Valor;
     property tipoMovimento      : String          read A_TipoMov            write A_TipoMov;
 
@@ -96,19 +106,35 @@ begin
     Qry               := TZQuery.Create(nil);
     Qry.Connection    := ConexaoDB;
     Qry.SQL.Clear;
-    Qry.SQL.Add('SELECT IdMovContas, '
-              + '       IdConta,'
-              + '       valor, '
-              + '       tipoMov'
-              + '  FROM movContas'
-              + ' WHERE IdMovContas = :codigo');
+    Qry.SQL.Add('SELECT mc.IdMovContas, '
+                   + '  mc.IdConta, '
+                   + '  ct.numConta, '
+                   + '  ct.IdBanco, '
+                   + '  ct.IdCliente, '
+                   + '  cl.nome AS cliente, '
+                   + '  bc.nome AS banco, '
+                   + '  mc.valor, '
+                   + '  mc.tipoMov '
+              + '  FROM movContas mc, '
+                 + '    contas ct, '
+                 + '    clientes cl, '
+                 + '    bancos bc '
+             + '  WHERE mc.IdConta = ct.IdConta '
+               + '  AND ct.IdCliente = cl.IdCliente '
+               + '  AND ct.IdBanco = bc.IdBanco '
+               + '  AND mc.IdMovContas = :codigo');
     Qry.ParamByName('codigo').AsInteger := id;
     try
       Qry.Open;
-      Self.A_IdMovContas     := Qry.FieldByName('codigo').AsInteger;
-      Self.A_IdConta         := Qry.FieldByName('codConta').AsInteger;
+      Self.A_IdMovContas     := Qry.FieldByName('IdMovContas').AsInteger;
+      Self.A_IdConta         := Qry.FieldByName('IdConta').AsInteger;
+      Self.A_IdBanco         := Qry.FieldByName('IdBanco').AsInteger;
+      Self.A_IdCliente       := Qry.FieldByName('IdCliente').AsInteger;
+      Self.A_NumConta        := Qry.FieldByName('numConta').AsInteger;
+      Self.A_NomeBanco       := Qry.FieldByName('banco').AsString;
+      Self.A_NomeCliente     := Qry.FieldByName('cliente').AsString;
       Self.A_Valor           := Qry.FieldByName('valor').Value;
-      Self.A_TipoMov         := Qry.FieldByName('tipoMovimento').AsString;
+      Self.A_TipoMov         := Qry.FieldByName('tipoMov').AsString;
     except
       Result  :=  false;
     end;
@@ -152,15 +178,17 @@ begin
     Qry                              := TZQuery.Create(nil);
     Qry.Connection                   := ConexaoDB;
     Qry.sql.Clear;
-    Qry.SQL.Add('UPDATE movcontas'
-              + '   SET tipoMov = :tipoMovimento'
+    Qry.SQL.Add('UPDATE movcontas '
+              + '   SET tipoMov = :tipoMovimento, '
+              + '       valor =   :valor '
               + ' WHERE IdMovContas = :codigo');
     QRY.ParamByName('tipoMovimento').AsString  := A_TipoMov;
-    QRY.ParamByName(':codigo').AsInteger       := A_IdMovContas;
+    QRY.ParamByName('codigo').AsInteger        := A_IdMovContas;
+    QRY.ParamByName('valor').AsFloat           := A_Valor;
     try
       Qry.ExecSQL;
     Except
-      result := false;
+      Result := false;
     end;
   finally
     if Assigned(Qry) then

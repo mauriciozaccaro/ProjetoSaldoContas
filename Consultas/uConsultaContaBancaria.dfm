@@ -19,6 +19,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       '   AND CC.IdBanco = BC.IdBanco;')
     Left = 40
     object QryConsultaContaBancariaIdConta: TLargeintField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'IdConta'
     end
     object QryConsultaContaBancariaIdCliente: TLargeintField
@@ -26,6 +27,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       Required = True
     end
     object QryConsultaContaBancariacliente: TWideStringField
+      DisplayLabel = 'Cliente'
       FieldName = 'cliente'
       Required = True
       Size = 50
@@ -35,15 +37,18 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       Required = True
     end
     object QryConsultaContaBancariabanco: TWideStringField
+      DisplayLabel = 'Banco'
       FieldName = 'banco'
       Required = True
       Size = 50
     end
     object QryConsultaContaBancarianumConta: TLargeintField
+      DisplayLabel = 'Nr Conta'
       FieldName = 'numConta'
       Required = True
     end
     object QryConsultaContaBancariasituacao: TWideStringField
+      DisplayLabel = 'Ativo'
       FieldName = 'situacao'
       Required = True
       Size = 1
@@ -91,7 +96,6 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
   end
   object QryConsultaBanco: TZQuery
     Connection = DtmConexaoPrincipal.ConexaoDB
-    Active = True
     SQL.Strings = (
       'SELECT IdBanco, nome, situacao FROM bancos WHERE situacao = '#39'S'#39)
     Params = <>

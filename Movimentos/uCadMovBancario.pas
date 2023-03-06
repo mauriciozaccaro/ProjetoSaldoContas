@@ -35,7 +35,7 @@ type
     QryListagemGridbanco: TWideStringField;
     QryListagemGridnumConta: TLargeintField;
     QryListagemGridvalor: TFloatField;
-    QryListagemGridtipoMov: TWideMemoField;
+    QryListagemGridtipoMov: TWideStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
@@ -49,6 +49,7 @@ type
     function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
     function Excluir  : Boolean; override;
     function RetornaValorTipoMovimento(valor : Integer) : String;
+    function SetaValorTipoMovimento(valor : String) : Integer;
 
   public
     { Public declarations }
@@ -88,15 +89,17 @@ end;
 procedure TfrmCadMovBancario.btnAlterarClick(Sender: TObject);
 var ativo : String;
 begin
-TrueBoolStrs := ['S', 's'];
-FalseBoolStrs := ['N', 'n'];
 
-  if (objMovConta.SelecionarRegistro(QryListagemGrid.FieldByName('IdMovContas').AsInteger)) then
+  if (objMovConta.SelecionarRegistro(QryListagemGridIdMovContas.AsInteger)) then
   begin
     edtCodigo.Text          := IntToStr(objMovConta.codigo);
     edtBanco.Text           := IntToStr(objMovConta.codConta);
+    edtNomeBanco.Text       := objMovConta.banco;
+    edtCliente.Text         := IntToStr(objMovConta.codCliente);
+    edtNomeCliente.Text     := objMovConta.cliente;
+    edtNumConta.Text        := IntToStr(objMovConta.numConta);
     edtValor.Text           := FloatToStr(objMovConta.valor);
-   // cbTipoMovimento.Text    := objMovConta.tipoMovimento;
+    rdgCredDeb.ItemIndex    := SetaValorTipoMovimento(objMovConta.tipoMovimento);
   end
   else begin
     btnCancelar.Click;
@@ -106,9 +109,7 @@ FalseBoolStrs := ['N', 'n'];
 
 end;
 
-
 {$endregion}
-
 
 
 
@@ -150,7 +151,23 @@ end;
 
 
 function TfrmCadMovBancario.Excluir: Boolean;
+var numConta : Integer;
 begin
+  objMovConta.codigo        := StrToInt(grdListagemGrid.Fields[0].text);
+
+  if(MessageDlg('Deseja excluir o registro do Lançamento '''
+              + IntToStr(objMovConta.codigo)
+              + ''' -  no valor de R$ '
+              + FloatToStr(objMovConta.valor)
+              + ''' ? ', TMsgDlgType.mtInformation, [mbYes, mbNo], 0) = mrYes) then
+  begin
+
+   Result  := objMovConta.ExcluirRegistro;
+
+  end else
+  begin
+    Abort;
+  end;
 
 end;
 
@@ -200,5 +217,17 @@ begin
 end;
 
 
+
+function TfrmCadMovBancario.SetaValorTipoMovimento(valor: String): Integer;
+begin
+
+  if(valor = 'C') then
+    Result  := 0
+  else if valor = 'D' then
+    Result  := 1
+  else
+    Result  := -1;
+
+end;
 
 end.

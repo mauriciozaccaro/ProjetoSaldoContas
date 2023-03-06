@@ -9,6 +9,7 @@ object DtmConexaoPrincipal: TDtmConexaoPrincipal
     Properties.Strings = (
       'controls_cp=CP_UTF16'
       'AutoEncodeStrings=True')
+    Connected = True
     HostName = ''
     Port = 0
     Database = 
