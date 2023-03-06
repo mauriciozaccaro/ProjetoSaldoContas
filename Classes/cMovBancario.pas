@@ -21,7 +21,6 @@ Type
     A_IdMovContas       : Integer;
     A_IdConta           : Integer;
     A_Valor             : double;
-    A_Situacao          : String;
     A_TipoMov           : String;
 
   public
@@ -37,7 +36,6 @@ Type
     property codigo             : Integer         read A_IdMovContas        write A_IdMovContas;
     property codConta           : Integer         read A_IdConta            write A_IdConta;
     property valor              : Double          read A_Valor              write A_Valor;
-    property situacao           : String          read A_Situacao           write A_Situacao;
     property tipoMovimento      : String          read A_TipoMov            write A_TipoMov;
 
   end;
@@ -70,11 +68,10 @@ begin
     Qry                     := TZQuery.Create(nil);
     Qry.Connection          := ConexaoDB;
     Qry.sql.Clear;
-    Qry.SQL.Add('INSERT INTO movContas (IdContas, valor, situacao, tipoMov) '
-              + 'VALUES (:codConta, :valor, :situacao, :tipoMovimento)');
+    Qry.SQL.Add('INSERT INTO movContas (IdConta, valor, tipoMov) '
+              + 'VALUES (:codConta, :valor, :tipoMovimento)');
     Qry.ParamByName('codConta').AsInteger        := Self.A_IdConta;
     Qry.ParamByName('valor').Value               := Self.A_Valor;
-    Qry.ParamByName('situacao').AsString         := Self.A_Situacao;
     Qry.ParamByName('tipoMovimento').AsString    := Self.A_TipoMov;
     try
       Qry.ExecSQL;
@@ -102,7 +99,6 @@ begin
     Qry.SQL.Add('SELECT IdMovContas, '
               + '       IdConta,'
               + '       valor, '
-              + '       situacao,'
               + '       tipoMov'
               + '  FROM movContas'
               + ' WHERE IdMovContas = :codigo');
@@ -112,7 +108,6 @@ begin
       Self.A_IdMovContas     := Qry.FieldByName('codigo').AsInteger;
       Self.A_IdConta         := Qry.FieldByName('codConta').AsInteger;
       Self.A_Valor           := Qry.FieldByName('valor').Value;
-      Self.A_Situacao        := Qry.FieldByName('situacao').AsString;
       Self.A_TipoMov         := Qry.FieldByName('tipoMovimento').AsString;
     except
       Result  :=  false;
@@ -125,6 +120,7 @@ end;
 
 
 
+// refazer isso aqui, porque dropei a coluna "situacao"
 function TMovBancario.ExcluirRegistro: Boolean;
 var Qry : TZQuery;
 begin
@@ -134,7 +130,6 @@ begin
     Qry.Connection                   := ConexaoDB;
     Qry.SQL.Clear;
     Qry.sql.Add('UPDATE movcontas SET situacao = :situacao WHERE IdMovContas = :codigo ');
-    Qry.ParamByName('situacao').value  := IntToStr(Self.A_IdMovContas);
     Qry.ParamByName('codigo').value    := IntToStr(Self.A_IdMovContas);
     try
       Qry.ExecSQL;
@@ -142,8 +137,8 @@ begin
       Result                         := false;
     end;
   finally
-    if Assigned (Qry) then // verifica se o QryApagar foi criado na memória
-      FreeAndnil(Qry);  // limpa QryApagar da memória
+    if Assigned (Qry) then
+      FreeAndnil(Qry);
   end;
 end;
 

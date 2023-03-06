@@ -223,24 +223,8 @@ var i : integer;
 begin
   for i := 0 to Self.ComponentCount -1  do
   begin
-  {
-    if(components[1] is TEdit) then
-      TEdit(Components[i]).Text               := '';
 
-    if(Components[i] is TLabeledEdit) then
-      TLabeledEdit(Components[i]).Text        := EmptyStr;
-
-    if(Components[i] is TMaskEdit) then
-      TMaskEdit(Components[i]).Text           := EmptyStr;
-
-    if(Components[i] is TDateTimePicker) then
-      TDateEdit(Components[i]).Text           := EmptyStr;
-
-    if(Components[i] is TCurrencyEdit) then
-      TCurrencyEdit(Components[i]).Text       := EmptyStr;
-      }
-
-    if(Self.components[1] is TEdit) then
+    if(Self.components[i] is TEdit) then
       (Self.Components[i] as TEdit).clear;
 
     if(Self.Components[i] is TLabeledEdit) then

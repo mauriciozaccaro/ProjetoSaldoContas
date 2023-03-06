@@ -21,15 +21,24 @@ inherited frmCadMovBancario: TfrmCadMovBancario
           item
             Expanded = False
             FieldName = 'IdMovContas'
-            Title.Caption = 'C'#243'digo'
             Width = 50
             Visible = True
           end
           item
             Expanded = False
+            FieldName = 'IdCliente'
+            Visible = False
+          end
+          item
+            Expanded = False
             FieldName = 'cliente'
-            Width = 200
+            Width = 180
             Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'IdBanco'
+            Visible = False
           end
           item
             Expanded = False
@@ -51,11 +60,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
           item
             Expanded = False
             FieldName = 'tipoMov'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'situacao'
             Visible = True
           end>
       end
@@ -281,17 +285,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         ReadOnly = True
         TabOrder = 6
       end
-      object edtSituacao: TLabeledEdit
-        Left = 149
-        Top = 48
-        Width = 121
-        Height = 21
-        EditLabel.Width = 41
-        EditLabel.Height = 13
-        EditLabel.Caption = 'Situa'#231#227'o'
-        ReadOnly = True
-        TabOrder = 7
-      end
       object rdgCredDeb: TRadioGroup
         Left = 165
         Top = 187
@@ -302,7 +295,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Items.Strings = (
           'Cr'#233'dito'
           'D'#233'bito')
-        TabOrder = 8
+        TabOrder = 7
       end
     end
   end
@@ -322,6 +315,7 @@ inherited frmCadMovBancario: TfrmCadMovBancario
     end
   end
   inherited QryListagemGrid: TZQuery
+    Active = True
     SQL.Strings = (
       ''
       'SELECT MC.IdMovContas,'
@@ -331,33 +325,33 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       '       BC.nome AS banco,'
       '       CC.numConta,'
       '       MC.valor,'
-      '       CASE MC.tipoMov'
-      '          WHEN '#39'C'#39' THEN '#39'Cr'#233'dito'#39
-      '          WHEN '#39'D'#39' THEN '#39'D'#233'bito'#39
-      '          ELSE '#39'inv'#225'lido'#39
-      '       END AS tipoMov,'
-      '      CASE MC.situacao'
-      '          WHEN '#39'A'#39' THEN '#39'Ativo'#39
-      '          WHEN '#39'E'#39' THEN '#39'Estornado'#39
-      '          ELSE '#39'inv'#225'lido'#39
-      '       END AS situacao'
+      '       MC.tipoMov'
       '  FROM movContas AS MC,'
       '       contas    AS CC,'
       '       clientes  AS CL,'
       '       bancos    AS BC'
       ' WHERE MC.IdConta = CC.IdConta'
       '   AND CC.IdCliente = CL.IdCliente'
-      '   AND CC.IdBanco = BC.IdBanco;')
+      '   AND CC.IdBanco = BC.IdBanco;'
+      '')
     Top = 240
     object QryListagemGridIdMovContas: TLargeintField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'IdMovContas'
-      DisplayFormat = 'C'#243'digo'
+    end
+    object QryListagemGridIdCliente: TLargeintField
+      FieldName = 'IdCliente'
+      Visible = False
     end
     object QryListagemGridcliente: TWideStringField
-      DisplayLabel = 'Nome Cliente'
+      DisplayLabel = 'Cliente'
       FieldName = 'cliente'
       Required = True
       Size = 50
+    end
+    object QryListagemGridIdBanco: TLargeintField
+      FieldName = 'IdBanco'
+      Visible = False
     end
     object QryListagemGridbanco: TWideStringField
       DisplayLabel = 'Banco'
@@ -371,20 +365,15 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       Required = True
     end
     object QryListagemGridvalor: TFloatField
-      DisplayLabel = 'Valor (R$)'
+      DisplayLabel = 'Valor(R$)'
       FieldName = 'valor'
     end
     object QryListagemGridtipoMov: TWideMemoField
       DisplayLabel = 'Tipo Movimento'
       FieldName = 'tipoMov'
       ReadOnly = True
-      BlobType = ftWideMemo
-    end
-    object QryListagemGridsituacao: TWideMemoField
-      DisplayLabel = 'Situa'#231#227'o'
-      FieldName = 'situacao'
-      ReadOnly = True
-      BlobType = ftWideMemo
+      BlobType = ftWideString
+      Size = 1
     end
   end
   inherited DtsListagemGrid: TDataSource

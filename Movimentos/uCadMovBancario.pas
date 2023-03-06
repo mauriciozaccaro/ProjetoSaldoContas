@@ -24,18 +24,18 @@ type
     edtNomeBanco: TEdit;
     edtNumConta: TLabeledEdit;
     Label4: TLabel;
-    edtSituacao: TLabeledEdit;
     QryBuscaConta: TZQuery;
     DataSource1: TDataSource;
     dtsBuscaConta: TDataSource;
+    rdgCredDeb: TRadioGroup;
     QryListagemGridIdMovContas: TLargeintField;
+    QryListagemGridIdCliente: TLargeintField;
     QryListagemGridcliente: TWideStringField;
+    QryListagemGridIdBanco: TLargeintField;
     QryListagemGridbanco: TWideStringField;
     QryListagemGridnumConta: TLargeintField;
     QryListagemGridvalor: TFloatField;
     QryListagemGridtipoMov: TWideMemoField;
-    QryListagemGridsituacao: TWideMemoField;
-    rdgCredDeb: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
@@ -48,6 +48,7 @@ type
     objMovConta : TMovBancario;
     function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
     function Excluir  : Boolean; override;
+    function RetornaValorTipoMovimento(valor : Integer) : String;
 
   public
     { Public declarations }
@@ -59,6 +60,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses uCadConta;
 
 
 
@@ -93,7 +96,6 @@ FalseBoolStrs := ['N', 'n'];
     edtCodigo.Text          := IntToStr(objMovConta.codigo);
     edtBanco.Text           := IntToStr(objMovConta.codConta);
     edtValor.Text           := FloatToStr(objMovConta.valor);
-    edtSituacao.Text        := objMovConta.situacao;
    // cbTipoMovimento.Text    := objMovConta.tipoMovimento;
   end
   else begin
@@ -113,33 +115,39 @@ end;
 procedure TfrmCadMovBancario.btnBuscaBancoClick(Sender: TObject);
 begin
   inherited;
+  botaoClicado := 2;
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
   frmConsultaContaBancaria.ShowModal;
-
-  // Lembrar de tirar isso e colocar lá na Herança
-  edtBanco.Text         := frmConsultaContaBancaria.grdListagemConsulta.Fields[0].Text;
-  edtNomeBanco.Text     := frmConsultaContaBancaria.grdListagemConsulta.Fields[1].Text;
-  edtCliente.Text       := frmConsultaContaBancaria.grdListagemConsulta.Fields[5].Text;
-  edtNomeCliente.Text   := frmConsultaContaBancaria.grdListagemConsulta.Fields[4].Text;
-  edtNumConta.Text      := frmConsultaContaBancaria.grdListagemConsulta.Fields[2].Text;
-
   frmConsultaContaBancaria.Release;
 end;
+
+
 
 procedure TfrmCadMovBancario.btnBuscaClienteClick(Sender: TObject);
 begin
   inherited;
   LimparCampos;
+  botaoClicado := 0;
+  frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
+  frms                      :=  frmCadMovBancario;
+  frmConsultaContaBancaria.ShowModal;
+  frmConsultaContaBancaria.Release;
 end;
+
+
 
 procedure TfrmCadMovBancario.btnGravarClick(Sender: TObject);
 begin
+
   if (rdgCredDeb.ItemIndex = -1) then
+  begin
     MessageDlg('É obrigatório informar o Tipo de Movimento', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
     abort;
-
+  end;
   inherited;
 end;
+
+
 
 function TfrmCadMovBancario.Excluir: Boolean;
 begin
@@ -147,9 +155,50 @@ begin
 end;
 
 
+
 function TfrmCadMovBancario.Gravar(EstadoTela: TEstadoDaTela): Boolean;
+var ativo : Boolean;
 begin
+TrueBoolStrs := ['S', 's'];
+FalseBoolStrs := ['N', 'n'];
+
+    if (edtCodigo.Text <> EmptyStr) then
+      objMovConta.codigo  := StrToInt(edtCodigo.Text)
+    else
+      objMovConta.codigo  := 0;
+
+    if(edtValor.Text <> EmptyStr) then
+      objMovConta.valor := StrToFloat(edtValor.Text)
+    else
+      objMovConta.valor := 0;
+
+
+    objMovConta.codConta       :=  StrToInt(edtBanco.Text);
+    objMovConta.tipoMovimento  :=  RetornaValorTipoMovimento(rdgCredDeb.ItemIndex);
+
+    if (EstadoTela = etNovo) then
+    begin
+      Result    := objMovConta.InserirRegistro;
+      ShowMessage('Cadastrado com Sucesso!')
+    end
+    else if (EstadoTela = etAlterar) then
+    begin
+      Result    := objMovConta.AtualizarRegistro;
+      ShowMessage('Alteração realizada com sucesso')
+    end;
 
 end;
+
+function TfrmCadMovBancario.RetornaValorTipoMovimento(valor: Integer): String;
+begin
+
+  if (valor = 0) then
+    Result  :=  'C'
+  else
+    Result  :=  'D';
+
+end;
+
+
 
 end.

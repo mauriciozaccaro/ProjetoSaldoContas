@@ -10,12 +10,6 @@ uses
 
 type
   TfrmConsultaContaBancaria = class(TfrmHerancaConsulta)
-    QryConsultaContaBancariaIdConta: TLargeintField;
-    QryConsultaContaBancariacliente: TWideStringField;
-    QryConsultaContaBancariabanco: TWideStringField;
-    QryConsultaContaBancarianumConta: TLargeintField;
-    QryConsultaContaBancariasituacao: TWideMemoField;
-    QryConsultaContaBancariaIdCliente: TLargeintField;
     QryConsultaCliente: TZQuery;
     dtsConsultaCliente: TDataSource;
     QryConsultaClienteIdCliente: TLargeintField;
@@ -27,6 +21,13 @@ type
     QryConsultaBancoIdBanco: TLargeintField;
     QryConsultaBanconome: TWideStringField;
     QryConsultaBancosituacao: TWideStringField;
+    QryConsultaContaBancariaIdConta: TLargeintField;
+    QryConsultaContaBancariaIdCliente: TLargeintField;
+    QryConsultaContaBancariacliente: TWideStringField;
+    QryConsultaContaBancariaIdBanco: TLargeintField;
+    QryConsultaContaBancariabanco: TWideStringField;
+    QryConsultaContaBancarianumConta: TLargeintField;
+    QryConsultaContaBancariasituacao: TWideStringField;
     procedure FormShow(Sender: TObject);
 
   private

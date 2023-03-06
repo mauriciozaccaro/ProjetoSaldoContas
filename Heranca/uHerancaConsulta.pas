@@ -133,7 +133,25 @@ begin
       frmCadContas.edtNomeBanco.Text     :=  grdListagemConsulta.Fields[1].Text;
 
     end else
-    if (botaoClicado = 0) then  // Cliente
+
+    if ((botaoClicado = 0) and (frms.Name = frmCadMovBancario.Name)) then  // Cliente
+    begin
+
+      if (grdListagemConsulta.Fields[3].Text = 'N') then
+      Begin
+        MessageDlg('Cliente Inativo!' + #13 + 'Selecione outro cadastro para continuar!',
+                    TMsgDlgType.mtInformation, [mbOk], 0);  Abort;
+      End;
+
+      frmCadMovBancario.edtCliente.Text       :=  grdListagemConsulta.Fields[1].Text;
+      frmCadMovBancario.edtNomeCliente.Text   :=  grdListagemConsulta.Fields[2].Text;
+      frmCadMovBancario.edtBanco.Text         :=  EmptyStr;
+      frmCadMovBancario.edtNomeBanco.Text     :=  EmptyStr;
+      frmCadMovBancario.edtNumConta.Text      :=  EmptyStr;
+
+    end else
+
+    if ((botaoClicado = 0) and (frms.Name = frmCadContas.Name)) then  // Cliente
     begin
 
       if (grdListagemConsulta.Fields[3].Text = 'N') then
@@ -146,10 +164,21 @@ begin
       frmCadContas.edtNomeCliente.Text   :=  grdListagemConsulta.Fields[1].Text;
 
     end else
+
     if (botaoClicado = 2) then   // Conta Bancária
     begin
-      MessageDlg('Ainda não implementado', TMsgDlgType.mtInformation, [mbOk], 0);
-      Abort;
+      if (grdListagemConsulta.Fields[3].Text = 'N') then
+      Begin
+        MessageDlg('Conta  Inativa!' + #13 + 'Selecione outro cadastro para continuar!',
+                    TMsgDlgType.mtInformation, [mbOk], 0);  Abort;
+      End;
+
+      frmCadMovBancario.edtCliente.Text       :=  grdListagemConsulta.Fields[1].Text;
+      frmCadMovBancario.edtNomeCliente.Text   :=  grdListagemConsulta.Fields[2].Text;
+      frmCadMovBancario.edtBanco.Text         :=  grdListagemConsulta.Fields[0].Text;
+      frmCadMovBancario.edtNomeBanco.Text     :=  grdListagemConsulta.Fields[4].Text;
+      frmCadMovBancario.edtNumConta.Text      :=  grdListagemConsulta.Fields[5].Text;
+
     end;
 
   finally

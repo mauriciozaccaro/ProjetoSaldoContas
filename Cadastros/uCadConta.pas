@@ -44,7 +44,7 @@ type
   private
     { Private declarations }
     objConta : TCadConta;
-    function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
+    function Gravar(EstadoTela : TEstadoDaTela) : Boolean; override;
     function Excluir : Boolean; override;
 
     procedure LimparCampos; override;
@@ -57,6 +57,7 @@ type
 var
   frmCadContas: TfrmCadContas;
   botaoClicado : Integer;  // [0 - Cliente; 1 - Banco; 2 - Conta Bancária]
+  frms         : TForm;
 
 
 implementation
@@ -141,6 +142,7 @@ begin
   inherited;
   botaoClicado := 0;
   frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
+  frms                      :=  frmCadContas;
   frmConsultaContaBancaria.ShowModal;
   frmConsultaContaBancaria.Release;
 end;

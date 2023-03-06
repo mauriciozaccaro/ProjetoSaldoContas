@@ -6,8 +6,9 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
     SQL.Strings = (
       ''
       'SELECT CC.IdConta,'
-      '       CL.IdCliente,'
+      '       CC.IdCliente,'
       '       CL.nome AS cliente,'
+      '       CC.IdBanco,'
       '       BC.nome AS banco,'
       '       CC.numConta,'
       '       CC.situacao'
@@ -18,34 +19,34 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       '   AND CC.IdBanco = BC.IdBanco;')
     Left = 40
     object QryConsultaContaBancariaIdConta: TLargeintField
-      DisplayLabel = 'C'#243'digo'
       FieldName = 'IdConta'
     end
+    object QryConsultaContaBancariaIdCliente: TLargeintField
+      FieldName = 'IdCliente'
+      Required = True
+    end
     object QryConsultaContaBancariacliente: TWideStringField
-      DisplayLabel = 'Cliente'
       FieldName = 'cliente'
       Required = True
       Size = 50
     end
+    object QryConsultaContaBancariaIdBanco: TLargeintField
+      FieldName = 'IdBanco'
+      Required = True
+    end
     object QryConsultaContaBancariabanco: TWideStringField
-      DisplayLabel = 'Banco'
       FieldName = 'banco'
       Required = True
       Size = 50
     end
     object QryConsultaContaBancarianumConta: TLargeintField
-      DisplayLabel = 'Nr Conta'
       FieldName = 'numConta'
       Required = True
     end
-    object QryConsultaContaBancariasituacao: TWideMemoField
-      DisplayLabel = 'Ativo'
+    object QryConsultaContaBancariasituacao: TWideStringField
       FieldName = 'situacao'
-      ReadOnly = True
-      BlobType = ftWideString
-    end
-    object QryConsultaContaBancariaIdCliente: TLargeintField
-      FieldName = 'IdCliente'
+      Required = True
+      Size = 1
     end
   end
   inherited dtsConsultaContaBancaria: TDataSource
@@ -90,6 +91,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
   end
   object QryConsultaBanco: TZQuery
     Connection = DtmConexaoPrincipal.ConexaoDB
+    Active = True
     SQL.Strings = (
       'SELECT IdBanco, nome, situacao FROM bancos WHERE situacao = '#39'S'#39)
     Params = <>
