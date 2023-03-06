@@ -46,7 +46,6 @@ type
     objConta : TCadConta;
     function Gravar(EstadoTela : TEstadoDaTela)  : Boolean; override;
     function Excluir : Boolean; override;
-    function PossuiMovimento(campo : String)  : Boolean;
 
     procedure LimparCampos; override;
 
@@ -88,24 +87,40 @@ begin
       ativo                   := objConta.situacao;
       ckSituacao.Checked      := StrToBool(ativo);
 
-     { somente um teste
-      edtBanco.Enabled        := false;
-      edtNomeBanco.Enabled    := false;
-      edtCliente.Enabled      := false;
-      edtNomeCliente.Enabled  := false;
-      }
-
-
     end
     else begin
       btnCancelar.Click;
       Abort;
     end;
 
-finally
+  finally
+
+  end;
 end;
 
 
+
+procedure TfrmCadContas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if Assigned(objConta) then
+    FreeAndNil(objConta);
+end;
+
+
+
+procedure TfrmCadContas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  objConta    := TCadConta.Create(DtmConexaoPrincipal.ConexaoDB);
+end;
+
+
+
+procedure TfrmCadContas.FormShow(Sender: TObject);
+begin
+  inherited;
+  QryListagemGrid.Open;
 end;
 
 
@@ -137,21 +152,20 @@ begin
   inherited;
   LimparCampos;
   edtCliente.Text := ''
-
 end;
 
 
 
 function TfrmCadContas.Excluir: Boolean;
-var nr : Integer;
+var numConta : Integer;
 begin
   objConta.codConta   := StrToInt(grdListagemGrid.Fields[0].text);
-  nr                  :=StrToInt(grdListagemGrid.Fields[3].text);
+  numConta                  :=StrToInt(grdListagemGrid.Fields[3].text);
 
   if(MessageDlg('Deseja excluir o registro do Banco '''
               + IntToStr(objConta.codConta)
               + ' -  Nr '
-              + IntToStr(nr)
+              + IntToStr(numConta)
               + ''' ? ', TMsgDlgType.mtInformation, [mbYes, mbNo], 0) = mrYes) then
   begin
 
@@ -170,31 +184,6 @@ begin
     Abort;
   end;
 
-end;
-
-
-
-procedure TfrmCadContas.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  if Assigned(objConta) then
-    FreeAndNil(objConta);
-end;
-
-
-
-procedure TfrmCadContas.FormCreate(Sender: TObject);
-begin
-  inherited;
-  objConta    := TCadConta.Create(DtmConexaoPrincipal.ConexaoDB);
-end;
-
-
-
-procedure TfrmCadContas.FormShow(Sender: TObject);
-begin
-  inherited;
-  QryListagemGrid.Open;
 end;
 
 
@@ -228,6 +217,14 @@ FalseBoolStrs := ['N', 'n'];
     end
     else if (EstadoTela = etAlterar) then
     begin
+      if (objConta.PossuiSaldo(objConta.codConta) = true) then
+      begin
+        MessageDlg('Conta possui saldo diferente de R$ 0,00 e não pode ser inativada. ' + #13
+                 + 'Primeiro zere o saldo para poder inativar!', TMsgDlgType.mtInformation, [mbOk], 0);
+        btnCancelar.Click;
+        Abort;
+      end;
+
       Result    := objConta.AtualizarRegistro;
       ShowMessage('Alteração realizada com sucesso')
     end;
@@ -268,12 +265,6 @@ begin
   end;
 end;
 
-
-
-function TfrmCadContas.PossuiMovimento(campo : String): Boolean;
-begin
-
-end;
 
 
 

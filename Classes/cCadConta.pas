@@ -34,7 +34,7 @@ Type
     function InserirRegistro                  : Boolean;
     function ExcluiRegistro                   : Boolean;
     function AtualizarRegistro                : Boolean;
-    function PossuiSaldo(id : Integer)        : Integer;
+    function PossuiSaldo(id : Integer)        : Boolean;
     function PossuiMovimento(IdConta:Integer) : Boolean;
     function SelecionarRegistro(id : Integer) : Boolean;
 
@@ -179,7 +179,6 @@ begin
       else
         Result  := true;
 
-
     except
       Result  :=  true;
     end;
@@ -193,24 +192,33 @@ end;
 
 
 // Não esquecer de alterar todo esse SQL... vai precisar buscar o saldo da conta.
-function TCadConta.PossuiSaldo(id: Integer): Integer;
-var Qry : TZQuery; aux1, aux2 : Integer;
+function TCadConta.PossuiSaldo(id: Integer): Boolean;
+var Qry : TZQuery; aux1 : Float32;
 begin
   try
-    Result            := 0;
+    Result            := false;
     Qry               := TZQuery.Create(nil);
     Qry.Connection    := ConexaoDB;
     Qry.SQL.Clear;
-    aux1 := Qry.SQL.Add('SELECT COUNT(*)'
-                    + '  FROM contas '
-                    + ' WHERE IdConta = :codigo');
+    Qry.SQL.Add('SELECT COALESCE(SUM(saldoInicial + CREDITO - DEBITO), 0) AS saldo FROM ('
+               +'SELECT IdConta, '
+               +'(SELECT SUM(valor) FROM movcontas WHERE tipoMov = ''C'') AS CREDITO, '
+               +'(SELECT SUM(valor) FROM movcontas WHERE tipoMov = ''D'') AS DEBITO '
+               +'   FROM movcontas '
+               +' INNERJOIN  contas ON contas.IdConta = movcontas.Idconta '
+               +' WHERE IdConta = :codConta  GROUP BY IdConta)');
     Qry.ParamByName('codConta').AsInteger := id;
     try
       Qry.Open;
-      Self.A_IdConta       := Qry.FieldByName('IdConta').AsInteger;
+      aux1       := Qry.FieldByName('saldo').AsFloat;
+
+       if (aux1 = 0.00) then
+        Result  :=  false
+      else
+        Result  := true;
 
     except
-      Result  :=  aux1;
+      Result  :=  true;
     end;
   finally
     if Assigned(Qry) then
@@ -226,23 +234,6 @@ begin
     Qry               := TZQuery.Create(nil);
     Qry.Connection    := ConexaoDB;
     Qry.SQL.Clear;
-    {
-    Qry.SQL.Add('SELECT ct.IdConta,'
-              + '       ct.IdBanco, '
-              + '       bc.nome AS banco, '
-              + '       ct.IdCliente, '
-              + '       cl.nome as cliente, '
-              + '       ct.numConta, '
-              + '       ct.saldoInicial, '
-              + '       ct.situacao'
-              + '  FROM contas AS ct, '
-              + '       clientes AS cl, '
-              + '       bancos AS bc, '
-              + ' WHERE bc.IdBanco   = ct.IdBanco'
-              + '   AND bc.IdCliente = ct.IdCliente'
-              + '   AND ct.IdConta   = :codConta ');
-    Qry.ParamByName('codConta').AsInteger := id;
-    }
 
        Qry.SQL.Add('SELECT contas.IdConta,'
               + '          contas.IdBanco, '
