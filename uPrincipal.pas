@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uHerancaCadastros, uBanco, uCadConta, uCliente, uCadMovBancario,
-  uRelatorioMovBancario, uRelatorioHeranca, uDTMConexao;
+  uRelatorioMovBancario, uHerancaRelatorios, uDTMConexao;
 
 type
   TfrmPrincipal = class(TForm)
@@ -100,7 +100,9 @@ end;
 procedure TfrmPrincipal.RelatriodeMovimentoBancrioAnaltico1Click(
   Sender: TObject);
 begin
-
+  frmRelatorioMovBancario   := TfrmRelatorioMovBancario.Create(Self);
+  frmRelatorioMovBancario.ShowModal;
+  frmRelatorioMovBancario.Release;
 end;
 
 {$endregion}

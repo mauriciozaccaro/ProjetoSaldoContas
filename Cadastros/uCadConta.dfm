@@ -4,6 +4,7 @@ inherited frmCadContas: TfrmCadContas
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl
+    ActivePage = tabListagem
     inherited tabListagem: TTabSheet
       Caption = 'Listagem'
       inherited grdListagemGrid: TDBGrid
@@ -278,7 +279,6 @@ inherited frmCadContas: TfrmCadContas
     end
   end
   inherited Panel1: TPanel
-    ExplicitTop = 291
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
     end

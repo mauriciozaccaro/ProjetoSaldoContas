@@ -4,8 +4,11 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
   TextHeight = 13
   inherited Panel1: TPanel
     ExplicitTop = 0
-    inherited btnBuscaBanco: TSpeedButton
-      OnClick = nil
+    inherited edtCoBanco: TMaskEdit
+      Enabled = True
+    end
+    inherited edtCodCliente: TMaskEdit
+      Enabled = True
     end
   end
   inherited Panel2: TPanel
@@ -13,11 +16,14 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       Hints.Strings = ()
     end
   end
+  inherited edtCodConta: TMaskEdit
+    Enabled = True
+  end
   inherited QryRelatorio: TZQuery
-    Left = 504
+    Left = 656
+    Top = 8
   end
   inherited dtsRelatorio: TDataSource
-    Left = 560
-    Top = 0
+    Left = 712
   end
 end
