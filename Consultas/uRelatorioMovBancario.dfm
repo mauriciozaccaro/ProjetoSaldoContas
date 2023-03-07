@@ -68,8 +68,9 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       end>
   end
   inherited QryRelatorio: TZQuery
+    Active = True
     SQL.Strings = (
-      '/*'
+      ''
       
         'SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numC' +
         'onta, CT.saldoInicial,  ANT.saldoAnterior,'
@@ -109,8 +110,9 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       '   AND CT.IdConta = ANT.IdConta'
       ''
       'GROUP BY CT.IdConta;'
-      '*/'
       ''
+      ''
+      '/*'
       'SELECT MC.IdConta,'
       '       CL.nome AS cliente,'
       '       BC.nome AS banco,'
@@ -173,31 +175,11 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       '   AND CT.IdBanco = BC.IdBanco'
       '   AND CT.IdConta = ANT.IdConta'
       '   AND MC.dataMov BETWEEN :dataInicial AND :dataFinal'
-      ' GROUP BY CT.IdConta')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'dataInicial'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'dataFinal'
-        ParamType = ptUnknown
-      end>
+      ' GROUP BY CT.IdConta'
+      ''
+      ' */')
     Left = 656
     Top = 8
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'dataInicial'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'dataFinal'
-        ParamType = ptUnknown
-      end>
     object QryRelatorioIdConta: TLargeintField
       FieldName = 'IdConta'
       Required = True

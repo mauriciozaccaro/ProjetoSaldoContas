@@ -65,6 +65,8 @@ implementation
 procedure TfrmHerancaRelatorio.Button1Click(Sender: TObject);
 var aux, codConta, codBanco, codCliente : Integer; dataInicial, dataFinal, textoSQL : String;
 begin
+
+
    {
   aux := UmCampoObrigatorio;
   if (aux > 0) then
@@ -74,14 +76,13 @@ begin
     Abort;
   end;
    }
+
   if (dtpFim.Date < dtpInicio.Date) then
   begin
     MessageDlg('''Data Fim'' não pode ser menor que ''Data Início''',
                 TMsgDlgType.mtInformation, [mbOk], 0);
     Abort;
   end;
-
-  try
 
   if (edtCodConta.Text = EmptyStr) then
     edtCodConta.Text  := IntToStr(0);
@@ -93,29 +94,81 @@ begin
     edtCodCliente.Text := IntToStr(0);
 
 
-    codConta      := StrToInt(edtCodConta.Text);
-    codBanco      := StrToInt(edtCodBanco.Text);
-    codCliente    := StrToInt(edtCodCliente.Text);
-    dataInicial   := FormatDateTime('yyyy-mm-dd', dtpInicio.Date);
-    dataFinal     := FormatDateTime('yyyy-mm-dd', dtpFim.Date);
-
-    textoSQL  := objRelatorioMovBancario.RealizaPesquisa(codConta, codBanco, codCliente,
-                                                                  dataInicial, dataFinal);
+    QryRelatorio.Close;
+    QryRelatorio.SQL.Clear;
 
 
-    with QryRelatorio do
+    QryRelatorio.SQL.Add('SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numConta, CAST(CT.saldoInicial AS Float) AS saldoInicial,  ANT.saldoAnterior, '
+              + '      SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito, '
+              + '      SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito, '
+              + '     (SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) '
+              + '    - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)) AS saldoAtual '
+              + '    FROM movcontas MC, '
+              + '         contas CT, '
+              + '         clientes CL, '
+              + '         bancos BC, '
+
+              + '               (SELECT CTT.IdConta, COALESCE(CTT.saldoInicial '
+              + '           +(SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) '
+              + '           - SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0) AS saldoAnterior '
+              + '            FROM movcontas MCC, '
+              + '                 contas CTT,  '
+              + '                 clientes CLL, '
+              + '                bancos BCC '
+              + '           WHERE MCC.IdConta = CTT.IdConta '
+              + '             AND CTT.IdCliente = CLL.IdCliente '
+              + '             AND CTT.IdBanco = BCC.IdBanco ');
+
+    if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
     begin
-      close;
-      sql.Clear;
-      sql.Add(textoSQL);
-      open;
+      QryRelatorio.SQL.Add('AND MCC.dataMov  BETWEEN :dataInicial AND :dataFinal');
+      QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
+      QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+    end;
+      QryRelatorio.SQL.Add('     GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT'
+              + '  WHERE MC.IdConta = CT.IdConta '
+              + '    AND CT.IdCliente = CL.IdCliente '
+              + '    AND CT.IdBanco = BC.IdBanco '
+              + '    AND CT.IdConta = ANT.IdConta ' );
+
+    if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
+    begin
+      QryRelatorio.SQL.Add('AND MC.dataMov  BETWEEN :dataInicial AND :dataFinal');
+      QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
+      QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
     end;
 
-  Finally
+    if(edtCodConta.Text <> IntToStr(0)) then // verifica se foi informado a Conta
+    begin
+      QryRelatorio.SQL.Add('AND CT.IdConta = :codConta');
+      QryRelatorio.ParamByName('codConta').AsInteger           := StrToInt(edtCodConta.Text);
+    end
+    else
+    begin
+       if(edtCodBanco.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+       begin
+        QryRelatorio.SQL.Add('AND BC.IdBanco = :codBanco');
+        QryRelatorio.ParamByName('codBanco').AsInteger         :=  StrToInt(edtCodbanco.Text);
+       end;
 
-    MessageDlg('Erro ao buscar', TMsgDlgType.mtInformation, [mbOk], 0);
-  end;
+       if(edtCodCliente.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+       begin
+        QryRelatorio.SQL.Add('AND CL.IdCliente = :codCliente');
+        QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(edtCodCliente.Text);
+       end;
+    end;
+
+     QryRelatorio.SQL.Add('GROUP BY CT.IdConta');
+
+    try
+      QryRelatorio.Open;
+    except
+      MessageDlg('Não foi possível realizar a busca, verifique os filtros informados.', TMsgDlgType.mtInformation, [mbOk], 0);
+    end;
+
+
 end;
+
 
 
 

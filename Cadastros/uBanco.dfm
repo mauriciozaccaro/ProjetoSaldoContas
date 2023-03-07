@@ -1,6 +1,5 @@
 inherited frmCadBancos: TfrmCadBancos
   Caption = 'Cadastro de Banco'
-  ExplicitTop = -87
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcPrincipal: TPageControl

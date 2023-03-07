@@ -148,6 +148,7 @@ begin
 
     try
       Qry.Open;
+
       Self.A_IdConta       := Qry.FieldByName('IdConta').AsInteger;
       Self.A_Banco         := Qry.FieldByName('banco').AsString;
       Self.A_Cliente       := Qry.FieldByName('cliente').AsString;
