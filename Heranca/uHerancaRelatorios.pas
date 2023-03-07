@@ -62,10 +62,8 @@ implementation
 
 
 
-
-
 procedure TfrmHerancaRelatorio.Button1Click(Sender: TObject);
-var aux : Integer;
+var aux, codConta, codBanco, codCliente : Integer; dataInicial, dataFinal, textoSQL : String;
 begin
    {
   aux := UmCampoObrigatorio;
@@ -85,33 +83,68 @@ begin
 
   try
 
-    objRelatorioMovBancario.codConta      := StrToInt(edtCodConta.Text);
-    objRelatorioMovBancario.codBanco      := StrToInt(edtCodBanco.Text);
-    objRelatorioMovBancario.codCliente    := StrToInt(edtCodCliente.Text);
-    objRelatorioMovBancario.dataInicial   := FormatDateTime('yyyy-mm-dd', dtpInicio.Date);
-    objRelatorioMovBancario.dataFinal     := FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+  if (edtCodConta.Text = EmptyStr) then
+    edtCodConta.Text  := IntToStr(0);
 
-  except
+  if (edtCodBanco.Text = EmptyStr) then
+    edtCodBanco.Text  := IntToStr(0);
+
+  if (edtCodCliente.Text = EmptyStr) then
+    edtCodCliente.Text := IntToStr(0);
+
+
+    codConta      := StrToInt(edtCodConta.Text);
+    codBanco      := StrToInt(edtCodBanco.Text);
+    codCliente    := StrToInt(edtCodCliente.Text);
+    dataInicial   := FormatDateTime('yyyy-mm-dd', dtpInicio.Date);
+    dataFinal     := FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+
+    textoSQL  := objRelatorioMovBancario.RealizaPesquisa(codConta, codBanco, codCliente,
+                                                                  dataInicial, dataFinal);
+
+
+    with QryRelatorio do
+    begin
+      close;
+      sql.Clear;
+      sql.Add(textoSQL);
+      open;
+    end;
+
+  Finally
+
     MessageDlg('Erro ao buscar', TMsgDlgType.mtInformation, [mbOk], 0);
   end;
 end;
+
+
 
 procedure TfrmHerancaRelatorio.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   QryRelatorio.Close;
 end;
 
+
+
 procedure TfrmHerancaRelatorio.FormCreate(Sender: TObject);
 begin
   QryRelatorio.Connection   := DtmConexaoPrincipal.ConexaoDB;
   dtsRelatorio.DataSet      := QryRelatorio;
   grdRelatorio.DataSource   := dtsRelatorio;
+  objRelatorioMovBancario   := TRelatorioMovBancario.Create(DtmConexaoPrincipal.ConexaoDB);
 end;
+
+
 
 procedure TfrmHerancaRelatorio.FormShow(Sender: TObject);
 begin
 // nada por enquanto
+if (QryRelatorio.SQL.Text <> EmptyStr) then
+  QryRelatorio.Open;
+
 end;
+
+
 
 function TfrmHerancaRelatorio.UmCampoObrigatorio: Integer;
 var i, aux : integer;

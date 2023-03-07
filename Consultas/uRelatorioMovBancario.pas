@@ -15,10 +15,10 @@ type
     QryRelatoriobanco: TWideStringField;
     QryRelatorionumConta: TLargeintField;
     QryRelatoriosaldoInicial: TFloatField;
-    QryRelatorioANTERIOR: TFloatField;
-    QryRelatorioCREDITO: TLargeintField;
-    QryRelatorioDEBITO: TLargeintField;
-    QryRelatorioSALDO: TLargeintField;
+    QryRelatoriosaldoAnterior: TFloatField;
+    QryRelatoriototalCredito: TLargeintField;
+    QryRelatoriototalDebito: TLargeintField;
+    QryRelatoriosaldoAtual: TLargeintField;
     procedure btnBuscaBancoClick(Sender: TObject);
   private
     { Private declarations }

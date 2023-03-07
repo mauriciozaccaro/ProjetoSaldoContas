@@ -335,7 +335,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     end
     object Button1: TButton
       Left = 680
-      Top = 79
+      Top = 84
       Width = 80
       Height = 25
       Caption = 'Pesquisar'
@@ -387,7 +387,6 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
       Top = 30
       Width = 62
       Height = 21
-      Enabled = False
       TabOrder = 7
       Text = ''
     end

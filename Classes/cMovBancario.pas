@@ -17,6 +17,7 @@ Type
   TMovBancario = class
 
   private
+
     ConexaoDB           : TZConnection;
     A_IdMovContas       : Integer;
     A_IdConta           : Integer;
