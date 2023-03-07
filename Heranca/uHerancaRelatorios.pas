@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
   Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.ComCtrls,  uConsultaContaBancaria,
-  uDTMConexao, uHerancaConsulta;
+  uDTMConexao, uHerancaConsulta, cRelatorioMovbancario;
 
 type
   TfrmHerancaRelatorio = class(TForm)
@@ -15,17 +15,13 @@ type
     Panel2: TPanel;
     grdRelatorio: TDBGrid;
     DBNavigator1: TDBNavigator;
-    edtCoBanco: TMaskEdit;
+    edtCodBanco: TMaskEdit;
     btnBuscaBanco: TSpeedButton;
     edtNomeBanco: TEdit;
     Label1: TLabel;
     edtC: TEdit;
-    Label3: TLabel;
     SpeedButton1: TSpeedButton;
     edtCodConta: TMaskEdit;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
     SpeedButton2: TSpeedButton;
@@ -40,7 +36,6 @@ type
     dtpInicio: TDateTimePicker;
     Label11: TLabel;
     dtpFim: TDateTimePicker;
-    Label12: TLabel;
     Label13: TLabel;
     Label2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -52,6 +47,8 @@ type
 
   private
     { Private declarations }
+    objRelatorioMovBancario : TRelatorioMovBancario;
+
   public
     { Public declarations }
   end;
@@ -65,9 +62,12 @@ implementation
 
 
 
+
+
 procedure TfrmHerancaRelatorio.Button1Click(Sender: TObject);
 var aux : Integer;
 begin
+   {
   aux := UmCampoObrigatorio;
   if (aux > 0) then
   begin
@@ -75,7 +75,7 @@ begin
                 TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
     Abort;
   end;
-
+   }
   if (dtpFim.Date < dtpInicio.Date) then
   begin
     MessageDlg('''Data Fim'' não pode ser menor que ''Data Início''',
@@ -83,6 +83,17 @@ begin
     Abort;
   end;
 
+  try
+
+    objRelatorioMovBancario.codConta      := StrToInt(edtCodConta.Text);
+    objRelatorioMovBancario.codBanco      := StrToInt(edtCodBanco.Text);
+    objRelatorioMovBancario.codCliente    := StrToInt(edtCodCliente.Text);
+    objRelatorioMovBancario.dataInicial   := FormatDateTime('yyyy-mm-dd', dtpInicio.Date);
+    objRelatorioMovBancario.dataFinal     := FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+
+  except
+    MessageDlg('Erro ao buscar', TMsgDlgType.mtInformation, [mbOk], 0);
+  end;
 end;
 
 procedure TfrmHerancaRelatorio.FormClose(Sender: TObject; var Action: TCloseAction);

@@ -93,31 +93,6 @@ if(QryConsultaContaBancaria.sql.Text <> EmptyStr) then
 end;
 
 
-
-{$region 'Função e procedimento para pegar a coluna selecionada e passar para a label'} // também utilizado para consulta
-
-function TfrmHerancaConsulta.RetornarCampoFieldTraduzido(Campo : string) : string;
-var i : integer;
-begin
-  for i := 0 to QryUsada.fields.Count -1 do
-  begin
-    if(QryUsada.Fields[i].FieldName = Campo) then
-    begin
-      Result := QryUsada.Fields[i].DisplayLabel;
-      break;
-    end;
-  end;
-end;
-
-
-
- procedure TfrmHerancaConsulta.ExibirLabelIndice(Campo : string; aLabel : TLabel);
-begin
-  aLabel.Caption := RetornarCampoFieldTraduzido(Campo);
-end;
-
-
-
 procedure TfrmHerancaConsulta.grdListagemConsultaDblClick(Sender: TObject);
 begin
   try
@@ -143,8 +118,8 @@ begin
                     TMsgDlgType.mtInformation, [mbOk], 0);  Abort;
       End;
 
-      frmCadMovBancario.edtCliente.Text       :=  grdListagemConsulta.Fields[1].Text;
-      frmCadMovBancario.edtNomeCliente.Text   :=  grdListagemConsulta.Fields[2].Text;
+      frmCadMovBancario.edtCliente.Text       :=  grdListagemConsulta.Fields[0].Text;
+      frmCadMovBancario.edtNomeCliente.Text   :=  grdListagemConsulta.Fields[1].Text;
       frmCadMovBancario.edtBanco.Text         :=  EmptyStr;
       frmCadMovBancario.edtNomeBanco.Text     :=  EmptyStr;
       frmCadMovBancario.edtNumConta.Text      :=  EmptyStr;
@@ -184,6 +159,28 @@ begin
   finally
     close;
   end;
+end;
+
+{$region 'Função e procedimento para pegar a coluna selecionada e passar para a label'} // também utilizado para consulta
+
+function TfrmHerancaConsulta.RetornarCampoFieldTraduzido(Campo : string) : string;
+var i : integer;
+begin
+  for i := 0 to QryUsada.fields.Count -1 do
+  begin
+    if(QryUsada.Fields[i].FieldName = Campo) then
+    begin
+      Result := QryUsada.Fields[i].DisplayLabel;
+      break;
+    end;
+  end;
+end;
+
+
+
+ procedure TfrmHerancaConsulta.ExibirLabelIndice(Campo : string; aLabel : TLabel);
+begin
+  aLabel.Caption := RetornarCampoFieldTraduzido(Campo);
 end;
 
 

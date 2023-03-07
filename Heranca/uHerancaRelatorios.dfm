@@ -16,13 +16,6 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label3: TLabel
-    Left = 113
-    Top = 62
-    Width = 29
-    Height = 13
-    Caption = 'Banco'
-  end
   object SpeedButton1: TSpeedButton
     Left = 79
     Top = 77
@@ -81,34 +74,6 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
       00FFFF00FFA2A2A2A3A3A39F9F9FFF00FFFF00FFFF00FFFF00FF}
     NumGlyphs = 2
   end
-  object Label4: TLabel
-    Left = 13
-    Top = 62
-    Width = 33
-    Height = 13
-    Caption = 'C'#243'digo'
-  end
-  object Label5: TLabel
-    Left = 121
-    Top = 40
-    Width = 29
-    Height = 13
-    Caption = 'Banco'
-  end
-  object Label6: TLabel
-    Left = 21
-    Top = 40
-    Width = 33
-    Height = 13
-    Caption = 'C'#243'digo'
-  end
-  object Label12: TLabel
-    Left = 513
-    Top = 63
-    Width = 78
-    Height = 13
-    Caption = 'Data Movimento'
-  end
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -118,7 +83,6 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     Color = clInactiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = -6
     object btnBuscaBanco: TSpeedButton
       Left = 79
       Top = 29
@@ -349,7 +313,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
       Height = 13
       Caption = 'Banco'
     end
-    object edtCoBanco: TMaskEdit
+    object edtCodBanco: TMaskEdit
       Tag = 2
       Left = 11
       Top = 30
@@ -407,6 +371,26 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
       Time = 0.600405173609033200
       TabOrder = 5
     end
+    object edtC: TEdit
+      Tag = 2
+      Left = 400
+      Top = 30
+      Width = 73
+      Height = 21
+      Color = clBtnFace
+      ReadOnly = True
+      TabOrder = 6
+    end
+    object edtCodConta: TMaskEdit
+      Tag = 2
+      Left = 303
+      Top = 30
+      Width = 62
+      Height = 21
+      Enabled = False
+      TabOrder = 7
+      Text = ''
+    end
   end
   object Panel2: TPanel
     Left = 0
@@ -439,26 +423,6 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object edtC: TEdit
-    Tag = 2
-    Left = 400
-    Top = 30
-    Width = 73
-    Height = 21
-    Color = clBtnFace
-    ReadOnly = True
-    TabOrder = 3
-  end
-  object edtCodConta: TMaskEdit
-    Tag = 2
-    Left = 303
-    Top = 30
-    Width = 62
-    Height = 21
-    Enabled = False
-    TabOrder = 4
-    Text = ''
-  end
   object dtpFim: TDateTimePicker
     Left = 516
     Top = 79
@@ -466,7 +430,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     Height = 21
     Date = 44991.000000000000000000
     Time = 0.600405173609033200
-    TabOrder = 5
+    TabOrder = 3
   end
   object QryRelatorio: TZQuery
     Connection = DtmConexaoPrincipal.ConexaoDB

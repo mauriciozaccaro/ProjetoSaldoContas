@@ -33,7 +33,6 @@ type
     QryListagemGridnumConta: TLargeintField;
     QryListagemGridvalor: TFloatField;
     QryListagemGridtipoMov: TWideStringField;
-    Label5: TLabel;
     Label6: TLabel;
     dtpDataMovimento: TDateTimePicker;
     QryListagemGriddataMov: TWideStringField;
@@ -206,9 +205,9 @@ FalseBoolStrs := ['N', 'n'];
       objMovConta.valor := 0;
 
     if(dtpDataMovimento.Date <> 0) then
-      objMovConta.dataMov := DateToStr(dtpDataMovimento.Date)
+      objMovConta.dataMov :=  FormatDateTime('yyyy-mm-dd', dtpDataMovimento.Date)  //DateToStr()
     else
-      objMovConta.dataMov :=  DateToStr(DateOf(now));
+      objMovConta.dataMov :=  FormatDateTime('yyyy-mm-dd', DateOf(now));
 
 
     objMovConta.codConta       :=  StrToInt(edtBanco.Text);

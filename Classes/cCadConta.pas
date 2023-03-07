@@ -205,7 +205,7 @@ begin
                +'(SELECT SUM(valor) FROM movcontas WHERE tipoMov = ''C'') AS CREDITO, '
                +'(SELECT SUM(valor) FROM movcontas WHERE tipoMov = ''D'') AS DEBITO '
                +'   FROM movcontas '
-               +' INNERJOIN  contas ON contas.IdConta = movcontas.Idconta '
+               +' INNER JOIN  contas ON contas.IdConta = movcontas.Idconta '
                +' WHERE IdConta = :codConta  GROUP BY IdConta)');
     Qry.ParamByName('codConta').AsInteger := id;
     try

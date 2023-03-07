@@ -218,13 +218,6 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Height = 13
         Caption = 'Banco'
       end
-      object Label5: TLabel
-        Left = 360
-        Top = 128
-        Width = 31
-        Height = 13
-        Caption = 'Label5'
-      end
       object Label6: TLabel
         Left = 152
         Top = 33

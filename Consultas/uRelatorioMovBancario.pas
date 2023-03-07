@@ -10,6 +10,16 @@ uses
 
 type
   TfrmRelatorioMovBancario = class(TfrmHerancaRelatorio)
+    QryRelatorioIdConta: TLargeintField;
+    QryRelatoriocliente: TWideStringField;
+    QryRelatoriobanco: TWideStringField;
+    QryRelatorionumConta: TLargeintField;
+    QryRelatoriosaldoInicial: TFloatField;
+    QryRelatorioANTERIOR: TFloatField;
+    QryRelatorioCREDITO: TLargeintField;
+    QryRelatorioDEBITO: TLargeintField;
+    QryRelatorioSALDO: TLargeintField;
+    procedure btnBuscaBancoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -18,9 +28,21 @@ type
 
 var
   frmRelatorioMovBancario: TfrmRelatorioMovBancario;
+  botaoClicado : Integer;
 
 implementation
 
 {$R *.dfm}
+
+uses uConsultaContaBancaria;
+
+procedure TfrmRelatorioMovBancario.btnBuscaBancoClick(Sender: TObject);
+begin
+  inherited;
+  botaoClicado    := 1;
+  frmConsultaContaBancaria    :=  TfrmConsultaContaBancaria.Create(Self);
+  frmConsultaContaBancaria.ShowModal;
+  frmConsultaContaBancaria.Release;
+end;
 
 end.
