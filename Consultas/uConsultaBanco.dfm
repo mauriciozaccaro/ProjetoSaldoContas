@@ -2,11 +2,6 @@ inherited frmConsultaBanco: TfrmConsultaBanco
   Caption = 'Consulta Banco'
   PixelsPerInch = 96
   TextHeight = 13
-  inherited Panel1: TPanel
-    inherited MaskEdit1: TMaskEdit
-      ExplicitWidth = 406
-    end
-  end
   inherited grdListagemConsulta: TDBGrid
     Columns = <
       item

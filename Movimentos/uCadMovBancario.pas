@@ -44,6 +44,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure btnBuscaClienteClick(Sender: TObject);
     procedure btnverificaDataClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
 
   private
     { Private declarations }
@@ -87,6 +88,12 @@ begin
 end;
 
 
+
+procedure TfrmCadMovBancario.FormShow(Sender: TObject);
+begin
+  inherited;
+  grdListagemGrid.OnTitleClick(grdListagemGrid.Columns[1]);
+end;
 
 procedure TfrmCadMovBancario.btnAlterarClick(Sender: TObject);
 var ativo, dataAnt, dataPost : String;

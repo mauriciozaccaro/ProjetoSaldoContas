@@ -40,16 +40,15 @@ object frmHerancaConsulta: TfrmHerancaConsulta
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object MaskEdit1: TMaskEdit
+    object mskEditPesquisa: TMaskEdit
       Left = 1
       Top = 35
       Width = 406
       Height = 21
       Align = alBottom
       TabOrder = 0
-      Text = 'MaskEdit1'
-      OnChange = MaskEdit1Change
-      ExplicitWidth = 404
+      Text = 'mskEditPesquisa'
+      OnChange = mskEditPesquisaChange
     end
   end
   object Panel2: TPanel

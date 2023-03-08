@@ -7,7 +7,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
   inherited Panel1: TPanel
     Width = 499
     ExplicitWidth = 499
-    inherited MaskEdit1: TMaskEdit
+    inherited mskEditPesquisa: TMaskEdit
       Width = 497
       ExplicitWidth = 497
     end
@@ -64,6 +64,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       end>
   end
   inherited QryConsulta: TZQuery
+    Active = True
     SQL.Strings = (
       ''
       'SELECT CC.IdConta,'

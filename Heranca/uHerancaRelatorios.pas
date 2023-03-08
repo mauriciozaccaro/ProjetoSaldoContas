@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,CommCtrl,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.ComCtrls,  uConsultaContaBancaria,
   uDTMConexao, uHerancaConsulta, cRelatorioMovbancario, uConsultaBanco, uConsultaCliente;
 
@@ -251,7 +251,10 @@ end;
 
 procedure TfrmHerancaRelatorio.FormShow(Sender: TObject);
 begin
-// nada por enquanto
+
+//DateTime_SetFormat(dtpInicio.Handle, '  /  /    ');
+//DateTime_SetFormat(dtpFim.Handle, '  /  /    ');
+
 if (QryRelatorio.SQL.Text <> EmptyStr) then
   QryRelatorio.Open;
 

@@ -12,7 +12,7 @@ type
   TfrmHerancaConsulta = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
-    MaskEdit1: TMaskEdit;
+    mskEditPesquisa: TMaskEdit;
     lblPesquisa: TLabel;
     btnFechar: TButton;
     grdListagemConsulta: TDBGrid;
@@ -24,7 +24,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure grdListagemConsultaTitleClick(Column: TColumn);
     procedure grdListagemConsultaDblClick(Sender: TObject);
-    procedure MaskEdit1Change(Sender: TObject);
+    procedure mskEditPesquisaChange(Sender: TObject);
 
   private
 
@@ -128,15 +128,15 @@ end;
 
 procedure TfrmHerancaConsulta.grdListagemConsultaTitleClick(Column: TColumn);
 begin
-  IndiceAtual          := Column.FieldName;
+  IndiceAtual                := Column.FieldName;
   ExibirLabelIndice(IndiceAtual, lblPesquisa);
-  MaskEdit1.Text       := EmptyStr;
-  MaskEdit1.SetFocus;
+  mskEditPesquisa.Text       := EmptyStr;
+  mskEditPesquisa.SetFocus;
 end;
 
 
 
-procedure TfrmHerancaConsulta.MaskEdit1Change(Sender: TObject);
+procedure TfrmHerancaConsulta.mskEditPesquisaChange(Sender: TObject);
 begin
 //  QryUsada.Locate(IndiceAtual, TMaskEdit(Sender).Text, [loPartialKey]); // é ruim de busca, por isso fiz por Select
 //

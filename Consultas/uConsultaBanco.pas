@@ -17,6 +17,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure grdListagemConsultaDblClick(Sender: TObject);
+    procedure mskEditPesquisaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -65,6 +66,21 @@ begin
   iCampoIdBanco      := grdListagemConsulta.Fields[0].AsInteger;
   sCampoBanco        := grdListagemConsulta.Fields[1].AsString;
   inherited;
+end;
+
+procedure TfrmConsultaBanco.mskEditPesquisaChange(Sender: TObject);
+begin
+  inherited;
+  with QryConsulta do
+       begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE '
+              +  IndiceAtual
+              + ' like :codigo');
+        ParamByName('codigo').AsString :=  '%'+mskEditPesquisa.Text+'%';
+        open;
+       end;
 end;
 
 end.

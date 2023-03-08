@@ -18,6 +18,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure grdListagemConsultaDblClick(Sender: TObject);
+    procedure mskEditPesquisaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,6 +64,21 @@ begin
   iCampoIdCliente := grdListagemConsulta.Fields[0].AsInteger;
   sCampoCliente   := grdListagemConsulta.Fields[1].AsString;
   inherited;
+end;
+
+procedure TfrmConsultaCliente.mskEditPesquisaChange(Sender: TObject);
+begin
+  inherited;
+      with QryConsulta do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IdCliente, nome, numDocumento, situacao FROM clientes WHERE '
+              +  IndiceAtual
+              + ' like :codigo');
+        ParamByName('codigo').AsString :=  '%'+mskEditPesquisa.Text+'%';
+        open;
+      end;
 end;
 
 end.
