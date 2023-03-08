@@ -36,6 +36,7 @@ type
     Label6: TLabel;
     dtpDataMovimento: TDateTimePicker;
     QryListagemGriddataMov: TWideStringField;
+    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
@@ -63,7 +64,7 @@ implementation
 
 {$R *.dfm}
 
-uses uCadConta;
+uses uCadConta, uConsultaBanco, uConsultaCliente;
 
 
 
@@ -118,9 +119,15 @@ end;
 procedure TfrmCadMovBancario.btnBuscaBancoClick(Sender: TObject);
 begin
   inherited;
-  botaoClicado := 2;
   frmConsultaContaBancaria  := TfrmConsultaContaBancaria.Create(Self);
-  frmConsultaContaBancaria.ShowModal;
+  if (frmConsultaContaBancaria.ShowModal = mrOk) then
+  begin
+    edtBanco.Text       :=  IntToStr(iCampoIdConta); // aqui passa o IdConta e não o IdBanco
+    edtNomeBanco.Text   :=  sCampoBanco;
+    edtNumConta.Text    :=  IntToStr(iCampoNumConta);
+    edtCliente.Text     :=  IntToStr(iCampoIdCliente);
+    edtNomeCliente.Text :=  sCampoCliente;
+  end;
   frmConsultaContaBancaria.Release;
 end;
 
@@ -130,11 +137,13 @@ procedure TfrmCadMovBancario.btnBuscaClienteClick(Sender: TObject);
 begin
   inherited;
   LimparCampos;
-  botaoClicado := 0;
-  frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
-  frms                      :=  frmCadMovBancario;
-  frmConsultaContaBancaria.ShowModal;
-  frmConsultaContaBancaria.Release;
+  frmConsultaCliente    :=  TfrmConsultaCliente.Create(Self);
+  if (frmConsultaCliente.ShowModal = mrOk) then
+  begin
+    edtCliente.Text     :=  IntToStr(iCampoIdCliente);
+    edtNomeCliente.Text :=  sCampoCliente;
+  end;
+  frmConsultaCliente.Release;
 end;
 
 
@@ -147,6 +156,7 @@ begin
     MessageDlg('É obrigatório informar o Tipo de Movimento', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], 0);
     abort;
   end;
+
   inherited;
 end;
 
@@ -155,11 +165,7 @@ end;
 procedure TfrmCadMovBancario.btnverificaDataClick(Sender: TObject);
 var minhaData : String;
 begin
-  inherited; // testando
-  //minhaData := dtpDATAAA.Text;
-  //MessageDlg('data: ' + minhaData, TMsgDlgType.mtInformation, [mbOk], 0);
-  //MessageDlg('data 2: ' + DateTimeToStr(dtpDataMovimento.Date), TMsgDlgType.mtInformation, [mbOk], 0);
-
+  inherited; 
 end;
 
 

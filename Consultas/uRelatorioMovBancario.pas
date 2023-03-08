@@ -19,30 +19,49 @@ type
     QryRelatoriototalCredito: TLargeintField;
     QryRelatoriototalDebito: TLargeintField;
     QryRelatoriosaldoAtual: TLargeintField;
+    procedure btnBuscaClienteClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);
+    procedure btnBuscaContaClick(Sender: TObject);
+
   private
     { Private declarations }
+
   public
     { Public declarations }
+
   end;
 
 var
   frmRelatorioMovBancario: TfrmRelatorioMovBancario;
-  botaoClicado : Integer;
 
 implementation
 
 {$R *.dfm}
 
-uses uConsultaContaBancaria;
+uses uConsultaContaBancaria, uHerancaConsulta;
 
 procedure TfrmRelatorioMovBancario.btnBuscaBancoClick(Sender: TObject);
 begin
   inherited;
-  botaoClicado    := 1;
-  frmConsultaContaBancaria    :=  TfrmConsultaContaBancaria.Create(Self);
-  frmConsultaContaBancaria.ShowModal;
-  frmConsultaContaBancaria.Release;
+  LimparCampos;
+  edtCodBanco.Text        :=  IntToStr(iCampoIdBanco);
+  edtNomeBanco.Text       :=  sCampoBanco;
+end;
+
+procedure TfrmRelatorioMovBancario.btnBuscaClienteClick(Sender: TObject);
+begin
+  LimparCampos;
+  edtCodCliente.Text      :=  IntToStr(iCampoIdCliente);
+  edtNomeCliente.Text     :=  sCampoCliente;
+  inherited;
+end;
+
+procedure TfrmRelatorioMovBancario.btnBuscaContaClick(Sender: TObject);
+begin
+  LimparCampos;
+  edtCodConta.Text        :=  IntToStr(iCampoIdConta);
+  edt.Text        :=  IntToStr(iCampoNumConta);
+  inherited;
 end;
 
 end.

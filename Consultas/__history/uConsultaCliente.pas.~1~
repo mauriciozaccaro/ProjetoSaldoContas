@@ -1,0 +1,26 @@
+unit uConsultaCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uHerancaConsulta, Data.DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls;
+
+type
+  TfrmHerancaConsulta1 = class(TfrmHerancaConsulta)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmHerancaConsulta1: TfrmHerancaConsulta1;
+
+implementation
+
+{$R *.dfm}
+
+end.

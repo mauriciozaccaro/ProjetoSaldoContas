@@ -151,6 +151,14 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classes\cRelatorioMovbancario.pas"/>
+        <DCCReference Include="Consultas\uConsultaCliente.pas">
+            <Form>frmConsultaCliente</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Consultas\uConsultaBanco.pas">
+            <Form>frmConsultaBanco</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

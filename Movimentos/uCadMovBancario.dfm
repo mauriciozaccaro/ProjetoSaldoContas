@@ -75,16 +75,16 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       object Label1: TLabel
         Left = 19
         Top = 80
-        Width = 73
+        Width = 55
         Height = 13
-        Caption = 'Conta Banc'#225'ria'
+        Caption = 'C'#243'd. Conta'
       end
       object Label2: TLabel
         Left = 19
         Top = 131
-        Width = 33
+        Width = 59
         Height = 13
-        Caption = 'Cliente'
+        Caption = 'C'#243'd. Cliente'
       end
       object Label3: TLabel
         Left = 19
@@ -214,9 +214,9 @@ inherited frmCadMovBancario: TfrmCadMovBancario
       object Label4: TLabel
         Left = 149
         Top = 80
-        Width = 29
+        Width = 93
         Height = 13
-        Caption = 'Banco'
+        Caption = 'Descri'#231#227'o do Banco'
       end
       object Label6: TLabel
         Left = 152
@@ -224,6 +224,13 @@ inherited frmCadMovBancario: TfrmCadMovBancario
         Width = 78
         Height = 13
         Caption = 'Data Movimento'
+      end
+      object Label5: TLabel
+        Left = 152
+        Top = 131
+        Width = 63
+        Height = 13
+        Caption = 'Nome Cliente'
       end
       object edtCodigo: TLabeledEdit
         Tag = 1

@@ -6,21 +6,10 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, uHerancaConsulta, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, ZAbstractRODataset,
-  ZAbstractDataset, ZDataset, uCadConta;
+  ZAbstractDataset, ZDataset;
 
 type
   TfrmConsultaContaBancaria = class(TfrmHerancaConsulta)
-    QryConsultaCliente: TZQuery;
-    dtsConsultaCliente: TDataSource;
-    QryConsultaClienteIdCliente: TLargeintField;
-    QryConsultaClientenome: TWideStringField;
-    QryConsultaClientenumDocumento: TLargeintField;
-    QryConsultaClientesituacao: TWideStringField;
-    QryConsultaBanco: TZQuery;
-    dtsConsultaBanco: TDataSource;
-    QryConsultaBancoIdBanco: TLargeintField;
-    QryConsultaBanconome: TWideStringField;
-    QryConsultaBancosituacao: TWideStringField;
     QryConsultaContaBancariaIdConta: TLargeintField;
     QryConsultaContaBancariaIdCliente: TLargeintField;
     QryConsultaContaBancariacliente: TWideStringField;
@@ -29,6 +18,7 @@ type
     QryConsultaContaBancarianumConta: TLargeintField;
     QryConsultaContaBancariasituacao: TWideStringField;
     procedure FormShow(Sender: TObject);
+    procedure grdListagemConsultaDblClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -52,66 +42,20 @@ uses uCadMovBancario;
 procedure TfrmConsultaContaBancaria.FormShow(Sender: TObject);
 begin
   inherited;
-  IndiceAtual := 'NrConta';
-
-  case botaoClicado of
-    0 : begin // Cliente
-        QryConsultaCliente.Open;
-        QryUsada                         := QryConsultaCliente;
-        grdListagemConsulta.DataSource   := dtsConsultaCliente;
-
-        frmConsultaContaBancaria.Caption := 'Consulta Cliente';
-
-        with grdListagemConsulta do
-        begin
-          Columns[0].Width := 50;   // Codigo
-          Columns[1].Width := 150;  // Nome
-          Columns[2].Width := 70;   // Documento
-          Columns[3].Width := 50;   // Situacao
-          OnTitleClick(columns[1]);
-        end;
-    end;
-
-    1 : begin // Banco
-        QryConsultaBanco.Open;
-        QryUsada                         := QryConsultaBanco;
-        grdListagemConsulta.DataSource   := dtsConsultaBanco;
-
-        frmConsultaContaBancaria.Caption := 'Consulta Banco';
-
-        with grdListagemConsulta do
-        begin
-          Columns[0].Width := 50;   // Codigo
-          Columns[1].Width := 150;  // Nome
-          Columns[2].Width := 50;   // Situacao
-          OnTitleClick(columns[1]);
-        end;
-    end;
-
-    2 : begin // Conta Bancária
-        QryConsultaContaBancaria.Open;
-        QryUsada                         := QryConsultaContaBancaria;
-        grdListagemConsulta.DataSource   := dtsConsultaContaBancaria;
-
-        frmConsultaContaBancaria.Caption := 'Consulta Conta Bancária';
-        frmConsultaContaBancaria.Width   := 500;
-
-        with grdListagemConsulta do
-        begin
-          Columns[0].Width := 50;   // Codigo Conta
-          Columns[2].Width := 150;  // Nome Cliente
-          Columns[4].Width := 150;  // Nome Banco
-          Columns[5].Width := 50;   // Nr Conta
-          Columns[6].Width := 50;   // Situacao
-
-          Columns[1].Visible  :=  false; // IdCliente
-          Columns[3].Visible  :=  false; // IdBanco
-          OnTitleClick(columns[2]);
-        end;
-    end;
-  end;
+//
 end;
 
-
+procedure TfrmConsultaContaBancaria.grdListagemConsultaDblClick(
+  Sender: TObject);
+begin
+  iCampoIdConta         :=  grdListagemConsulta.Fields[0].AsInteger;
+  iCampoIdCliente       :=  grdListagemConsulta.Fields[1].AsInteger;
+  sCampoCliente         :=  grdListagemConsulta.Fields[2].AsString;
+  iCampoIdBanco         :=  grdListagemConsulta.Fields[3].AsInteger;
+  sCampoBanco           :=  grdListagemConsulta.Fields[4].AsString;
+  iCampoNumConta        :=  grdListagemConsulta.Fields[5].AsInteger;
+  inherited;
+//
+end;
 
 end.

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
   Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
   ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.ComCtrls,  uConsultaContaBancaria,
-  uDTMConexao, uHerancaConsulta, cRelatorioMovbancario;
+  uDTMConexao, uHerancaConsulta, cRelatorioMovbancario, uConsultaBanco, uConsultaCliente;
 
 type
   TfrmHerancaRelatorio = class(TForm)
@@ -19,17 +19,17 @@ type
     btnBuscaBanco: TSpeedButton;
     edtNomeBanco: TEdit;
     Label1: TLabel;
-    edtC: TEdit;
+    edtNumConta: TEdit;
     SpeedButton1: TSpeedButton;
     edtCodConta: TMaskEdit;
     Label7: TLabel;
     Label8: TLabel;
-    SpeedButton2: TSpeedButton;
+    btnBuscaConta: TSpeedButton;
     Button1: TButton;
     QryRelatorio: TZQuery;
     dtsRelatorio: TDataSource;
     edtCodCliente: TMaskEdit;
-    SpeedButton3: TSpeedButton;
+    btnBuscaCliente: TSpeedButton;
     edtNomeCliente: TEdit;
     Label9: TLabel;
     Label10: TLabel;
@@ -44,6 +44,9 @@ type
     procedure Button1Click(Sender: TObject);
 
     function UmCampoObrigatorio : Integer;
+    procedure btnBuscaContaClick(Sender: TObject);
+    procedure btnBuscaClienteClick(Sender: TObject);
+    procedure btnBuscaBancoClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -51,10 +54,12 @@ type
 
   public
     { Public declarations }
+    procedure LimparCampos;
+
   end;
 
 var
-  frmHerancaRelatorio: TfrmHerancaRelatorio;
+  frmHerancaRelatorio : TfrmHerancaRelatorio;
 
 implementation
 
@@ -62,10 +67,56 @@ implementation
 
 
 
+procedure TfrmHerancaRelatorio.btnBuscaBancoClick(Sender: TObject);
+begin
+  frmConsultaBanco    := TfrmConsultaBanco.Create(Self);
+  if (frmConsultaBanco.ShowModal = mrOk) then
+  begin
+
+  end;
+  frmConsultaBanco.Release;
+end;
+
+
+
+procedure TfrmHerancaRelatorio.btnBuscaClienteClick(Sender: TObject);
+begin
+  frmConsultaCliente    :=  TfrmConsultaCliente.Create(Self);
+
+  if  (frmConsultaContaBancaria.ShowModal = mrOk) then
+  begin
+    if (True) then
+
+    edtCodCliente.Text         := frmConsultaCliente.QryConsulta.ParamByName('IdCliente').Text;
+    edtNomeCliente.Text        := frmConsultaCliente.QryConsulta.ParamByName('nome').Text;
+
+    edtCodBanco.Text      := EmptyStr;
+    edtNomeBanco.Text     := EmptyStr;
+    edtCodConta.Text      := EmptyStr;
+
+  end;
+
+
+  frmConsultaCliente.Release;
+end;
+
+
+
+procedure TfrmHerancaRelatorio.btnBuscaContaClick(Sender: TObject);
+begin
+  frmConsultaContaBancaria         :=  TfrmConsultaContaBancaria.Create(Self);
+  if (frmConsultaContaBancaria.ShowModal = mrOk) then
+  begin
+
+  end;
+  frmConsultaContaBancaria.Release;
+end;
+
+
+
 procedure TfrmHerancaRelatorio.Button1Click(Sender: TObject);
 var aux, codConta, codBanco, codCliente : Integer; dataInicial, dataFinal, textoSQL : String;
 begin
-
 
    {
   aux := UmCampoObrigatorio;
@@ -93,79 +144,79 @@ begin
   if (edtCodCliente.Text = EmptyStr) then
     edtCodCliente.Text := IntToStr(0);
 
-
-    QryRelatorio.Close;
-    QryRelatorio.SQL.Clear;
-
-
-    QryRelatorio.SQL.Add('SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numConta, CAST(CT.saldoInicial AS Float) AS saldoInicial,  ANT.saldoAnterior, '
-              + '      SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito, '
-              + '      SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito, '
-              + '     (SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) '
-              + '    - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)) AS saldoAtual '
-              + '    FROM movcontas MC, '
-              + '         contas CT, '
-              + '         clientes CL, '
-              + '         bancos BC, '
-
-              + '               (SELECT CTT.IdConta, COALESCE(CTT.saldoInicial '
-              + '           +(SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) '
-              + '           - SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0) AS saldoAnterior '
-              + '            FROM movcontas MCC, '
-              + '                 contas CTT,  '
-              + '                 clientes CLL, '
-              + '                bancos BCC '
-              + '           WHERE MCC.IdConta = CTT.IdConta '
-              + '             AND CTT.IdCliente = CLL.IdCliente '
-              + '             AND CTT.IdBanco = BCC.IdBanco ');
-
-    if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
-    begin
-      QryRelatorio.SQL.Add('AND MCC.dataMov  BETWEEN :dataInicial AND :dataFinal');
-      QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
-      QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
-    end;
-      QryRelatorio.SQL.Add('     GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT'
-              + '  WHERE MC.IdConta = CT.IdConta '
-              + '    AND CT.IdCliente = CL.IdCliente '
-              + '    AND CT.IdBanco = BC.IdBanco '
-              + '    AND CT.IdConta = ANT.IdConta ' );
-
-    if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
-    begin
-      QryRelatorio.SQL.Add('AND MC.dataMov  BETWEEN :dataInicial AND :dataFinal');
-      QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
-      QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
-    end;
-
-    if(edtCodConta.Text <> IntToStr(0)) then // verifica se foi informado a Conta
-    begin
-      QryRelatorio.SQL.Add('AND CT.IdConta = :codConta');
-      QryRelatorio.ParamByName('codConta').AsInteger           := StrToInt(edtCodConta.Text);
-    end
-    else
-    begin
-       if(edtCodBanco.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
-       begin
-        QryRelatorio.SQL.Add('AND BC.IdBanco = :codBanco');
-        QryRelatorio.ParamByName('codBanco').AsInteger         :=  StrToInt(edtCodbanco.Text);
-       end;
-
-       if(edtCodCliente.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
-       begin
-        QryRelatorio.SQL.Add('AND CL.IdCliente = :codCliente');
-        QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(edtCodCliente.Text);
-       end;
-    end;
-
-     QryRelatorio.SQL.Add('GROUP BY CT.IdConta');
-
     try
-      QryRelatorio.Open;
-    except
-      MessageDlg('Não foi possível realizar a busca, verifique os filtros informados.', TMsgDlgType.mtInformation, [mbOk], 0);
-    end;
+      QryRelatorio.Close;
+      QryRelatorio.SQL.Clear;
+      QryRelatorio.SQL.Add('SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numConta, CAST(CT.saldoInicial AS Float) AS saldoInicial,  ANT.saldoAnterior, '
+                + '      SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito, '
+                + '      SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito, '
+                + '     (SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) '
+                + '    - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)) AS saldoAtual '
+                + '    FROM movcontas MC, '
+                + '         contas CT, '
+                + '         clientes CL, '
+                + '         bancos BC, '
 
+                + '               (SELECT CTT.IdConta, COALESCE(CTT.saldoInicial '
+                + '           +(SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) '
+                + '           - SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0) AS saldoAnterior '
+                + '            FROM movcontas MCC, '
+                + '                 contas CTT,  '
+                + '                 clientes CLL, '
+                + '                bancos BCC '
+                + '           WHERE MCC.IdConta = CTT.IdConta '
+                + '             AND CTT.IdCliente = CLL.IdCliente '
+                + '             AND CTT.IdBanco = BCC.IdBanco ');
+
+      if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
+      begin
+        QryRelatorio.SQL.Add('AND MCC.dataMov  BETWEEN :dataInicial AND :dataFinal');
+        QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
+        QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+      end;
+        QryRelatorio.SQL.Add('     GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT'
+                + '  WHERE MC.IdConta = CT.IdConta '
+                + '    AND CT.IdCliente = CL.IdCliente '
+                + '    AND CT.IdBanco = BC.IdBanco '
+                + '    AND CT.IdConta = ANT.IdConta ' );
+
+      if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
+      begin
+        QryRelatorio.SQL.Add('AND MC.dataMov  BETWEEN :dataInicial AND :dataFinal');
+        QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
+        QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+      end;
+
+      if(edtCodConta.Text <> IntToStr(0)) then // verifica se foi informado a Conta
+      begin
+        QryRelatorio.SQL.Add('AND CT.IdConta = :codConta');
+        QryRelatorio.ParamByName('codConta').AsInteger           := StrToInt(edtCodConta.Text);
+      end
+      else
+      begin
+         if(edtCodBanco.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+         begin
+          QryRelatorio.SQL.Add('AND BC.IdBanco = :codBanco');
+          QryRelatorio.ParamByName('codBanco').AsInteger         :=  StrToInt(edtCodbanco.Text);
+         end;
+
+         if(edtCodCliente.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+         begin
+          QryRelatorio.SQL.Add('AND CL.IdCliente = :codCliente');
+          QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(edtCodCliente.Text);
+         end;
+      end;
+
+       QryRelatorio.SQL.Add('GROUP BY CT.IdConta');
+
+      try
+        QryRelatorio.Open;
+      except
+        MessageDlg('Não foi possível realizar a busca, verifique os filtros informados.', TMsgDlgType.mtInformation, [mbOk], 0);
+      end;
+    finally
+       // nada ainda
+    end;
 
 end;
 
@@ -198,6 +249,25 @@ if (QryRelatorio.SQL.Text <> EmptyStr) then
 end;
 
 
+
+procedure TfrmHerancaRelatorio.LimparCampos;
+var i : integer;
+begin
+  for i := 0 to Self.ComponentCount -1  do
+  begin
+
+    if(Self.components[i] is TEdit) then
+      (Self.Components[i] as TEdit).clear;
+
+    if(Self.Components[i] is TLabeledEdit) then
+     (Self.Components[i] as TLabeledEdit).clear;
+
+    if(Self.Components[i] is TMaskEdit) then
+     (Self.Components[i] as TMaskEdit).clear;
+
+  end;
+
+end;
 
 function TfrmHerancaRelatorio.UmCampoObrigatorio: Integer;
 var i, aux : integer;

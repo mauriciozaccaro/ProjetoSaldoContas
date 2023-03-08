@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uHerancaCadastros, Data.DB, Vcl.DBCtrls, uEnum,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Mask, Vcl.ExtCtrls, Vcl.ComCtrls, cCadConta,
   Vcl.Buttons, RxToolEdit, RxCurrEdit, ZAbstractRODataset, ZAbstractDataset,
-  ZDataset;
+  ZDataset, uConsultaContaBancaria, uDTMConexao, uConsultaBanco, uConsultaCliente,
+  uHerancaConsulta;
 
 type
   TfrmCadContas = class(TfrmHerancaCadastros)
@@ -64,7 +65,7 @@ implementation
 
 {$R *.dfm}
 
- uses uConsultaContaBancaria, uDTMConexao;
+
 
 
 
@@ -87,7 +88,6 @@ begin
       edtSaldoInicial.Text    := FloatToStr(objConta.saldoInicial);
       ativo                   := objConta.situacao;
       ckSituacao.Checked      := StrToBool(ativo);
-
     end
     else begin
       btnCancelar.Click;
@@ -129,9 +129,12 @@ end;
 procedure TfrmCadContas.btnBuscaBancoClick(Sender: TObject);
 begin
   inherited;
-  botaoClicado := 1;
-  frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
-  frmConsultaContaBancaria.ShowModal;
+  frmConsultaBanco    :=  TfrmConsultaBanco.Create(Self);
+  if (frmConsultaBanco.ShowModal = mrOk) then
+  begin
+     edtBanco.Text          := IntToStr(iCampoIdBanco);
+     edtNomeBanco.Text      := sCampoBanco;
+  end;
   frmConsultaContaBancaria.Release;
 end;
 
@@ -139,12 +142,13 @@ end;
 
 procedure TfrmCadContas.btnBuscaClienteClick(Sender: TObject);
 begin
-  inherited;
-  botaoClicado := 0;
-  frmConsultaContaBancaria  :=  TfrmConsultaContaBancaria.Create(Self);
-  frms                      :=  frmCadContas;
-  frmConsultaContaBancaria.ShowModal;
-  frmConsultaContaBancaria.Release;
+  frmConsultaCliente  :=  TfrmConsultaCliente.Create(Self);
+  if (frmConsultaCliente.ShowModal = mrOk) then
+  begin
+     edtCliente.Text        :=  IntToStr(iCampoIdCliente);
+     edtNomeCliente.Text    :=  sCampoCliente;
+  end;
+  frmConsultaCliente.Release;
 end;
 
 
@@ -153,7 +157,6 @@ procedure TfrmCadContas.btnNovoClick(Sender: TObject);
 begin
   inherited;
   LimparCampos;
-  edtCliente.Text := ''
 end;
 
 

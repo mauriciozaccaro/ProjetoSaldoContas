@@ -47,7 +47,6 @@ type
       function CamposObrigatorios  : Boolean;
       function RetornarCampoFieldTraduzido(Campo: string): string;
 
-
       procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
       procedure grdListagemConsultaDblClick(Sender: TObject);
       procedure grdListagemConsultaTitleClick(Column: TColumn);
@@ -66,8 +65,6 @@ type
     function Gravar(EstadoTela:TEstadoDaTela): Boolean; virtual;
 
     procedure LimparCampos; virtual;
-    //function SituacaoEmTexto(ativo : Boolean) : String;   //não funcionou como eu queria
-    //function TextoEmSituacao(texto : string)  : boolean;
   end;
 
 var

@@ -18,7 +18,9 @@ uses
   cCadConta in 'Classes\cCadConta.pas',
   uHerancaRelatorios in 'heranca\uHerancaRelatorios.pas' {frmHerancaRelatorio},
   uRelatorioMovBancario in 'Consultas\uRelatorioMovBancario.pas' {frmRelatorioMovBancario},
-  cRelatorioMovbancario in 'Classes\cRelatorioMovbancario.pas';
+  cRelatorioMovbancario in 'Classes\cRelatorioMovbancario.pas',
+  uConsultaCliente in 'Consultas\uConsultaCliente.pas' {frmConsultaCliente},
+  uConsultaBanco in 'Consultas\uConsultaBanco.pas' {frmConsultaBanco};
 
 {$R *.res}
 
@@ -26,7 +28,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmHerancaRelatorio, frmHerancaRelatorio);
-  Application.CreateForm(TfrmRelatorioMovBancario, frmRelatorioMovBancario);
   Application.Run;
 end.

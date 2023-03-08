@@ -1,0 +1,191 @@
+unit uHerancaConsulta;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,
+  Data.DB, Vcl.Grids, Vcl.DBGrids, ZAbstractRODataset, ZAbstractDataset, uCadConta,
+  ZDataset, uDTMConexao;
+
+type
+  TfrmHerancaConsulta = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    MaskEdit1: TMaskEdit;
+    lblPesquisa: TLabel;
+    btnFechar: TButton;
+    grdListagemConsulta: TDBGrid;
+    Panel3: TPanel;
+    Label1: TLabel;
+    MaskEdit2: TMaskEdit;
+    QryConsulta: TZQuery;
+    dtsConsulta: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnFecharClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure grdListagemConsultaTitleClick(Column: TColumn);
+    procedure grdListagemConsultaDblClick(Sender: TObject);
+    procedure MaskEdit1Change(Sender: TObject);
+
+  private
+
+    { Private declarations }
+    function RetornarCampoFieldTraduzido(Campo: string): string;
+    procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
+
+  public
+
+    { Public declarations }
+    aIniciarPesquisaId       : Variant;
+    aCampoId                 : String;
+    aCampoCliente            : String;
+    aCampoBanco              : String;
+    aCampoNumConta           : String;
+    IndiceAtual              : String;
+    QryUsada                 : TZQuery;
+
+  end;
+
+var
+  frmHerancaConsulta: TfrmHerancaConsulta;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadMovBancario,  uConsultaContaBancaria;
+
+
+
+procedure TfrmHerancaConsulta.btnFecharClick(Sender: TObject);
+begin
+  close;
+end;
+
+
+
+procedure TfrmHerancaConsulta.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   QryConsulta.Close;
+end;
+
+
+
+procedure TfrmHerancaConsulta.FormCreate(Sender: TObject);
+begin
+   QryConsulta.Connection                 := DtmConexaoPrincipal.ConexaoDB;
+   dtsConsulta.DataSet                    := QryConsulta;
+   grdListagemConsulta.DataSource         := dtsConsulta;
+end;
+
+
+
+procedure TfrmHerancaConsulta.FormShow(Sender: TObject);
+begin
+
+  if(QryConsulta.sql.Text <> EmptyStr) then
+  begin
+    QryConsulta.Open;
+  end;
+
+end;
+
+
+
+procedure TfrmHerancaConsulta.grdListagemConsultaDblClick(Sender: TObject);
+begin
+  close;
+  ModalResult := mrOk;
+end;
+
+
+
+{$region 'Função e procedimento para pegar a coluna selecionada e passar para a label'} // também utilizado para consulta
+
+function TfrmHerancaConsulta.RetornarCampoFieldTraduzido(Campo : string) : string;
+var i : integer;
+begin
+  for i := 0 to QryConsulta.fields.Count -1 do
+  begin
+    if(QryConsulta.Fields[i].FieldName = Campo) then
+    begin
+      Result := QryConsulta.Fields[i].DisplayLabel;
+      break;
+    end;
+  end;
+end;
+
+
+
+ procedure TfrmHerancaConsulta.ExibirLabelIndice(Campo : string; aLabel : TLabel);
+begin
+  aLabel.Caption := RetornarCampoFieldTraduzido(Campo);
+end;
+
+
+
+procedure TfrmHerancaConsulta.grdListagemConsultaTitleClick(Column: TColumn);
+begin
+  IndiceAtual          := Column.FieldName;
+  ExibirLabelIndice(IndiceAtual, lblPesquisa);
+  MaskEdit1.Text       := EmptyStr;
+  MaskEdit1.SetFocus;
+end;
+
+
+
+procedure TfrmHerancaConsulta.MaskEdit1Change(Sender: TObject);
+begin
+//  QryUsada.Locate(IndiceAtual, TMaskEdit(Sender).Text, [loPartialKey]); // é ruim de busca, por isso fiz por Select
+
+  try
+
+  case botaoClicado of
+    0 : begin // Cliente
+      with QryUsada do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IdCliente, nome, numDocumento, situacao FROM clientes WHERE '
+              +  IndiceAtual
+              + ' like :codigo');
+        ParamByName('codigo').AsString :=  '%'+MaskEdit1.Text+'%';
+        open;
+      end;
+
+    end;
+
+    1 : begin
+      with QryUsada do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE '
+              +  IndiceAtual
+              + ' like :codigo');
+        ParamByName('codigo').AsString :=  '%'+MaskEdit1.Text+'%';
+        open;
+      end;
+
+    end;
+
+    2 : begin  // Conta Bancária
+      with QryUsada do
+      begin
+        MessageDlg('Ainda não implementado', TMsgDlgType.mtInformation, [mbOk], 0);
+      end;
+
+    end;
+
+  end;
+  except
+    MessageDlg('Não foi possível realizar a Consulta', TMsgDlgType.mtError, [mbOk], 0);
+  end;
+
+end;
+
+{$endregion}
+
+end.
