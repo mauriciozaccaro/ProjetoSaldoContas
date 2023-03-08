@@ -42,7 +42,7 @@ uses uCadMovBancario;
 procedure TfrmConsultaContaBancaria.FormShow(Sender: TObject);
 begin
   inherited;
-//
+  grdListagemConsulta.OnTitleClick(grdListagemConsulta.Columns[5]);
 end;
 
 procedure TfrmConsultaContaBancaria.grdListagemConsultaDblClick(

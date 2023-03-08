@@ -72,7 +72,8 @@ begin
   frmConsultaBanco    := TfrmConsultaBanco.Create(Self);
   if (frmConsultaBanco.ShowModal = mrOk) then
   begin
-
+    edtCodBanco.Text        :=  IntToStr(iCampoIdBanco);
+    edtNomeBanco.Text       :=  sCampoBanco;
   end;
   frmConsultaBanco.Release;
 end;
@@ -81,22 +82,13 @@ end;
 
 procedure TfrmHerancaRelatorio.btnBuscaClienteClick(Sender: TObject);
 begin
-  frmConsultaCliente    :=  TfrmConsultaCliente.Create(Self);
-
-  if  (frmConsultaContaBancaria.ShowModal = mrOk) then
+  frmConsultaCliente      :=  TfrmConsultaCliente.Create(Self);
+  if  (frmConsultaCliente.ShowModal = mrOk) then
   begin
-    if (True) then
-
-    edtCodCliente.Text         := frmConsultaCliente.QryConsulta.ParamByName('IdCliente').Text;
-    edtNomeCliente.Text        := frmConsultaCliente.QryConsulta.ParamByName('nome').Text;
-
-    edtCodBanco.Text      := EmptyStr;
-    edtNomeBanco.Text     := EmptyStr;
-    edtCodConta.Text      := EmptyStr;
-
+    frmConsultaCliente.Release;
+    edtCodCliente.Text    :=  IntToStr(iCampoIdCliente);
+    edtNomeCliente.Text   :=  sCampoCliente;
   end;
-
-
   frmConsultaCliente.Release;
 end;
 
@@ -107,7 +99,12 @@ begin
   frmConsultaContaBancaria         :=  TfrmConsultaContaBancaria.Create(Self);
   if (frmConsultaContaBancaria.ShowModal = mrOk) then
   begin
-
+    edtCodConta.Text        :=  IntToStr(iCampoIdConta);
+    edtNumConta.Text        :=  IntToStr(iCampoNumConta);
+    edtCodBanco.Text        :=  IntToStr(iCampoIdBanco);
+    edtCodCliente.Text      :=  IntToStr(iCampoIdCliente);
+    edtNomeBanco.Text       :=  sCampoBanco;
+    edtNomeCliente.Text     :=  sCampoCliente;
   end;
   frmConsultaContaBancaria.Release;
 end;
@@ -115,9 +112,8 @@ end;
 
 
 procedure TfrmHerancaRelatorio.Button1Click(Sender: TObject);
-var aux, codConta, codBanco, codCliente : Integer; dataInicial, dataFinal, textoSQL : String;
+var aux : Integer; codConta, codBanco, codCliente, dataInicial, dataFinal : String;
 begin
-
    {
   aux := UmCampoObrigatorio;
   if (aux > 0) then
@@ -135,14 +131,27 @@ begin
     Abort;
   end;
 
-  if (edtCodConta.Text = EmptyStr) then
-    edtCodConta.Text  := IntToStr(0);
+  codConta    :=  edtCodConta.Text;
+  codBanco    :=  edtCodBanco.Text;
+  codCliente  :=  edtCodCliente.Text;
 
-  if (edtCodBanco.Text = EmptyStr) then
-    edtCodBanco.Text  := IntToStr(0);
+   if (codConta = EmptyStr) then
+    codConta  := IntToStr(0);
 
-  if (edtCodCliente.Text = EmptyStr) then
-    edtCodCliente.Text := IntToStr(0);
+  if (codBanco = EmptyStr) then
+    codBanco  := IntToStr(0);
+
+  if (codCliente = EmptyStr) then
+    codCliente := IntToStr(0);
+
+//  if (codConta <> 0) then
+//    codConta  := IntToStr(0);
+//
+//  if (edtCodBanco.Text = EmptyStr) then
+//    edtCodBanco.Text  := IntToStr(0);
+//
+//  if (edtCodCliente.Text = EmptyStr) then
+//    edtCodCliente.Text := IntToStr(0);
 
     try
       QryRelatorio.Close;
@@ -187,23 +196,23 @@ begin
         QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
       end;
 
-      if(edtCodConta.Text <> IntToStr(0)) then // verifica se foi informado a Conta
+      if(codConta <> IntToStr(0)) then // verifica se foi informado a Conta
       begin
         QryRelatorio.SQL.Add('AND CT.IdConta = :codConta');
-        QryRelatorio.ParamByName('codConta').AsInteger           := StrToInt(edtCodConta.Text);
+        QryRelatorio.ParamByName('codConta').AsInteger           :=  StrToInt(codConta);
       end
       else
       begin
-         if(edtCodBanco.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+         if(codBanco <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
          begin
           QryRelatorio.SQL.Add('AND BC.IdBanco = :codBanco');
-          QryRelatorio.ParamByName('codBanco').AsInteger         :=  StrToInt(edtCodbanco.Text);
+          QryRelatorio.ParamByName('codBanco').AsInteger         :=  StrToInt(codBanco);
          end;
 
-         if(edtCodCliente.Text <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+         if(codCliente <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
          begin
           QryRelatorio.SQL.Add('AND CL.IdCliente = :codCliente');
-          QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(edtCodCliente.Text);
+          QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(codCliente);
          end;
       end;
 

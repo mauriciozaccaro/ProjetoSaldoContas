@@ -89,7 +89,7 @@ end;
 
 
 procedure TfrmCadMovBancario.btnAlterarClick(Sender: TObject);
-var ativo : String;
+var ativo, dataAnt, dataPost : String;
 begin
 
   if (objMovConta.SelecionarRegistro(QryListagemGridIdMovContas.AsInteger)) then
@@ -102,7 +102,12 @@ begin
     edtNumConta.Text        := IntToStr(objMovConta.numConta);
     edtValor.Text           := FloatToStr(objMovConta.valor);
     rdgCredDeb.ItemIndex    := SetaValorTipoMovimento(objMovConta.tipoMovimento);
-    dtpDataMovimento.Date   := StrToDate(objMovConta.dataMov);
+
+    dataAnt   :=  objMovConta.dataMov;
+    dataPost  :=  Copy(dataAnt, 9, 2) + '/' + Copy(dataAnt, 6, 2) + '/' + Copy(dataAnt, 1, 4);
+
+    dtpDataMovimento.Date   := StrToDate(dataPost);
+
   end
   else begin
     btnCancelar.Click;

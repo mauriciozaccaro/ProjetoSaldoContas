@@ -8,7 +8,6 @@ inherited frmConsultaBanco: TfrmConsultaBanco
     end
   end
   inherited grdListagemConsulta: TDBGrid
-    DataSource = nil
     Columns = <
       item
         Expanded = False
@@ -27,5 +26,25 @@ inherited frmConsultaBanco: TfrmConsultaBanco
         FieldName = 'situacao'
         Visible = True
       end>
+  end
+  inherited QryConsulta: TZQuery
+    SQL.Strings = (
+      'SELECT IdBanco, nome, situacao FROM bancos WHERE situacao = '#39'S'#39)
+    object QryConsultaIdBanco: TLargeintField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'IdBanco'
+    end
+    object QryConsultanome: TWideStringField
+      DisplayLabel = 'Banco'
+      FieldName = 'nome'
+      Required = True
+      Size = 50
+    end
+    object QryConsultasituacao: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'situacao'
+      Required = True
+      Size = 1
+    end
   end
 end

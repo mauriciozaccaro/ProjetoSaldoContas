@@ -10,6 +10,9 @@ uses
 
 type
   TfrmConsultaBanco = class(TfrmHerancaConsulta)
+    QryConsultaIdBanco: TLargeintField;
+    QryConsultanome: TWideStringField;
+    QryConsultasituacao: TWideStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -50,7 +53,7 @@ begin
 
    with grdListagemConsulta do
    begin
-    OnTitleClick(columns[2]);
+    OnTitleClick(columns[1]);
    end;
 
 // Essa linha funciona igual ao bloco acima

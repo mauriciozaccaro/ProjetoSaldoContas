@@ -129,20 +129,20 @@ end;
 procedure TfrmCadContas.btnBuscaBancoClick(Sender: TObject);
 begin
   inherited;
-  frmConsultaBanco    :=  TfrmConsultaBanco.Create(Self);
+  frmConsultaBanco          :=  TfrmConsultaBanco.Create(Self);
   if (frmConsultaBanco.ShowModal = mrOk) then
   begin
      edtBanco.Text          := IntToStr(iCampoIdBanco);
      edtNomeBanco.Text      := sCampoBanco;
   end;
-  frmConsultaContaBancaria.Release;
+  frmConsultaBanco.Release;
 end;
 
 
 
 procedure TfrmCadContas.btnBuscaClienteClick(Sender: TObject);
 begin
-  frmConsultaCliente  :=  TfrmConsultaCliente.Create(Self);
+  frmConsultaCliente        :=  TfrmConsultaCliente.Create(Self);
   if (frmConsultaCliente.ShowModal = mrOk) then
   begin
      edtCliente.Text        :=  IntToStr(iCampoIdCliente);
@@ -244,6 +244,8 @@ begin
   edtNomeCliente.Clear;
 end;
 
+
+
 procedure TfrmCadContas.mskEditChange(Sender: TObject);
 begin
   inherited;
@@ -253,7 +255,9 @@ begin
     SQL.Clear;
     // SQL ta dando errado... arrumar depois
     SQL.Add('SELECT ct.IdConta, '
+                + ' ct.IdBanco, '
                 + ' bc.nome AS Banco, '
+                + ' ct.IdCliente, '
                 + ' cl.nome AS Cliente, '
                 + ' ct.numConta, '
                 + ' ct.saldoInicial, '
@@ -262,10 +266,47 @@ begin
                 + ' bancos AS bc, '
                 + ' clientes AS cl '
           + ' WHERE ct.IdCliente = cl.IdCliente '
-            + ' AND ct.IdBanco = bc.IdBanco '
-            + ' AND (ct.' + IndiceAtual
-            + ' like :codigo OR ct.' + IndiceAtual + ' like :codigo' );
-    ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+            + ' AND ct.IdBanco = bc.IdBanco ');
+
+     if(IndiceAtual = 'IdConta') then
+     begin
+     SQL.Add( ' AND ct.' + IndiceAtual
+              + ' like :codigo' );
+      ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+     end;
+
+     if(IndiceAtual = 'IdBanco') then
+     begin
+     SQL.Add( ' AND ct.' + IndiceAtual
+              + ' like :codigo' );
+      ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+     end;
+
+     if(IndiceAtual = 'IdCliente') then
+     begin
+     SQL.Add( ' AND ct.' + IndiceAtual
+              + ' like :codigo' );
+      ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+     end;
+
+     if(IndiceAtual = 'Banco') then
+     begin
+     SQL.Add( ' AND bc.nome'
+              + ' like :codigo' );
+      ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+     end;
+
+     if(IndiceAtual = 'Cliente') then
+     begin
+     SQL.Add( ' AND cl.nome'
+              + ' like :codigo' );
+      ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
+     end;
+//
+//
+//            + ' AND ct.' + IndiceAtual
+//            + ' like :codigo' );
+//    ParamByName('codigo').AsString :=  '%'+mskEdit.Text+'%';
     open;
   end;
 end;

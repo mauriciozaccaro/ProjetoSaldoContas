@@ -36,7 +36,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       end
       item
         Expanded = False
-        FieldName = 'Cliente'
+        FieldName = 'cliente'
         Width = 150
         Visible = True
       end
@@ -47,7 +47,7 @@ inherited frmConsultaContaBancaria: TfrmConsultaContaBancaria
       end
       item
         Expanded = False
-        FieldName = 'Banco'
+        FieldName = 'banco'
         Width = 120
         Visible = True
       end

@@ -53,7 +53,7 @@ end;
 procedure TfrmConsultaCliente.FormShow(Sender: TObject);
 begin
   inherited;
-  //grdListagemConsulta.OnTitleClick(grdListagemConsulta.Columns[1]); // coluna "Nome Cliente"
+  grdListagemConsulta.OnTitleClick(grdListagemConsulta.Columns[1]); // coluna "Nome Cliente"
 end;
 
 

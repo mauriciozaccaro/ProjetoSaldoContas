@@ -1,4 +1,5 @@
 inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
+  BorderIcons = [biSystemMenu]
   Caption = 'frmRelatorioMovBancario'
   PixelsPerInch = 96
   TextHeight = 13
@@ -16,15 +17,16 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       ExplicitTop = 15
       ExplicitWidth = 87
     end
-    inherited edtCodBanco: TMaskEdit
-      Enabled = True
-    end
-    inherited edtCodCliente: TMaskEdit
-      Enabled = True
+    inherited dtpInicio: TDateTimePicker
+      Date = 44986.000000000000000000
+      Time = 44986.000000000000000000
     end
     inherited edtNumConta: TEdit
       Width = 90
       ExplicitWidth = 90
+    end
+    inherited edtCodConta: TMaskEdit
+      Enabled = False
     end
   end
   inherited Panel2: TPanel
@@ -73,7 +75,7 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       item
         Expanded = False
         FieldName = 'totalCredito'
-        Width = 70
+        Width = 77
         Visible = True
       end
       item

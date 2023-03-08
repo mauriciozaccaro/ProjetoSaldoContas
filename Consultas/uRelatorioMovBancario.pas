@@ -38,29 +38,24 @@ implementation
 
 {$R *.dfm}
 
-uses uConsultaContaBancaria, uHerancaConsulta;
+uses uConsultaContaBancaria, uHerancaConsulta, uCadMovBancario, uConsultaBanco,
+  uConsultaCliente;
 
 procedure TfrmRelatorioMovBancario.btnBuscaBancoClick(Sender: TObject);
 begin
-  inherited;
   LimparCampos;
-  edtCodBanco.Text        :=  IntToStr(iCampoIdBanco);
-  edtNomeBanco.Text       :=  sCampoBanco;
+  inherited;
 end;
 
 procedure TfrmRelatorioMovBancario.btnBuscaClienteClick(Sender: TObject);
 begin
   LimparCampos;
-  edtCodCliente.Text      :=  IntToStr(iCampoIdCliente);
-  edtNomeCliente.Text     :=  sCampoCliente;
   inherited;
 end;
 
 procedure TfrmRelatorioMovBancario.btnBuscaContaClick(Sender: TObject);
 begin
   LimparCampos;
-  edtCodConta.Text        :=  IntToStr(iCampoIdConta);
-  edt.Text        :=  IntToStr(iCampoNumConta);
   inherited;
 end;
 
