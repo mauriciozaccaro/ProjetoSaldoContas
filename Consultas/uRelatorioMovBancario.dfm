@@ -92,8 +92,61 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       end>
   end
   inherited QryRelatorio: TZQuery
-    Active = True
     SQL.Strings = (
+      '/*'
+      '       SELECT MC.IdConta,'
+      '    CL.nome AS cliente,'
+      '    BC.nome AS banco,'
+      '    CT.numConta,'
+      '    CT.saldoInicial,'
+      
+        '    CASE WHEN '#39'2022-03-06'#39' >= (SELECT MIN(ss.dataMov)  AS dataMo' +
+        'v FROM movcontas ss WHERE ss.IdConta = MC.IdConta)'
+      '    THEN ANT.saldoAnterior'
+      '    ELSE CT.saldoInicial'
+      '    END AS saldoAnterior,'
+      
+        '    SUM(CASE WHEN MC.tipoMov = '#39'C'#39' THEN MC.valor ELSE 0 END) AS ' +
+        'totalCredito,   SUM(CASE WHEN MC.tipoMov = '#39'D'#39' THEN MC.valor ELS' +
+        'E 0 END) AS totalDebito,'
+      
+        '    CASE WHEN '#39'2022-03-06'#39' >= (SELECT MIN(ss.dataMov)  AS dataMo' +
+        'v FROM movcontas ss WHERE ss.IdConta = MC.IdConta)'
+      
+        '    THEN ANT.saldoAnterior + SUM(CASE WHEN MC.tipoMov = '#39'C'#39' THEN' +
+        ' MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov = '#39'D'#39' THEN MC.v' +
+        'alor ELSE 0 END)'
+      
+        '    ELSE CT.saldoInicial + SUM(CASE WHEN MC.tipoMov = '#39'C'#39' THEN M' +
+        'C.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov = '#39'D'#39' THEN MC.val' +
+        'or ELSE 0 END)'
+      '    END AS saldoAtual'
+      '    FROM movcontas MC'
+      '    INNER JOIN contas CT ON CT.IdConta = MC.IdConta'
+      '    INNER JOIN clientes CL ON CL.IdCliente = CT.IdCliente'
+      '    INNER JOIN bancos BC ON BC.IdBanco = CT.IdBanco'
+      
+        '    LEFT JOIN (SELECT CTT.IdConta, (CTT.saldoInicial + COALESCE(' +
+        '(SUM(CASE WHEN MCC.tipoMov = '#39'C'#39
+      
+        '    THEN MCC.valor ELSE 0 END)           - SUM(CASE WHEN MCC.tip' +
+        'oMov = '#39'D'#39' THEN MCC.valor ELSE 0 END)), 0)) AS saldoAnterior'
+      '    FROM movcontas MCC'
+      '    LEFT JOIN contas CTT ON CTT.IdConta = MCC.IdConta'
+      '    WHERE MCC.IdConta = CTT.IdConta'
+      '    AND MCC.dataMov <= (SELECT MIN(ss.dataMov)  AS dataMov'
+      '    FROM movcontas ss WHERE ss.IdConta = MCC.IdConta)'
+      
+        '    GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT ON ANT.IdCont' +
+        'a = MC.IdConta'
+      
+        '    WHERE MC.IdConta = CT.IdConta   AND CT.IdCliente = CL.IdClie' +
+        'nte'
+      '    AND CT.IdBanco = BC.IdBanco   AND CT.IdConta = ANT.IdConta'
+      '    AND MC.dataMov'
+      '    BETWEEN '#39'2022-03-06'#39' AND '#39'2023-03-06'#39' GROUP BY CT.IdConta'
+      '    AND CT.IdBanco = 2'
+      '                      */'
       ''
       
         'SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numC' +

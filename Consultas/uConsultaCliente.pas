@@ -75,7 +75,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT IdCliente, nome, numDocumento, situacao FROM clientes WHERE '
               +  IndiceAtual
-              + ' like :codigo');
+              + ' like :codigo AND situacao = ''S''');
         ParamByName('codigo').AsString :=  '%'+mskEditPesquisa.Text+'%';
         open;
       end;

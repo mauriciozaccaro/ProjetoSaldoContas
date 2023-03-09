@@ -143,58 +143,105 @@ begin
 
   if (codCliente = EmptyStr) then
     codCliente := IntToStr(0);
-
-//  if (codConta <> 0) then
-//    codConta  := IntToStr(0);
 //
-//  if (edtCodBanco.Text = EmptyStr) then
-//    edtCodBanco.Text  := IntToStr(0);
-//
-//  if (edtCodCliente.Text = EmptyStr) then
-//    edtCodCliente.Text := IntToStr(0);
-
     try
+//      QryRelatorio.Close;
+//      QryRelatorio.SQL.Clear;
+//      QryRelatorio.SQL.Add('SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numConta, CAST(CT.saldoInicial AS Float) AS saldoInicial,  ANT.saldoAnterior, '
+//                + '      SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito, '
+//                + '      SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito, '
+//                + '     (SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) '
+//                + '    - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)) AS saldoAtual '
+//                + '    FROM movcontas MC, '
+//                + '         contas CT, '
+//                + '         clientes CL, '
+//                + '         bancos BC, '
+//
+//                + '               (SELECT CTT.IdConta, COALESCE(CTT.saldoInicial '
+//                + '           +(SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) '
+//                + '           - SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0) AS saldoAnterior '
+//                + '            FROM movcontas MCC, '
+//                + '                 contas CTT,  '
+//                + '                 clientes CLL, '
+//                + '                bancos BCC '
+//                + '           WHERE MCC.IdConta = CTT.IdConta '
+//                + '             AND CTT.IdCliente = CLL.IdCliente '
+//                + '             AND CTT.IdBanco = BCC.IdBanco ');
+//
+//      if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
+//      begin
+//        QryRelatorio.SQL.Add('AND MCC.dataMov  BETWEEN :dataInicial AND :dataFinal');
+//        QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
+//        QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+//      end;
+//        QryRelatorio.SQL.Add('     GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT'
+//                + '  WHERE MC.IdConta = CT.IdConta '
+//                + '    AND CT.IdCliente = CL.IdCliente '
+//                + '    AND CT.IdBanco = BC.IdBanco '
+//                + '    AND CT.IdConta = ANT.IdConta ' );
+//
+//      if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
+//      begin
+//        QryRelatorio.SQL.Add('AND MC.dataMov  BETWEEN :dataInicial AND :dataFinal');
+//        QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
+//        QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+//      end;
+//
+//      if(codConta <> IntToStr(0)) then // verifica se foi informado a Conta
+//      begin
+//        QryRelatorio.SQL.Add('AND CT.IdConta = :codConta');
+//        QryRelatorio.ParamByName('codConta').AsInteger           :=  StrToInt(codConta);
+//      end
+//      else
+//      begin
+//         if(codBanco <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+//         begin
+//          QryRelatorio.SQL.Add('AND BC.IdBanco = :codBanco');
+//          QryRelatorio.ParamByName('codBanco').AsInteger         :=  StrToInt(codBanco);
+//         end;
+//
+//         if(codCliente <> IntToStr(0))then // Verifica se foi informado o Banco e a Conta está vazia
+//         begin
+//          QryRelatorio.SQL.Add('AND CL.IdCliente = :codCliente');
+//          QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(codCliente);
+//         end;
+//      end;
+//
+//       QryRelatorio.SQL.Add('GROUP BY CT.IdConta');
+
+
       QryRelatorio.Close;
       QryRelatorio.SQL.Clear;
-      QryRelatorio.SQL.Add('SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numConta, CAST(CT.saldoInicial AS Float) AS saldoInicial,  ANT.saldoAnterior, '
-                + '      SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito, '
-                + '      SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito, '
-                + '     (SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) '
-                + '    - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)) AS saldoAtual '
-                + '    FROM movcontas MC, '
-                + '         contas CT, '
-                + '         clientes CL, '
-                + '         bancos BC, '
+      QryRelatorio.SQL.Add('SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numConta, CT.saldoInicial, '
+       + 'CASE WHEN :dataInicial >= (SELECT MIN(ss.dataMov)  AS dataMov FROM movcontas ss WHERE ss.IdConta = MC.IdConta) '
+       + '     THEN ANT.saldoAnterior '
+       + '     ELSE CT.saldoInicial END AS saldoAnterior, '
+     + '  SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito, '
+     + '  SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito, '
+     + '  CASE WHEN :dataInicial >= (SELECT MIN(ss.dataMov)  AS dataMov FROM movcontas ss WHERE ss.IdConta = MC.IdConta) '
+     + '       THEN ANT.saldoAnterior + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) '
+     + '       ELSE CT.saldoInicial + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) '
+     + '       END AS saldoAtual '
+ + ' FROM movcontas MC '
+ + 'INNER JOIN contas CT ON CT.IdConta = MC.IdConta '
+ + 'INNER JOIN clientes CL ON CL.IdCliente = CT.IdCliente '
+ + 'INNER JOIN bancos BC ON BC.IdBanco = CT.IdBanco '
+ + 'LEFT JOIN (SELECT CTT.IdConta, (CTT.saldoInicial + COALESCE((SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) '
+    + '          - SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0)) AS saldoAnterior '
+    + '      FROM movcontas MCC '
+    + '      LEFT JOIN contas CTT ON CTT.IdConta = MCC.IdConta '
+    + '     WHERE MCC.IdConta = CTT.IdConta '
+    + '       AND MCC.dataMov <= (SELECT MIN(ss.dataMov)  AS dataMov FROM movcontas ss WHERE ss.IdConta = MCC.IdConta) '
+    + '    GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT ON ANT.IdConta = MC.IdConta '
 
-                + '               (SELECT CTT.IdConta, COALESCE(CTT.saldoInicial '
-                + '           +(SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) '
-                + '           - SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0) AS saldoAnterior '
-                + '            FROM movcontas MCC, '
-                + '                 contas CTT,  '
-                + '                 clientes CLL, '
-                + '                bancos BCC '
-                + '           WHERE MCC.IdConta = CTT.IdConta '
-                + '             AND CTT.IdCliente = CLL.IdCliente '
-                + '             AND CTT.IdBanco = BCC.IdBanco ');
+ + ' WHERE MC.IdConta = CT.IdConta '
+ + '  AND CT.IdCliente = CL.IdCliente '
+ + '  AND CT.IdBanco = BC.IdBanco '
+ + '  AND CT.IdConta = ANT.IdConta '
+ + '  AND MC.dataMov  BETWEEN :dataInicial AND :dataFinal ');
 
-      if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
-      begin
-        QryRelatorio.SQL.Add('AND MCC.dataMov  BETWEEN :dataInicial AND :dataFinal');
         QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
         QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
-      end;
-        QryRelatorio.SQL.Add('     GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT'
-                + '  WHERE MC.IdConta = CT.IdConta '
-                + '    AND CT.IdCliente = CL.IdCliente '
-                + '    AND CT.IdBanco = BC.IdBanco '
-                + '    AND CT.IdConta = ANT.IdConta ' );
-
-      if((FormatDateTime('yyyy-mm-dd',dtpInicio.Date) <> EmptyStr) AND (FormatDateTime('yyyy-mm-dd', dtpFim.Date) <> EmptyStr)) then // verifica se a data está preenchida
-      begin
-        QryRelatorio.SQL.Add('AND MC.dataMov  BETWEEN :dataInicial AND :dataFinal');
-        QryRelatorio.ParamByName('dataInicial').AsString         :=  FormatDateTime('yyyy-mm-dd',dtpInicio.Date);
-        QryRelatorio.ParamByName('dataFinal').AsString           :=  FormatDateTime('yyyy-mm-dd', dtpFim.Date);
-      end;
 
       if(codConta <> IntToStr(0)) then // verifica se foi informado a Conta
       begin
@@ -215,7 +262,6 @@ begin
           QryRelatorio.ParamByName('codCliente').AsInteger       :=  StrToInt(codCliente);
          end;
       end;
-
        QryRelatorio.SQL.Add('GROUP BY CT.IdConta');
 
       try
@@ -224,7 +270,7 @@ begin
         MessageDlg('Não foi possível realizar a busca, verifique os filtros informados.', TMsgDlgType.mtInformation, [mbOk], 0);
       end;
     finally
-       // nada ainda
+//       QryRelatorio.Refresh;
     end;
 
 end;

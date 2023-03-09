@@ -77,7 +77,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT IdBanco, nome, situacao FROM bancos WHERE '
               +  IndiceAtual
-              + ' like :codigo');
+              + ' like :codigo AND situacao = ''S''');
         ParamByName('codigo').AsString :=  '%'+mskEditPesquisa.Text+'%';
         open;
        end;

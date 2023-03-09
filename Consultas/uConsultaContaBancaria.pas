@@ -97,6 +97,9 @@ begin
               SQL.Add('AND CC.numConta LIKE :codigo');
               ParamByName('codigo').AsString      := '%'+mskEditPesquisa.Text+'%';
         end;
+
+        SQL.Add('AND CC.situacao = ''S''');
+
         Open;
        end;
 end;
