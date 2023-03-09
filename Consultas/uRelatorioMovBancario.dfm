@@ -87,14 +87,13 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       item
         Expanded = False
         FieldName = 'saldoAtual'
-        Width = 70
         Visible = True
       end>
   end
   inherited QryRelatorio: TZQuery
     SQL.Strings = (
       '/*'
-      '       SELECT MC.IdConta,'
+      '    SELECT MC.IdConta,'
       '    CL.nome AS cliente,'
       '    BC.nome AS banco,'
       '    CT.numConta,'
@@ -147,7 +146,7 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       '    BETWEEN '#39'2022-03-06'#39' AND '#39'2023-03-06'#39' GROUP BY CT.IdConta'
       '    AND CT.IdBanco = 2'
       '                      */'
-      ''
+      '         /*'
       
         'SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numC' +
         'onta, CT.saldoInicial,  ANT.saldoAnterior,'
@@ -186,8 +185,7 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       '   AND CT.IdBanco = BC.IdBanco'
       '   AND CT.IdConta = ANT.IdConta'
       ''
-      'GROUP BY CT.IdConta;'
-      ''
+      '           */'
       ''
       '/*'
       'SELECT MC.IdConta,'
@@ -301,11 +299,9 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       ReadOnly = True
       DisplayFormat = '#,###0.00'
     end
-    object QryRelatoriosaldoAtual: TLargeintField
+    object QryRelatoriosaldoAtual: TFloatField
       DisplayLabel = 'Saldo Atual'
       FieldName = 'saldoAtual'
-      ReadOnly = True
-      DisplayFormat = '#,###0.00'
     end
   end
   inherited dtsRelatorio: TDataSource

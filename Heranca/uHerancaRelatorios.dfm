@@ -367,7 +367,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     end
     object dtpInicio: TDateTimePicker
       Left = 397
-      Top = 80
+      Top = 81
       Width = 113
       Height = 21
       Date = 44991.000000000000000000
@@ -437,7 +437,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
   object QryRelatorio: TZQuery
     Connection = DtmConexaoPrincipal.ConexaoDB
     Params = <>
-    Left = 568
+    Left = 528
   end
   object dtsRelatorio: TDataSource
     DataSet = QryRelatorio
