@@ -11,9 +11,7 @@ object DtmConexaoPrincipal: TDtmConexaoPrincipal
       'AutoEncodeStrings=ON')
     HostName = ''
     Port = 0
-    Database = 
-      'C:\Users\mauri\Documents\Embarcadero\SaldoContasVirtual\database' +
-      '\SaldoContas.db'
+    Database = '.\SaldoContas.db'
     User = ''
     Password = ''
     Protocol = 'sqlite-3'
