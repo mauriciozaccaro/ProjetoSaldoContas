@@ -18,7 +18,10 @@ type
     QryRelatoriosaldoAnterior: TFloatField;
     QryRelatoriototalCredito: TLargeintField;
     QryRelatoriototalDebito: TLargeintField;
-    QryRelatoriosaldoAtual: TLargeintField;
+    QryRelatoriosaldoAtual: TFloatField;
+    procedure btnBuscaClienteClick(Sender: TObject);
+    procedure btnBuscaBancoClick(Sender: TObject);
+    procedure btnBuscaContaClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -30,12 +33,30 @@ type
 
 var
   frmRelatorioMovBancario: TfrmRelatorioMovBancario;
-  botaoClicado : Integer;
 
 implementation
 
 {$R *.dfm}
 
-uses uConsultaContaBancaria;
+uses uConsultaContaBancaria, uHerancaConsulta, uCadMovBancario, uConsultaBanco,
+  uConsultaCliente;
+
+procedure TfrmRelatorioMovBancario.btnBuscaBancoClick(Sender: TObject);
+begin
+  LimparCampos;
+  inherited;
+end;
+
+procedure TfrmRelatorioMovBancario.btnBuscaClienteClick(Sender: TObject);
+begin
+  LimparCampos;
+  inherited;
+end;
+
+procedure TfrmRelatorioMovBancario.btnBuscaContaClick(Sender: TObject);
+begin
+  LimparCampos;
+  inherited;
+end;
 
 end.

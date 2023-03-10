@@ -16,8 +16,8 @@ type
     QryRelatorionumConta: TLargeintField;
     QryRelatoriosaldoInicial: TFloatField;
     QryRelatoriosaldoAnterior: TFloatField;
-    QryRelatoriototalCredito: TLargeintField;
-    QryRelatoriototalDebito: TLargeintField;
+    QryRelatoriototalCredito: TFloatField;
+    QryRelatoriototalDebito: TFloatField;
     QryRelatoriosaldoAtual: TFloatField;
     procedure btnBuscaClienteClick(Sender: TObject);
     procedure btnBuscaBancoClick(Sender: TObject);

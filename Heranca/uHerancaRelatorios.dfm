@@ -370,7 +370,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
       Top = 81
       Width = 113
       Height = 21
-      Date = 44991.000000000000000000
+      Date = 44994.000000000000000000
       Time = 0.600405173609033200
       TabOrder = 5
     end
@@ -430,14 +430,14 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     Top = 79
     Width = 113
     Height = 21
-    Date = 44991.000000000000000000
+    Date = 44994.000000000000000000
     Time = 0.600405173609033200
     TabOrder = 3
   end
   object QryRelatorio: TZQuery
     Connection = DtmConexaoPrincipal.ConexaoDB
     Params = <>
-    Left = 528
+    Left = 488
   end
   object dtsRelatorio: TDataSource
     DataSet = QryRelatorio

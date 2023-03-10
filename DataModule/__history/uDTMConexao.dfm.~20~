@@ -8,8 +8,7 @@ object DtmConexaoPrincipal: TDtmConexaoPrincipal
     Catalog = ''
     Properties.Strings = (
       'controls_cp=CP_UTF16'
-      'AutoEncodeStrings=True')
-    Connected = True
+      'AutoEncodeStrings=ON')
     HostName = ''
     Port = 0
     Database = 

@@ -36,63 +36,66 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
   end
   inherited grdRelatorio: TDBGrid
     DataSource = dtsRelatorio
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'IdConta'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'cliente'
-        Width = 150
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'banco'
-        Width = 120
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'numConta'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'saldoInicial'
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'saldoAnterior'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'totalCredito'
-        Width = 77
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'totalDebito'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'saldoAtual'
-        Visible = True
-      end>
   end
   inherited QryRelatorio: TZQuery
     SQL.Strings = (
-      '/*'
+      '  /*  SELECT MC.IdConta,'
+      '           CL.nome AS cliente,'
+      '           BC.nome AS banco,'
+      '           CT.numConta,'
+      '           CAST(CT.saldoInicial AS FLOAT) AS saldoInicial,'
+      '           CASE WHEN '#39'2000-01-01'#39' > (SELECT MIN(ss.dataMov)'
+      '                                       FROM movcontas ss'
+      
+        '                                      WHERE ss.IdConta = MC.IdCo' +
+        'nta) THEN ANT.saldoAnterior ELSE CT.saldoInicial END AS saldoAnt' +
+        'erior,'
+      
+        '           SUM(CASE WHEN MC.tipoMov = '#39'C'#39' THEN MC.valor ELSE 0 E' +
+        'ND) AS totalCredito,'
+      
+        '           SUM(CASE WHEN MC.tipoMov = '#39'D'#39' THEN MC.valor ELSE 0 E' +
+        'ND) AS totalDebito,'
+      
+        '           CAST(CASE WHEN '#39'2000-01-01'#39' > (SELECT MIN(ss.dataMov)' +
+        '  AS dataMov FROM movcontas ss WHERE ss.IdConta = MC.IdConta)'
+      
+        '                     THEN ANT.saldoAnterior + SUM(CASE WHEN MC.t' +
+        'ipoMov = '#39'C'#39' THEN MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMo' +
+        'v = '#39'D'#39' THEN MC.valor ELSE 0 END)'
+      
+        '                     ELSE CT.saldoInicial + SUM(CASE WHEN MC.tip' +
+        'oMov = '#39'C'#39' THEN MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov ' +
+        '= '#39'D'#39' THEN MC.valor ELSE 0 END) END AS FLOAT) AS saldoAtual'
+      '      FROM movcontas MC'
+      '           INNER JOIN contas CT ON CT.IdConta = MC.IdConta'
+      '           INNER JOIN clientes CL ON CL.IdCliente = CT.IdCliente'
+      '           INNER JOIN bancos BC ON BC.IdBanco = CT.IdBanco'
+      '           LEFT JOIN (SELECT CTT.IdConta,'
+      
+        '                             (CTT.saldoInicial + COALESCE((SUM(C' +
+        'ASE WHEN MCC.tipoMov = '#39'C'#39' THEN MCC.valor ELSE 0 END) -'
+      
+        '                                                           SUM(C' +
+        'ASE WHEN MCC.tipoMov = '#39'D'#39' THEN MCC.valor ELSE 0 END)), 0)) AS s' +
+        'aldoAnterior'
+      '                        FROM movcontas MCC'
+      
+        '                             LEFT JOIN contas CTT ON CTT.IdConta' +
+        ' = MCC.IdConta'
+      '                       WHERE MCC.IdConta = CTT.IdConta'
+      '                         AND MCC.dataMov <= '#39'2000-01-01'#39
+      
+        '                       GROUP BY CTT.IdConta, CTT.saldoInicial) A' +
+        'S ANT ON ANT.IdConta = MC.IdConta'
+      '     WHERE MC.IdConta = CT.IdConta'
+      '       AND CT.IdCliente = CL.IdCliente'
+      '       AND CT.IdBanco = BC.IdBanco'
+      '       AND CT.IdConta = ANT.IdConta'
+      '       AND MC.dataMov BETWEEN '#39'2000-01-01'#39' AND '#39'2030-01-01'#39'  */'
+      ''
+      ''
+      ''
       '    SELECT MC.IdConta,'
       '    CL.nome AS cliente,'
       '    BC.nome AS banco,'
@@ -145,7 +148,7 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
       '    AND MC.dataMov'
       '    BETWEEN '#39'2022-03-06'#39' AND '#39'2023-03-06'#39' GROUP BY CT.IdConta'
       '    AND CT.IdBanco = 2'
-      '                      */'
+      ''
       '         /*'
       
         'SELECT MC.IdConta, CL.nome AS cliente, BC.nome AS banco, CT.numC' +
@@ -256,51 +259,36 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
     Left = 656
     Top = 8
     object QryRelatorioIdConta: TLargeintField
-      DisplayLabel = 'C'#243'd Conta'
       FieldName = 'IdConta'
       Required = True
     end
     object QryRelatoriocliente: TWideStringField
-      DisplayLabel = 'Cliente'
       FieldName = 'cliente'
       Required = True
       Size = 50
     end
     object QryRelatoriobanco: TWideStringField
-      DisplayLabel = 'Banco'
       FieldName = 'banco'
       Required = True
       Size = 50
     end
     object QryRelatorionumConta: TLargeintField
-      DisplayLabel = 'Nr Conta'
       FieldName = 'numConta'
       Required = True
     end
     object QryRelatoriosaldoInicial: TFloatField
-      DisplayLabel = 'Saldo Inicial'
       FieldName = 'saldoInicial'
     end
     object QryRelatoriosaldoAnterior: TFloatField
-      DisplayLabel = 'Saldo Anterior'
       FieldName = 'saldoAnterior'
-      ReadOnly = True
-      DisplayFormat = '#,###0.00'
     end
-    object QryRelatoriototalCredito: TLargeintField
-      DisplayLabel = 'Total Cr'#233'ditos'
+    object QryRelatoriototalCredito: TFloatField
       FieldName = 'totalCredito'
-      ReadOnly = True
-      DisplayFormat = '#,###0.00'
     end
-    object QryRelatoriototalDebito: TLargeintField
-      DisplayLabel = 'Total D'#233'bitos'
+    object QryRelatoriototalDebito: TFloatField
       FieldName = 'totalDebito'
-      ReadOnly = True
-      DisplayFormat = '#,###0.00'
     end
     object QryRelatoriosaldoAtual: TFloatField
-      DisplayLabel = 'Saldo Atual'
       FieldName = 'saldoAtual'
     end
   end
