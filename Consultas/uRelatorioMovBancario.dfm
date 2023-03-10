@@ -35,7 +35,55 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
     end
   end
   inherited grdRelatorio: TDBGrid
-    DataSource = dtsRelatorio
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdConta'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cliente'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'banco'
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'numConta'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'saldoAnterior'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'totalCredito'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'totalDebito'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'saldoAtual'
+        Width = 80
+        Visible = True
+      end>
   end
   inherited QryRelatorio: TZQuery
     SQL.Strings = (
@@ -259,36 +307,41 @@ inherited frmRelatorioMovBancario: TfrmRelatorioMovBancario
     Left = 656
     Top = 8
     object QryRelatorioIdConta: TLargeintField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'IdConta'
       Required = True
     end
     object QryRelatoriocliente: TWideStringField
+      DisplayLabel = 'Cliente'
       FieldName = 'cliente'
       Required = True
       Size = 50
     end
     object QryRelatoriobanco: TWideStringField
+      DisplayLabel = 'Banco'
       FieldName = 'banco'
       Required = True
       Size = 50
     end
     object QryRelatorionumConta: TLargeintField
+      DisplayLabel = 'Nr Conta'
       FieldName = 'numConta'
       Required = True
     end
-    object QryRelatoriosaldoInicial: TFloatField
-      FieldName = 'saldoInicial'
-    end
     object QryRelatoriosaldoAnterior: TFloatField
+      DisplayLabel = 'Saldo Anterior'
       FieldName = 'saldoAnterior'
     end
     object QryRelatoriototalCredito: TFloatField
+      DisplayLabel = 'Total Cr'#233'dito'
       FieldName = 'totalCredito'
     end
     object QryRelatoriototalDebito: TFloatField
+      DisplayLabel = 'Total D'#233'bito'
       FieldName = 'totalDebito'
     end
     object QryRelatoriosaldoAtual: TFloatField
+      DisplayLabel = 'Saldo Final'
       FieldName = 'saldoAtual'
     end
   end

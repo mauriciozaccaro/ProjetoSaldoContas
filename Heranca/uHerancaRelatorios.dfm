@@ -418,6 +418,7 @@ object frmHerancaRelatorio: TfrmHerancaRelatorio
     Width = 771
     Height = 205
     Align = alClient
+    DataSource = dtsRelatorio
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

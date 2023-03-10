@@ -14,7 +14,6 @@ type
     QryRelatoriocliente: TWideStringField;
     QryRelatoriobanco: TWideStringField;
     QryRelatorionumConta: TLargeintField;
-    QryRelatoriosaldoInicial: TFloatField;
     QryRelatoriosaldoAnterior: TFloatField;
     QryRelatoriototalCredito: TFloatField;
     QryRelatoriototalDebito: TFloatField;

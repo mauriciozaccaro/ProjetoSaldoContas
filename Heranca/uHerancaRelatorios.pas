@@ -142,110 +142,77 @@ begin
 
         Close;
         SQl.Clear;
-//        SQL.Add('SELECT MC.IdConta,                                                                                                                                                                           ');
-//        SQL.Add('       CL.nome AS cliente,                                                                                                                                                                   ');
-//        SQL.Add('       BC.nome AS banco,                                                                                                                                                                     ');
-//        SQL.Add('       CT.numConta,                                                                                                                                                                          ');
-//        SQL.Add('       CAST(CT.saldoInicial AS FLOAT) AS saldoInicial,                                                                                                                                                                      ');
-//        SQL.Add('       CASE WHEN :dataInicial > (SELECT MIN(ss.dataMov)                                                                                                                                      ');
-//        SQL.Add('                                   FROM movcontas ss                                                                                                                                         ');
-//        SQL.Add('                                  WHERE ss.IdConta = MC.IdConta) THEN ANT.saldoAnterior ELSE CT.saldoInicial END AS saldoAnterior,                                                           ');
-//        SQL.Add('       SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS totalCredito,                                                                                                           ');
-//        SQL.Add('       SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS totalDebito,                                                                                                            ');
-//        SQL.Add('       CAST(CASE WHEN :dataInicial > (SELECT MIN(ss.dataMov)  AS dataMov FROM movcontas ss WHERE ss.IdConta = MC.IdConta)                                                                    ');
-//        SQL.Add('                 THEN ANT.saldoAnterior + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)                            ');
-//        SQL.Add('                 ELSE CT.saldoInicial + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) END AS FLOAT) AS saldoAtual  ');
-//        SQL.Add('  FROM movcontas MC                                                                                                                                                                          ');
-//        SQL.Add('       INNER JOIN contas CT ON CT.IdConta = MC.IdConta                                                                                                                                       ');
-//        SQL.Add('       INNER JOIN clientes CL ON CL.IdCliente = CT.IdCliente                                                                                                                                 ');
-//        SQL.Add('       INNER JOIN bancos BC ON BC.IdBanco = CT.IdBanco                                                                                                                                       ');
-//        SQL.Add('       LEFT JOIN (SELECT CTT.IdConta,                                                                                                                                                        ');
-//        SQL.Add('                         (CTT.saldoInicial + COALESCE((SUM(CASE WHEN MCC.tipoMov = ''C'' THEN MCC.valor ELSE 0 END) -                                                                        ');
-//        SQL.Add('                                                       SUM(CASE WHEN MCC.tipoMov = ''D'' THEN MCC.valor ELSE 0 END)), 0)) AS saldoAnterior                                                   ');
-//        SQL.Add('                    FROM movcontas MCC                                                                                                                                                       ');
-//        SQL.Add('                         LEFT JOIN contas CTT ON CTT.IdConta = MCC.IdConta                                                                                                                   ');
-//        SQL.Add('                   WHERE MCC.IdConta = CTT.IdConta                                                                                                                                           ');
-//        SQL.Add('                     AND MCC.dataMov <= :dataInicial                                                                                                                                         ');
-//        SQL.Add('                   GROUP BY CTT.IdConta, CTT.saldoInicial) AS ANT ON ANT.IdConta = MC.IdConta                                                                                                ');
-//        SQL.Add(' WHERE MC.IdConta = CT.IdConta                                                                                                                                                               ');
-//        SQL.Add('   AND CT.IdCliente = CL.IdCliente                                                                                                                                                           ');
-//        SQL.Add('   AND CT.IdBanco = BC.IdBanco                                                                                                                                                               ');
-//        SQL.Add('   AND CT.IdConta = ANT.IdConta                                                                                                                                                              ');
-//        SQL.Add('   AND MC.dataMov BETWEEN :dataInicial AND :dataFinal                                                                                                                                        ');
 
+       SQL.Add('     SELECT MC.IdConta,                                                                                                                       ');
+       SQL.Add('            CL.nome AS cliente,                                                                                                               ');
+       SQL.Add(' 		        BC.nome AS banco,                                                                                                                 ');
+       SQL.Add(' 		        CT.numConta,                                                                                                                      ');
+      // SQL.ADD('            CAST(CT.saldoInicial AS FLOAT) AS saldoInicial,                                                                                                   ');
+       SQL.Add('       CAST(CASE WHEN :dataInicial > (SELECT MIN(ss.dataMov) AS dataMov                                                                            ');
+       SQL.Add(' 			  	                         FROM movcontas ss                                                                                          ');
+       SQL.Add(' 				                          WHERE ss.IdConta = MC.IdConta)                                                                              ');
+       SQL.Add('            THEN ANT.saldoAnterior                                                                                                            ');
+       SQL.Add(' 	          ELSE CT.saldoInicial                                                                                                              ');
+       SQL.Add(' 	           END AS FLOAT) AS saldoAnterior,                                                                                                            ');
+       SQL.Add('                 CAST(SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS FLOAT) AS totalCredito,                                                  ');
+       SQL.Add('                 CAST(SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS FLOAT) AS totalDebito,                                                   ');
+       SQL.Add('            CAST(CASE WHEN :dataInicial > (SELECT MIN(ss.dataMov) AS dataMov                                                                  ');
+       SQL.Add(' 									                           FROM movcontas ss                                                                                ');
+       SQL.Add(' 									                          WHERE ss.IdConta = MC.IdConta)                                                                    ');
+       SQL.Add('                      THEN ANT.saldoAnterior + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END)                                     ');
+       SQL.Add(' 			                                     - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)                                       ');
+       SQL.Add('                      ELSE CT.saldoInicial + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END)                                       ');
+       SQL.Add('                                         - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)                                         ');
+       SQL.Add('                       END AS FLOAT) AS saldoAtual                                                                                            ');
+       SQL.Add('       FROM movcontas MC                                                                                                                      ');
+       SQL.Add('      INNER JOIN contas CT ON CT.IdConta = MC.IdConta                                                                                         ');
+       SQL.Add(' INNER JOIN clientes CL ON CL.IdCliente = CT.IdCliente                                                                                        ');
+       SQL.Add(' INNER JOIN bancos BC ON BC.IdBanco = CT.IdBanco                                                                                              ');
+       SQL.Add('  LEFT JOIN (SELECT CTT.IdConta, (CTT.saldoInicial + COALESCE((SUM(CASE WHEN MCC.tipoMov = ''C''                                              ');
+       SQL.Add('                                                                        THEN MCC.valor ELSE 0 END) - SUM(CASE WHEN MCC.tipoMov = ''D''        ');
+       SQL.Add(' 																	                                      THEN MCC.valor ELSE 0 END)), 0)) AS saldoAnterior                     ');
+       SQL.Add('         	     FROM movcontas MCC                                                                                                             ');
+       SQL.Add(' 	        LEFT JOIN contas CTT ON CTT.IdConta = MCC.IdConta                                                                                   ');
+       SQL.Add('              WHERE MCC.IdConta = CTT.IdConta                                                                                                 ');
+       SQL.Add(' 			          AND MCC.dataMov <= (SELECT MIN(ss.dataMov)  AS dataMov                                                                        ');
+       SQL.Add('                                      FROM movcontas ss                                                                                       ');
+       SQL.Add(' 								                     WHERE ss.IdConta = MCC.IdConta)                                                                          ');
+       SQL.Add('      							              GROUP BY CTT.IdConta,                                                                                    ');
+       SQL.Add(' 								                           CTT.saldoInicial) AS ANT ON ANT.IdConta = MC.IdConta                                            ');
+       SQL.Add('      WHERE MC.IdConta = CT.IdConta                                                                                                           ');
+       SQL.Add(' 	      AND CT.IdCliente = CL.IdCliente                                                                                                       ');
+       SQL.Add('        AND CT.IdBanco = BC.IdBanco                                                                                                           ');
+       SQL.Add(' 	      AND CT.IdConta = ANT.IdConta                                                                                                          ');
+       SQL.Add('        AND MC.dataMov BETWEEN :dataInicial AND :dataFinal                                                                                    ');
+       //SQL.Add('   GROUP BY CT.IdConta                                                                                                                     ');
 
+         end;
+        QryRelatorio.ParamByName('dataInicial').AsString   := FormatDateTime('yyyy-mm-dd', dtpInicio.Date);
+        QryRelatorio.ParamByName('dataFinal').AsString     := FormatDateTime('yyyy-mm-dd', dtpFim.Date);
+  //
+        if (codConta <> '0') then
+        begin
+          QryRelatorio.SQL.Add('    AND CT.IdConta = :codConta');
+          QryRelatorio.ParamByName('codConta').AsString     := codConta;
+        end;
 
-//
-	   SQL.Add('     SELECT MC.IdConta,                                                                                                                       ');
-		 SQL.Add('            CL.nome AS cliente,                                                                                                               ');
-		 SQL.Add(' 		        BC.nome AS banco,                                                                                                                 ');
-		 SQL.Add(' 		        CT.numConta,                                                                                                                      ');
-     SQL.ADD('            CAST(CT.saldoInicial AS FLOAT) AS saldoInicial,                                                                                                   ');
-     SQL.Add('       CAST(CASE WHEN :dataInicial > (SELECT MIN(ss.dataMov) AS dataMov                                                                            ');
-		 SQL.Add(' 			  	                         FROM movcontas ss                                                                                          ');
-		 SQL.Add(' 				                          WHERE ss.IdConta = MC.IdConta)                                                                              ');
-	   SQL.Add('            THEN ANT.saldoAnterior                                                                                                            ');
-		 SQL.Add(' 	          ELSE CT.saldoInicial                                                                                                              ');
-		 SQL.Add(' 	           END AS FLOAT) AS saldoAnterior,                                                                                                            ');
-	   SQL.Add('                 CAST(SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END) AS FLOAT) AS totalCredito,                                                  ');
-	   SQL.Add('                 CAST(SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END) AS FLOAT) AS totalDebito,                                                   ');
-	   SQL.Add('            CAST(CASE WHEN :dataInicial > (SELECT MIN(ss.dataMov) AS dataMov                                                                  ');
-		 SQL.Add(' 									                           FROM movcontas ss                                                                                ');
-		 SQL.Add(' 									                          WHERE ss.IdConta = MC.IdConta)                                                                    ');
-	   SQL.Add('                      THEN ANT.saldoAnterior + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END)                                     ');
-		 SQL.Add(' 			                                     - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)                                       ');
-	   SQL.Add('                      ELSE CT.saldoInicial + SUM(CASE WHEN MC.tipoMov = ''C'' THEN MC.valor ELSE 0 END)                                       ');
-	   SQL.Add('                                         - SUM(CASE WHEN MC.tipoMov = ''D'' THEN MC.valor ELSE 0 END)                                         ');
-	   SQL.Add('                       END AS FLOAT) AS saldoAtual                                                                                            ');
-		 SQL.Add('       FROM movcontas MC                                                                                                                      ');
-     SQL.Add('      INNER JOIN contas CT ON CT.IdConta = MC.IdConta                                                                                         ');
-	   SQL.Add(' INNER JOIN clientes CL ON CL.IdCliente = CT.IdCliente                                                                                        ');
-	   SQL.Add(' INNER JOIN bancos BC ON BC.IdBanco = CT.IdBanco                                                                                              ');
-	   SQL.Add('  LEFT JOIN (SELECT CTT.IdConta, (CTT.saldoInicial + COALESCE((SUM(CASE WHEN MCC.tipoMov = ''C''                                              ');
-	   SQL.Add('                                                                        THEN MCC.valor ELSE 0 END) - SUM(CASE WHEN MCC.tipoMov = ''D''        ');
-		 SQL.Add(' 																	                                      THEN MCC.valor ELSE 0 END)), 0)) AS saldoAnterior                     ');
-     SQL.Add('         	     FROM movcontas MCC                                                                                                             ');
-		 SQL.Add(' 	        LEFT JOIN contas CTT ON CTT.IdConta = MCC.IdConta                                                                                   ');
-	   SQL.Add('              WHERE MCC.IdConta = CTT.IdConta                                                                                                 ');
-		 SQL.Add(' 			          AND MCC.dataMov <= (SELECT MIN(ss.dataMov)  AS dataMov                                                                        ');
-	   SQL.Add('                                      FROM movcontas ss                                                                                       ');
-		 SQL.Add(' 								                     WHERE ss.IdConta = MCC.IdConta)                                                                          ');
-	   SQL.Add('      							              GROUP BY CTT.IdConta,                                                                                    ');
-		 SQL.Add(' 								                           CTT.saldoInicial) AS ANT ON ANT.IdConta = MC.IdConta                                            ');
-	   SQL.Add('      WHERE MC.IdConta = CT.IdConta                                                                                                           ');
-		 SQL.Add(' 	      AND CT.IdCliente = CL.IdCliente                                                                                                       ');
-	   SQL.Add('        AND CT.IdBanco = BC.IdBanco                                                                                                           ');
-		 SQL.Add(' 	      AND CT.IdConta = ANT.IdConta                                                                                                          ');
-	   SQL.Add('        AND MC.dataMov BETWEEN :dataInicial AND :dataFinal                                                                                    ');
-	   SQL.Add('   GROUP BY CT.IdConta                                                                                                                     ');
+        if (codCliente <> '0') then
+        begin
+          QryRelatorio.SQL.Add('    AND CL.IdCliente = :codCliente');
+          QryRelatorio.ParamByName('codCliente').AsString     := codCliente;
+        end;
 
-       end;
-      QryRelatorio.ParamByName('dataInicial').AsString   := FormatDateTime('yyyy-mm-dd', dtpInicio.Date);
-      QryRelatorio.ParamByName('dataFinal').AsString     := FormatDateTime('yyyy-mm-dd', dtpFim.Date);
-//
-//      if (codConta <> '0') then
-//      begin
-//        QryRelatorio.SQL.Add('    AND CT.IdConta = :codConta');
-//        QryRelatorio.ParamByName('codConta').AsString     := codConta;
-//      end;
-//
-//      if (codConta <> '0') then
-//      begin
-//        QryRelatorio.SQL.Add('    AND CL.IdCliente = :codCliente');
-//        QryRelatorio.ParamByName('codCliente').AsString     := codConta;
-//      end;
-//
-//      if (codConta <> '0') then
-//      begin
-//        QryRelatorio.SQL.Add('    AND BC.IdBanco = :codBanco');
-//        QryRelatorio.ParamByName('codBanco').AsString     := codConta;
-//      end;
-//
-//        QryRelatorio.SQL.Add(' GROUP BY CT.IdConta,    ');
-//        QryRelatorio.SQL.Add('          CL.nome,       ');
-//        QryRelatorio.SQL.Add('          BC.nome,       ');
-//        QryRelatorio.SQL.Add('          CT.numConta,   ');
-//        QryRelatorio.SQL.Add('          CT.saldoInicial');
+        if (codBanco <> '0') then
+        begin
+          QryRelatorio.SQL.Add('    AND BC.IdBanco = :codBanco');
+          QryRelatorio.ParamByName('codBanco').AsString     := codBanco;
+        end;
+
+          QryRelatorio.SQL.Add(' GROUP BY CT.IdConta,    ');
+          QryRelatorio.SQL.Add('          CL.nome,       ');
+          QryRelatorio.SQL.Add('          BC.nome,       ');
+          QryRelatorio.SQL.Add('          CT.numConta   ');
+          //QryRelatorio.SQL.Add('          CT.saldoInicial');
 
 
 
